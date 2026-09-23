@@ -1,184 +1,889 @@
+```html
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Our Class Calendar</title>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Al-Quran Calendar - Ustazah Faqiihah</title>
 
     <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+
     <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background: #f4f8f5;
+
             margin: 0;
-            padding: 20px;
+
+            font-family:
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f5faf7,
+                    #eef6f3
+                );
+
+            color: #40564f;
+
         }
 
-        h1 {
-            text-align: center;
-            color: #52796f;
-            margin-bottom: 5px;
+
+        /* =========================
+           MAIN CONTAINER
+        ========================= */
+
+        .container {
+
+            max-width: 1100px;
+
+            margin: auto;
+
+            padding: 25px 18px 50px;
+
         }
 
-        .subtitle {
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .hero {
+
+            background:
+
+                linear-gradient(
+                    135deg,
+                    #dcefe7,
+                    #eef7f3
+                );
+
+            border-radius: 25px;
+
+            padding: 35px 25px;
+
             text-align: center;
-            color: #777;
+
             margin-bottom: 25px;
+
+            box-shadow:
+                0 8px 25px
+                rgba(82,121,111,0.10);
+
+            position: relative;
+
+            overflow: hidden;
+
         }
+
+
+        .hero::before {
+
+            content: "☾";
+
+            position: absolute;
+
+            font-size: 100px;
+
+            color: rgba(82,121,111,0.08);
+
+            top: -35px;
+
+            left: 25px;
+
+        }
+
+
+        .hero::after {
+
+            content: "✦";
+
+            position: absolute;
+
+            font-size: 80px;
+
+            color: rgba(82,121,111,0.08);
+
+            bottom: -25px;
+
+            right: 30px;
+
+        }
+
+
+        .hero h1 {
+
+            margin: 0;
+
+            color: #41665b;
+
+            font-size: 32px;
+
+            position: relative;
+
+            z-index: 1;
+
+        }
+
+
+        .hero .arabic {
+
+            font-size: 25px;
+
+            margin-top: 8px;
+
+            color: #52796f;
+
+            font-weight: bold;
+
+        }
+
+
+        .hero p {
+
+            margin:
+
+                10px 0 0;
+
+            color: #71857e;
+
+            font-size: 15px;
+
+            position: relative;
+
+            z-index: 1;
+
+        }
+
+
+        /* =========================
+           UPCOMING EVENTS
+        ========================= */
+
+        .upcoming {
+
+            background: white;
+
+            border-radius: 20px;
+
+            padding: 22px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(82,121,111,0.08);
+
+        }
+
+
+        .section-title {
+
+            color: #41665b;
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .upcoming-list {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px, 1fr));
+
+            gap: 12px;
+
+        }
+
+
+        .upcoming-card {
+
+            background: #f5faf7;
+
+            border-left:
+                5px solid #8eb5a7;
+
+            border-radius: 12px;
+
+            padding: 12px;
+
+        }
+
+
+        .upcoming-date {
+
+            font-size: 12px;
+
+            color: #789087;
+
+            font-weight: bold;
+
+        }
+
+
+        .upcoming-details {
+
+            margin-top: 5px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+        }
+
+
+        .upcoming-student {
+
+            margin-top: 5px;
+
+            font-size: 12px;
+
+            color: #8a9994;
+
+        }
+
+
+        .no-events {
+
+            color: #899792;
+
+            font-size: 14px;
+
+            text-align: center;
+
+            padding: 10px;
+
+        }
+
+
+        /* =========================
+           EVENT FORM
+        ========================= */
+
+        .event-form {
+
+            background: white;
+
+            border-radius: 20px;
+
+            padding: 25px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(82,121,111,0.08);
+
+        }
+
+
+        .event-form h2 {
+
+            text-align: center;
+
+            color: #41665b;
+
+            margin-top: 0;
+
+        }
+
+
+        #selectedDate {
+
+            text-align: center;
+
+            color: #84958f;
+
+            font-size: 14px;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        label {
+
+            display: block;
+
+            margin-top: 15px;
+
+            margin-bottom: 6px;
+
+            color: #52796f;
+
+            font-weight: 600;
+
+            font-size: 14px;
+
+        }
+
+
+        input,
+        select {
+
+            width: 100%;
+
+            padding: 12px 14px;
+
+            border:
+
+                1px solid #d7e5df;
+
+            border-radius: 10px;
+
+            font-size: 14px;
+
+            background: #fbfdfc;
+
+            color: #40564f;
+
+        }
+
+
+        input:focus,
+        select:focus {
+
+            outline: none;
+
+            border-color: #8eb5a7;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(142,181,167,0.15);
+
+        }
+
+
+        .add-button {
+
+            display: block;
+
+            margin:
+                22px auto 0;
+
+            padding:
+                12px 25px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background: #52796f;
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+
+        }
+
+
+        .add-button:hover {
+
+            background: #41665b;
+
+            transform: translateY(-1px);
+
+        }
+
+
+        .add-button:disabled {
+
+            opacity: 0.6;
+
+            cursor: not-allowed;
+
+        }
+
+
+        /* =========================
+           CALENDAR
+        ========================= */
 
         #calendar {
-            max-width: 1000px;
-            margin: 30px auto;
+
             background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+
+            border-radius: 20px;
+
+            padding: 22px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(82,121,111,0.08);
+
         }
+
 
         .calendar-header {
+
             display: flex;
-            justify-content: space-between;
+
+            justify-content:
+                space-between;
+
             align-items: center;
+
+            gap: 10px;
+
             margin-bottom: 20px;
+
         }
 
-        button {
-            background: #52796f;
-            color: white;
+
+        .calendar-header button {
+
+            background: #e3f0eb;
+
+            color: #41665b;
+
             border: none;
-            padding: 10px 18px;
-            border-radius: 8px;
+
+            padding: 9px 15px;
+
+            border-radius: 10px;
+
+            font-weight: 600;
+
             cursor: pointer;
-            font-size: 15px;
+
         }
 
-        button:hover {
-            background: #3f6259;
+
+        .calendar-header button:hover {
+
+            background: #d5e8e1;
+
         }
+
 
         #monthYear {
+
+            color: #41665b;
+
             font-size: 22px;
+
             font-weight: bold;
-            color: #52796f;
+
+            text-align: center;
+
         }
+
 
         .weekdays,
         .days {
+
             display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
+
+            grid-template-columns:
+                repeat(7, 1fr);
+
+            gap: 6px;
+
         }
+
 
         .weekdays div {
+
             text-align: center;
+
+            color: #66877b;
+
+            font-size: 13px;
+
             font-weight: bold;
-            padding: 10px;
-            color: #52796f;
+
+            padding: 8px 2px;
+
         }
+
 
         .day {
-            min-height: 80px;
-            border: 1px solid #e0e8e3;
-            border-radius: 8px;
+
+            min-height: 105px;
+
+            border:
+                1px solid #e2ebe7;
+
+            border-radius: 12px;
+
             padding: 8px;
-            background: #fafcfb;
+
+            background: #fbfdfc;
+
             cursor: pointer;
+
+            transition: 0.15s;
+
+            overflow: hidden;
+
         }
+
 
         .day:hover {
-            background: #edf6f2;
+
+            background: #f0f7f4;
+
+            transform: translateY(-1px);
+
         }
+
 
         .day-number {
+
             font-weight: bold;
-            color: #555;
+
+            color: #526b63;
+
+            margin-bottom: 5px;
+
         }
+
 
         .today {
-            background: #dcefe8;
-            border: 2px solid #52796f;
+
+            background: #dcefe7;
+
+            border:
+                2px solid #6f9c8d;
+
         }
 
-        .event-form {
-            max-width: 600px;
-            margin: 20px auto;
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        }
 
-        .event-form h2 {
-            text-align: center;
-            color: #52796f;
-            margin-top: 0;
-        }
-
-        .event-form p {
-            text-align: center;
-            color: #777;
-        }
-
-        .event-form label {
-            display: block;
-            margin-top: 15px;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #52796f;
-        }
-
-        .event-form input,
-        .event-form select {
-            width: 100%;
-            box-sizing: border-box;
-            padding: 12px;
-            border: 1px solid #d5e2dc;
-            border-radius: 8px;
-            font-size: 15px;
-        }
-
-        .event-form button {
-            display: block;
-            margin: 20px auto 0;
-        }
+        /* =========================
+           EVENTS
+        ========================= */
 
         .event {
-            margin-top: 8px;
-            padding: 5px;
-            font-size: 13px;
-            background: #e8f3ee;
-            border-radius: 5px;
+
+            margin-top: 5px;
+
+            padding: 6px 7px;
+
+            border-radius: 7px;
+
+            font-size: 11px;
+
+            line-height: 1.3;
+
+            color: #40564f;
+
+            word-wrap: break-word;
+
         }
 
-        .loading {
-            text-align: center;
-            color: #777;
-            margin: 10px;
+
+        .birthday {
+
+            background: #f9e8ed;
+
         }
+
+
+        .assignment {
+
+            background: #e8eff8;
+
+        }
+
+
+        .quiz {
+
+            background: #f8efd8;
+
+        }
+
+
+        .activity {
+
+            background: #e4f1e8;
+
+        }
+
+
+        .announcement {
+
+            background: #eee8f7;
+
+        }
+
+
+        .other {
+
+            background: #edf0ee;
+
+        }
+
+
+        .event-student {
+
+            font-size: 10px;
+
+            color: #7a8883;
+
+            margin-top: 2px;
+
+        }
+
+
+        /* =========================
+           LOADING
+        ========================= */
+
+        .loading {
+
+            text-align: center;
+
+            color: #7d8d87;
+
+            padding: 8px;
+
+            font-size: 13px;
+
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+
+            text-align: center;
+
+            margin-top: 25px;
+
+            color: #87958f;
+
+            font-size: 12px;
+
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            .container {
+
+                padding:
+                    12px 10px 35px;
+
+            }
+
+
+            .hero {
+
+                padding: 25px 15px;
+
+                border-radius: 20px;
+
+            }
+
+
+            .hero h1 {
+
+                font-size: 24px;
+
+            }
+
+
+            .hero .arabic {
+
+                font-size: 20px;
+
+            }
+
+
+            .calendar-header {
+
+                flex-wrap: wrap;
+
+            }
+
+
+            #monthYear {
+
+                order: -1;
+
+                width: 100%;
+
+                margin-bottom: 8px;
+
+            }
+
+
+            .calendar-header button {
+
+                flex: 1;
+
+            }
+
+
+            #calendar {
+
+                padding: 12px;
+
+                border-radius: 16px;
+
+            }
+
+
+            .weekdays,
+            .days {
+
+                gap: 3px;
+
+            }
+
+
+            .weekdays div {
+
+                font-size: 10px;
+
+                padding: 5px 1px;
+
+            }
+
+
+            .day {
+
+                min-height: 80px;
+
+                padding: 5px;
+
+                border-radius: 7px;
+
+            }
+
+
+            .day-number {
+
+                font-size: 12px;
+
+            }
+
+
+            .event {
+
+                font-size: 9px;
+
+                padding: 4px;
+
+            }
+
+
+            .event-student {
+
+                display: none;
+
+            }
+
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
-    <h1>🌙 Our Class Calendar 🌙</h1>
 
-    <div class="subtitle">
-        Keep track of important dates, birthdays & class activities 📚✨
+<div class="container">
+
+
+    <!-- =========================
+         HEADER
+    ========================= -->
+
+    <div class="hero">
+
+        <h1>
+            🌙 Al-Quran Calendar
+        </h1>
+
+        <div class="arabic">
+            📖 Year 10 • Ustazah Faqiihah
+        </div>
+
+        <p>
+            Keep track of our class dates, tasks,
+            activities & birthdays ✨
+        </p>
+
     </div>
 
-    <div id="loadingMessage" class="loading">
-        Loading class calendar... ⏳
+
+    <!-- =========================
+         UPCOMING
+    ========================= -->
+
+    <div class="upcoming">
+
+        <div class="section-title">
+            📌 Coming Up
+        </div>
+
+        <div
+            id="upcomingList"
+            class="upcoming-list"
+        >
+
+            <div class="no-events">
+                Loading upcoming events... ⏳
+            </div>
+
+        </div>
+
     </div>
 
-    <div id="eventForm" class="event-form">
 
-        <h2>📅 Add to Class Calendar</h2>
+    <!-- =========================
+         ADD EVENT
+    ========================= -->
+
+    <div
+        id="eventForm"
+        class="event-form"
+    >
+
+        <h2>
+            ✨ Add to Our Calendar
+        </h2>
 
         <p id="selectedDate">
             Choose a date from the calendar
         </p>
 
-        <label>👤 Student's Name</label>
+
+        <label>
+            👤 Your Name
+        </label>
 
         <input
             type="text"
@@ -186,7 +891,10 @@
             placeholder="Enter your name"
         >
 
-        <label>📌 What are you adding?</label>
+
+        <label>
+            📌 What are you adding?
+        </label>
 
         <select id="eventType">
 
@@ -220,7 +928,10 @@
 
         </select>
 
-        <label>✏️ Details</label>
+
+        <label>
+            ✏️ Details
+        </label>
 
         <input
             type="text"
@@ -228,27 +939,43 @@
             placeholder="What is happening?"
         >
 
-        <button onclick="addEvent()">
+
+        <button
+            class="add-button"
+            onclick="addEvent()"
+        >
             ✨ Add Event
         </button>
 
     </div>
 
+
+    <!-- =========================
+         CALENDAR
+    ========================= -->
+
     <div id="calendar">
 
         <div class="calendar-header">
 
-            <button onclick="previousMonth()">
+            <button
+                onclick="previousMonth()"
+            >
                 ← Previous
             </button>
 
+
             <div id="monthYear"></div>
 
-            <button onclick="nextMonth()">
+
+            <button
+                onclick="nextMonth()"
+            >
                 Next →
             </button>
 
         </div>
+
 
         <div class="weekdays">
 
@@ -262,549 +989,939 @@
 
         </div>
 
-        <div class="days" id="days"></div>
+
+        <div
+            class="days"
+            id="days"
+        ></div>
 
     </div>
 
 
-    <script>
+    <div class="footer">
 
-        // ==========================================
-        // SUPABASE CONNECTION
-        // ==========================================
+        📖 Learn • Reflect • Remember • Apply
 
-        const SUPABASE_URL =
-            "https://jbcxpgtufzdahecmjmlk.supabase.co";
+        <br>
 
-        const SUPABASE_KEY =
-            "sb_publishable_8OQm67DTwqrnUq0qrWvc0g_-AK3xTUl";
+        Al-Quran Calendar • Year 10
+
+    </div>
 
 
-        const supabaseClient =
-            supabase.createClient(
-                SUPABASE_URL,
-                SUPABASE_KEY
+</div>
+
+
+
+<script>
+
+
+// ==========================================
+// SUPABASE CONNECTION
+// ==========================================
+
+
+const SUPABASE_URL =
+    "https://jbcxpgtufzdahecmjmlk.supabase.co";
+
+
+const SUPABASE_KEY =
+    "sb_publishable_8OQm67DTwqrnUq0qrWvc0g_-AK3xTUl";
+
+
+const supabaseClient =
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+
+// ==========================================
+// VARIABLES
+// ==========================================
+
+
+let currentDate =
+    new Date();
+
+
+let selectedDateKey =
+    null;
+
+
+let events = {};
+
+
+
+// ==========================================
+// LOAD EVENTS
+// ==========================================
+
+
+async function loadEvents() {
+
+
+    const { data, error } =
+        await supabaseClient
+            .from("Events")
+            .select("*")
+            .order(
+                "event_date",
+                {
+                    ascending: true
+                }
             );
 
 
-        // ==========================================
-        // CALENDAR VARIABLES
-        // ==========================================
+    if (error) {
 
-        let currentDate = new Date();
+        console.error(
+            "Error loading events:",
+            error
+        );
 
-        let selectedDateKey = null;
+        document.getElementById(
+            "upcomingList"
+        ).innerHTML =
 
-        let events = {};
+            '<div class="no-events">' +
+            '⚠️ Could not load events.' +
+            '</div>';
 
+        return;
 
-        // ==========================================
-        // LOAD EVENTS FROM SUPABASE
-        // ==========================================
-
-        async function loadEvents() {
-
-            const loadingMessage =
-                document.getElementById("loadingMessage");
-
-            loadingMessage.style.display = "block";
-
-            const { data, error } =
-                await supabaseClient
-                    .from("Events")
-                    .select("*")
-                    .order("event_date", {
-                        ascending: true
-                    });
+    }
 
 
-            if (error) {
-
-                console.error(
-                    "Error loading events:",
-                    error
-                );
-
-                loadingMessage.textContent =
-                    "⚠️ Could not load calendar events.";
-
-                return;
-
-            }
+    events = {};
 
 
-            events = {};
+    data.forEach(function(event) {
 
 
-            data.forEach(function(event) {
-
-                const dateKey =
-                    event.event_date;
+        const dateKey =
+            event.event_date;
 
 
-                if (!events[dateKey]) {
+        if (!events[dateKey]) {
 
-                    events[dateKey] = [];
+            events[dateKey] = [];
 
-                }
+        }
 
 
-                events[dateKey].push({
+        events[dateKey].push({
 
-                    id: event.id,
+            id: event.id,
 
-                    student: event.student_name,
+            student:
+                event.student_name,
 
-                    type: event.event_type,
+            type:
+                event.event_type,
 
-                    details: event.details
+            details:
+                event.details
+
+        });
+
+    });
+
+
+    createCalendar();
+
+    createUpcomingEvents();
+
+}
+
+
+
+// ==========================================
+// CREATE CALENDAR
+// ==========================================
+
+
+function createCalendar() {
+
+
+    const month =
+        currentDate.getMonth();
+
+
+    const year =
+        currentDate.getFullYear();
+
+
+    const monthYear =
+        document.getElementById(
+            "monthYear"
+        );
+
+
+    const daysContainer =
+        document.getElementById(
+            "days"
+        );
+
+
+    const monthNames = [
+
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+
+    ];
+
+
+    monthYear.textContent =
+        monthNames[month] +
+        " " +
+        year;
+
+
+    daysContainer.innerHTML =
+        "";
+
+
+    const firstDay =
+        new Date(
+            year,
+            month,
+            1
+        ).getDay();
+
+
+    const daysInMonth =
+        new Date(
+            year,
+            month + 1,
+            0
+        ).getDate();
+
+
+
+    // Empty spaces
+
+    for (
+        let i = 0;
+        i < firstDay;
+        i++
+    ) {
+
+        const emptyDay =
+            document.createElement(
+                "div"
+            );
+
+        daysContainer.appendChild(
+            emptyDay
+        );
+
+    }
+
+
+
+    // Days
+
+    for (
+        let day = 1;
+        day <= daysInMonth;
+        day++
+    ) {
+
+
+        const dayBox =
+            document.createElement(
+                "div"
+            );
+
+
+        dayBox.classList.add(
+            "day"
+        );
+
+
+        const dayNumber =
+            document.createElement(
+                "div"
+            );
+
+
+        dayNumber.classList.add(
+            "day-number"
+        );
+
+
+        dayNumber.textContent =
+            day;
+
+
+        dayBox.appendChild(
+            dayNumber
+        );
+
+
+
+        const dateKey =
+            year +
+            "-" +
+            String(
+                month + 1
+            ).padStart(
+                2,
+                "0"
+            ) +
+            "-" +
+            String(day).padStart(
+                2,
+                "0"
+            );
+
+
+
+        // Click date
+
+        dayBox.onclick =
+            function() {
+
+
+                selectedDateKey =
+                    dateKey;
+
+
+                document.getElementById(
+                    "selectedDate"
+                ).textContent =
+
+                    "Selected date: " +
+
+                    day +
+                    " " +
+
+                    monthNames[month] +
+                    " " +
+
+                    year;
+
+
+                document.getElementById(
+                    "eventForm"
+                ).scrollIntoView({
+
+                    behavior:
+                        "smooth"
 
                 });
 
-            });
+            };
 
 
-            loadingMessage.style.display = "none";
 
-            createCalendar();
+        // Today
+
+        const today =
+            new Date();
+
+
+        if (
+
+            day ===
+                today.getDate() &&
+
+            month ===
+                today.getMonth() &&
+
+            year ===
+                today.getFullYear()
+
+        ) {
+
+            dayBox.classList.add(
+                "today"
+            );
 
         }
 
 
-        // ==========================================
-        // CREATE CALENDAR
-        // ==========================================
 
-        function createCalendar() {
+        // Events
 
-            const month =
-                currentDate.getMonth();
-
-            const year =
-                currentDate.getFullYear();
+        if (events[dateKey]) {
 
 
-            const monthYear =
-                document.getElementById("monthYear");
+            events[dateKey].forEach(
+                function(event) {
 
 
-            const daysContainer =
-                document.getElementById("days");
+                    const eventText =
+                        document.createElement(
+                            "div"
+                        );
 
 
-            const monthNames = [
-
-                "January",
-                "February",
-                "March",
-                "April",
-                "May",
-                "June",
-                "July",
-                "August",
-                "September",
-                "October",
-                "November",
-                "December"
-
-            ];
+                    eventText.classList.add(
+                        "event"
+                    );
 
 
-            monthYear.textContent =
-                monthNames[month] +
+
+                    // Event colours
+
+                    if (
+                        event.type.includes(
+                            "Birthday"
+                        )
+                    ) {
+
+                        eventText.classList.add(
+                            "birthday"
+                        );
+
+                    }
+
+                    else if (
+                        event.type.includes(
+                            "Assignment"
+                        )
+                    ) {
+
+                        eventText.classList.add(
+                            "assignment"
+                        );
+
+                    }
+
+                    else if (
+                        event.type.includes(
+                            "Quiz"
+                        )
+                    ) {
+
+                        eventText.classList.add(
+                            "quiz"
+                        );
+
+                    }
+
+                    else if (
+                        event.type.includes(
+                            "Activity"
+                        )
+                    ) {
+
+                        eventText.classList.add(
+                            "activity"
+                        );
+
+                    }
+
+                    else if (
+                        event.type.includes(
+                            "Announcement"
+                        )
+                    ) {
+
+                        eventText.classList.add(
+                            "announcement"
+                        );
+
+                    }
+
+                    else {
+
+                        eventText.classList.add(
+                            "other"
+                        );
+
+                    }
+
+
+
+                    eventText.textContent =
+                        event.type +
+                        " " +
+                        event.details;
+
+
+
+                    const student =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    student.classList.add(
+                        "event-student"
+                    );
+
+
+                    student.textContent =
+                        "by " +
+                        event.student;
+
+
+
+                    eventText.appendChild(
+                        student
+                    );
+
+
+                    dayBox.appendChild(
+                        eventText
+                    );
+
+                }
+            );
+
+        }
+
+
+        daysContainer.appendChild(
+            dayBox
+        );
+
+    }
+
+}
+
+
+
+// ==========================================
+// UPCOMING EVENTS
+// ==========================================
+
+
+function createUpcomingEvents() {
+
+
+    const list =
+        document.getElementById(
+            "upcomingList"
+        );
+
+
+    list.innerHTML =
+        "";
+
+
+    const today =
+        new Date();
+
+
+    today.setHours(
+        0,
+        0,
+        0,
+        0
+    );
+
+
+    let upcoming = [];
+
+
+    Object.keys(events).forEach(
+        function(dateKey) {
+
+
+            const date =
+                new Date(
+                    dateKey +
+                    "T00:00:00"
+                );
+
+
+            if (date >= today) {
+
+
+                events[dateKey].forEach(
+                    function(event) {
+
+
+                        upcoming.push({
+
+                            date:
+                                date,
+
+                            dateKey:
+                                dateKey,
+
+                            event:
+                                event
+
+                        });
+
+                    }
+                );
+
+            }
+
+        }
+    );
+
+
+
+    upcoming.sort(
+        function(a, b) {
+
+            return (
+                a.date -
+                b.date
+            );
+
+        }
+    );
+
+
+
+    upcoming =
+        upcoming.slice(
+            0,
+            6
+        );
+
+
+
+    if (
+        upcoming.length === 0
+    ) {
+
+        list.innerHTML =
+
+            '<div class="no-events">' +
+
+            '🌱 No upcoming events yet.' +
+
+            '</div>';
+
+        return;
+
+    }
+
+
+
+    upcoming.forEach(
+        function(item) {
+
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.classList.add(
+                "upcoming-card"
+            );
+
+
+            const dateText =
+                document.createElement(
+                    "div"
+                );
+
+
+            dateText.classList.add(
+                "upcoming-date"
+            );
+
+
+            dateText.textContent =
+                item.date.toLocaleDateString(
+                    "en-GB",
+                    {
+                        day:
+                            "numeric",
+
+                        month:
+                            "short",
+
+                        year:
+                            "numeric"
+                    }
+                );
+
+
+            const details =
+                document.createElement(
+                    "div"
+                );
+
+
+            details.classList.add(
+                "upcoming-details"
+            );
+
+
+            details.textContent =
+                item.event.type +
                 " " +
-                year;
+                item.event.details;
 
 
-            daysContainer.innerHTML = "";
-
-
-            const firstDay =
-                new Date(
-                    year,
-                    month,
-                    1
-                ).getDay();
-
-
-            const daysInMonth =
-                new Date(
-                    year,
-                    month + 1,
-                    0
-                ).getDate();
-
-
-            // Empty spaces before the first day
-
-            for (
-                let i = 0;
-                i < firstDay;
-                i++
-            ) {
-
-                const emptyDay =
-                    document.createElement("div");
-
-                daysContainer.appendChild(
-                    emptyDay
-                );
-
-            }
-
-
-            // Create each day
-
-            for (
-                let day = 1;
-                day <= daysInMonth;
-                day++
-            ) {
-
-                const dayBox =
-                    document.createElement("div");
-
-
-                dayBox.classList.add("day");
-
-
-                const dayNumber =
-                    document.createElement("div");
-
-
-                dayNumber.classList.add(
-                    "day-number"
+            const student =
+                document.createElement(
+                    "div"
                 );
 
 
-                dayNumber.textContent =
-                    day;
-
-
-                dayBox.appendChild(
-                    dayNumber
-                );
-
-
-                const dateKey =
-                    year +
-                    "-" +
-                    String(
-                        month + 1
-                    ).padStart(2, "0") +
-                    "-" +
-                    String(day).padStart(
-                        2,
-                        "0"
-                    );
-
-
-                // Click date
-
-                dayBox.onclick =
-                    function() {
-
-                        selectedDateKey =
-                            dateKey;
-
-
-                        const selectedDate =
-                            document.getElementById(
-                                "selectedDate"
-                            );
-
-
-                        selectedDate.textContent =
-                            "Selected date: " +
-                            day +
-                            " " +
-                            monthNames[month] +
-                            " " +
-                            year;
-
-
-                        document
-                            .getElementById(
-                                "eventForm"
-                            )
-                            .scrollIntoView({
-                                behavior: "smooth"
-                            });
-
-                    };
-
-
-                // Highlight today
-
-                const today =
-                    new Date();
-
-
-                if (
-
-                    day === today.getDate() &&
-
-                    month === today.getMonth() &&
-
-                    year === today.getFullYear()
-
-                ) {
-
-                    dayBox.classList.add(
-                        "today"
-                    );
-
-                }
-
-
-                // Display events
-
-                if (events[dateKey]) {
-
-                    events[dateKey].forEach(
-                        function(event) {
-
-                            const eventText =
-                                document.createElement(
-                                    "div"
-                                );
-
-
-                            eventText.classList.add(
-                                "event"
-                            );
-
-
-                            eventText.textContent =
-                                event.type +
-                                " " +
-                                event.details;
-
-
-                            dayBox.appendChild(
-                                eventText
-                            );
-
-                        }
-                    );
-
-                }
-
-
-                daysContainer.appendChild(
-                    dayBox
-                );
-
-            }
-
-        }
-
-
-        // ==========================================
-        // PREVIOUS MONTH
-        // ==========================================
-
-        function previousMonth() {
-
-            currentDate.setMonth(
-                currentDate.getMonth() - 1
+            student.classList.add(
+                "upcoming-student"
             );
 
-            createCalendar();
 
-        }
+            student.textContent =
+                "Added by " +
+                item.event.student;
 
 
-        // ==========================================
-        // NEXT MONTH
-        // ==========================================
-
-        function nextMonth() {
-
-            currentDate.setMonth(
-                currentDate.getMonth() + 1
+            card.appendChild(
+                dateText
             );
 
-            createCalendar();
 
-        }
-
-
-        // ==========================================
-        // ADD EVENT TO SUPABASE
-        // ==========================================
-
-        async function addEvent() {
-
-            const studentName =
-                document
-                    .getElementById(
-                        "studentName"
-                    )
-                    .value
-                    .trim();
+            card.appendChild(
+                details
+            );
 
 
-            const eventType =
-                document
-                    .getElementById(
-                        "eventType"
-                    )
-                    .value;
+            card.appendChild(
+                student
+            );
 
 
-            const eventDetails =
-                document
-                    .getElementById(
-                        "eventDetails"
-                    )
-                    .value
-                    .trim();
-
-
-            // Check date
-
-            if (!selectedDateKey) {
-
-                alert(
-                    "Please choose a date first 😊"
-                );
-
-                return;
-
-            }
-
-
-            // Check information
-
-            if (
-
-                !studentName ||
-                !eventType ||
-                !eventDetails
-
-            ) {
-
-                alert(
-                    "Please fill in all the information 😊"
-                );
-
-                return;
-
-            }
-
-
-            // Temporarily disable button
-
-            const button =
-                document.querySelector(
-                    ".event-form button"
-                );
-
-
-            button.disabled = true;
-
-            button.textContent =
-                "Saving... ⏳";
-
-
-            // Send event to Supabase
-
-            const { data, error } =
-                await supabaseClient
-                    .from("Events")
-                    .insert({
-
-                        event_date:
-                            selectedDateKey,
-
-                        student_name:
-                            studentName,
-
-                        event_type:
-                            eventType,
-
-                        details:
-                            eventDetails
-
-                    })
-                    .select();
-
-
-            // Check for error
-
-            if (error) {
-
-                console.error(
-                    "Error saving event:",
-                    error
-                );
-
-
-                alert(
-                    "Sorry! The event could not be saved. 😢\n\n" +
-                    error.message
-                );
-
-
-                button.disabled = false;
-
-                button.textContent =
-                    "✨ Add Event";
-
-                return;
-
-            }
-
-
-            // Clear form
-
-            document
-                .getElementById(
-                    "studentName"
-                )
-                .value = "";
-
-
-            document
-                .getElementById(
-                    "eventType"
-                )
-                .value = "";
-
-
-            document
-                .getElementById(
-                    "eventDetails"
-                )
-                .value = "";
-
-
-            // Reload events
-
-            await loadEvents();
-
-
-            button.disabled = false;
-
-            button.textContent =
-                "✨ Add Event";
-
-
-            alert(
-                "Event added successfully! 🎉"
+            list.appendChild(
+                card
             );
 
         }
+    );
+
+}
 
 
-        // ==========================================
-        // START CALENDAR
-        // ==========================================
 
-        loadEvents();
+// ==========================================
+// PREVIOUS MONTH
+// ==========================================
 
-    </script>
+
+function previousMonth() {
+
+
+    currentDate.setMonth(
+        currentDate.getMonth() - 1
+    );
+
+
+    createCalendar();
+
+}
+
+
+
+// ==========================================
+// NEXT MONTH
+// ==========================================
+
+
+function nextMonth() {
+
+
+    currentDate.setMonth(
+        currentDate.getMonth() + 1
+    );
+
+
+    createCalendar();
+
+}
+
+
+
+// ==========================================
+// ADD EVENT
+// ==========================================
+
+
+async function addEvent() {
+
+
+    const studentName =
+        document.getElementById(
+            "studentName"
+        ).value.trim();
+
+
+    const eventType =
+        document.getElementById(
+            "eventType"
+        ).value;
+
+
+    const eventDetails =
+        document.getElementById(
+            "eventDetails"
+        ).value.trim();
+
+
+
+    if (!selectedDateKey) {
+
+        alert(
+            "Please choose a date first 😊"
+        );
+
+        return;
+
+    }
+
+
+
+    if (
+
+        !studentName ||
+        !eventType ||
+        !eventDetails
+
+    ) {
+
+        alert(
+            "Please fill in all the information 😊"
+        );
+
+        return;
+
+    }
+
+
+
+    const button =
+        document.querySelector(
+            ".add-button"
+        );
+
+
+    button.disabled =
+        true;
+
+
+    button.textContent =
+        "Saving... ⏳";
+
+
+
+    const { data, error } =
+        await supabaseClient
+            .from("Events")
+            .insert({
+
+                event_date:
+                    selectedDateKey,
+
+                student_name:
+                    studentName,
+
+                event_type:
+                    eventType,
+
+                details:
+                    eventDetails
+
+            })
+            .select();
+
+
+
+    if (error) {
+
+
+        console.error(
+            "Error saving event:",
+            error
+        );
+
+
+        alert(
+            "Sorry! The event could not be saved. 😢\n\n" +
+            error.message
+        );
+
+
+        button.disabled =
+            false;
+
+
+        button.textContent =
+            "✨ Add Event";
+
+
+        return;
+
+    }
+
+
+
+    // Clear form
+
+    document.getElementById(
+        "studentName"
+    ).value = "";
+
+
+    document.getElementById(
+        "eventType"
+    ).value = "";
+
+
+    document.getElementById(
+        "eventDetails"
+    ).value = "";
+
+
+
+    // Reload
+
+    await loadEvents();
+
+
+
+    button.disabled =
+        false;
+
+
+    button.textContent =
+        "✨ Add Event";
+
+
+    alert(
+        "Event added successfully! 🎉"
+    );
+
+}
+
+
+
+// ==========================================
+// START
+// ==========================================
+
+
+loadEvents();
+
+
+</script>
+
 
 </body>
 </html>
+```
