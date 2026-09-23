@@ -171,16 +171,34 @@
 
             dayBox.appendChild(dayNumber);
 dayBox.onclick = function() {
-    const eventName = prompt("What would you like to add to this date?");
 
-    if (eventName) {
-        const eventText = document.createElement("div");
-        eventText.textContent = "📌 " + eventName;
-        eventText.style.marginTop = "8px";
-        eventText.style.fontSize = "13px";
+    const studentName = prompt("Student's name:");
 
-        dayBox.appendChild(eventText);
+    if (!studentName) {
+        return;
     }
+
+    const eventType = prompt(
+        "What is this event?\n\n" +
+        "🎂 Birthday\n" +
+        "📝 Assignment\n" +
+        "📚 Quiz\n" +
+        "🏆 Activity\n" +
+        "📌 Other"
+    );
+
+    if (!eventType) {
+        return;
+    }
+
+    const eventText = document.createElement("div");
+
+    eventText.textContent = "📌 " + eventType + " — " + studentName;
+
+    eventText.style.marginTop = "8px";
+    eventText.style.fontSize = "13px";
+
+    dayBox.appendChild(eventText);
 };
             const today = new Date();
 
