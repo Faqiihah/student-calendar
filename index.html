@@ -240,33 +240,18 @@
             dayBox.appendChild(dayNumber);
 dayBox.onclick = function() {
 
-    const studentName = prompt("Student's name:");
+    const selectedDate = document.getElementById("selectedDate");
 
-    if (!studentName) {
-        return;
-    }
+    selectedDate.textContent =
+        "Selected date: " +
+        day + " " +
+        monthNames[month] + " " +
+        year;
 
-    const eventType = prompt(
-        "What is this event?\n\n" +
-        "🎂 Birthday\n" +
-        "📝 Assignment\n" +
-        "📚 Quiz\n" +
-        "🏆 Activity\n" +
-        "📌 Other"
-    );
+    document.getElementById("eventForm").scrollIntoView({
+        behavior: "smooth"
+    });
 
-    if (!eventType) {
-        return;
-    }
-
-    const eventText = document.createElement("div");
-
-    eventText.textContent = "📌 " + eventType + " — " + studentName;
-
-    eventText.style.marginTop = "8px";
-    eventText.style.fontSize = "13px";
-
-    dayBox.appendChild(eventText);
 };
             const today = new Date();
 
