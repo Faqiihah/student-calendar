@@ -1,5 +1,7 @@
+```html
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
 
     <meta charset="UTF-8">
@@ -9,15 +11,23 @@
 
     <title>Al-Quran Calendar - Ustazah Faqiihah</title>
 
-    <!-- Supabase -->
+    <!-- =========================
+         SUPABASE
+    ========================== -->
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+
+    <!-- =========================
+         STYLES
+    ========================== -->
 
     <style>
 
         * {
             box-sizing: border-box;
         }
+
 
         body {
 
@@ -42,7 +52,7 @@
 
         /* =========================
            MAIN CONTAINER
-        ========================= */
+        ========================== */
 
         .container {
 
@@ -50,19 +60,19 @@
 
             margin: auto;
 
-            padding: 25px 18px 50px;
+            padding:
+                25px 18px 50px;
 
         }
 
 
         /* =========================
-           HEADER
-        ========================= */
+           HERO
+        ========================== */
 
         .hero {
 
             background:
-
                 linear-gradient(
                     135deg,
                     #dcefe7,
@@ -71,7 +81,8 @@
 
             border-radius: 25px;
 
-            padding: 35px 25px;
+            padding:
+                35px 25px;
 
             text-align: center;
 
@@ -96,7 +107,8 @@
 
             font-size: 100px;
 
-            color: rgba(82,121,111,0.08);
+            color:
+                rgba(82,121,111,0.08);
 
             top: -35px;
 
@@ -113,7 +125,8 @@
 
             font-size: 80px;
 
-            color: rgba(82,121,111,0.08);
+            color:
+                rgba(82,121,111,0.08);
 
             bottom: -25px;
 
@@ -147,13 +160,16 @@
 
             font-weight: bold;
 
+            position: relative;
+
+            z-index: 1;
+
         }
 
 
         .hero p {
 
             margin:
-
                 10px 0 0;
 
             color: #71857e;
@@ -168,8 +184,8 @@
 
 
         /* =========================
-           TEACHER LOGIN
-        ========================= */
+           TEACHER AREA
+        ========================== */
 
         .teacher-area {
 
@@ -177,7 +193,8 @@
 
             border-radius: 20px;
 
-            padding: 18px 22px;
+            padding:
+                18px 22px;
 
             margin-bottom: 25px;
 
@@ -198,7 +215,8 @@
 
             color: #41665b;
 
-            padding: 10px 18px;
+            padding:
+                10px 18px;
 
             border-radius: 10px;
 
@@ -252,7 +270,8 @@
 
             color: #8b5b64;
 
-            padding: 8px 14px;
+            padding:
+                8px 14px;
 
             border-radius: 9px;
 
@@ -263,13 +282,25 @@
         }
 
 
+        .logout-button:hover {
+
+            background: #efdadd;
+
+        }
+
+
+        /* =========================
+           LOGIN BOX
+        ========================== */
+
         .login-box {
 
             display: none;
 
             max-width: 400px;
 
-            margin: 15px auto 0;
+            margin:
+                15px auto 0;
 
             padding: 18px;
 
@@ -296,13 +327,6 @@
             text-align: center;
 
             color: #41665b;
-
-        }
-
-
-        .login-box input {
-
-            margin-bottom: 10px;
 
         }
 
@@ -350,7 +374,7 @@
 
         /* =========================
            UPCOMING EVENTS
-        ========================= */
+        ========================== */
 
         .upcoming {
 
@@ -387,7 +411,10 @@
             display: grid;
 
             grid-template-columns:
-                repeat(auto-fit, minmax(220px, 1fr));
+                repeat(
+                    auto-fit,
+                    minmax(220px, 1fr)
+                );
 
             gap: 12px;
 
@@ -429,8 +456,6 @@
 
             font-weight: 600;
 
-            padding-right: 5px;
-
         }
 
 
@@ -460,7 +485,7 @@
 
         /* =========================
            EVENT FORM
-        ========================= */
+        ========================== */
 
         .event-form {
 
@@ -525,7 +550,8 @@
 
             width: 100%;
 
-            padding: 12px 14px;
+            padding:
+                12px 14px;
 
             border:
                 1px solid #d7e5df;
@@ -579,16 +605,12 @@
 
             cursor: pointer;
 
-            transition: 0.2s;
-
         }
 
 
         .add-button:hover {
 
             background: #41665b;
-
-            transform: translateY(-1px);
 
         }
 
@@ -604,7 +626,7 @@
 
         /* =========================
            CALENDAR
-        ========================= */
+        ========================== */
 
         #calendar {
 
@@ -645,7 +667,8 @@
 
             border: none;
 
-            padding: 9px 15px;
+            padding:
+                9px 15px;
 
             border-radius: 10px;
 
@@ -758,13 +781,14 @@
 
         /* =========================
            EVENTS
-        ========================= */
+        ========================== */
 
         .event {
 
             margin-top: 5px;
 
-            padding: 6px 7px;
+            padding:
+                6px 7px;
 
             border-radius: 7px;
 
@@ -775,8 +799,6 @@
             color: #40564f;
 
             word-wrap: break-word;
-
-            position: relative;
 
         }
 
@@ -829,28 +851,23 @@
 
             color: #7a8883;
 
-            margin-top: 2px;
+            margin-top: 3px;
 
         }
 
 
         /* =========================
-           DELETE BUTTON
-        ========================= */
+           EDIT + DELETE BUTTONS
+        ========================== */
 
-        .delete-button {
+        .event-button {
 
             display: none;
 
-            margin-top: 5px;
-
             border: none;
 
-            background: rgba(139,91,100,0.12);
-
-            color: #8b5b64;
-
-            padding: 3px 7px;
+            padding:
+                3px 7px;
 
             border-radius: 6px;
 
@@ -858,26 +875,168 @@
 
             cursor: pointer;
 
+            margin-top: 5px;
+
+            margin-right: 3px;
+
         }
 
 
-        .teacher-mode .delete-button {
+        .edit-button {
 
-            display: inline-block;
+            background:
+                rgba(82,121,111,0.12);
+
+            color: #52796f;
+
+        }
+
+
+        .edit-button:hover {
+
+            background:
+                rgba(82,121,111,0.22);
+
+        }
+
+
+        .delete-button {
+
+            background:
+                rgba(139,91,100,0.12);
+
+            color: #8b5b64;
 
         }
 
 
         .delete-button:hover {
 
-            background: rgba(139,91,100,0.22);
+            background:
+                rgba(139,91,100,0.22);
+
+        }
+
+
+        .teacher-mode .event-button {
+
+            display: inline-block;
+
+        }
+
+
+        /* =========================
+           EDIT POPUP
+        ========================== */
+
+        .modal {
+
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                rgba(50,70,64,0.35);
+
+            z-index: 999;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+
+        }
+
+
+        .modal.show {
+
+            display: flex;
+
+        }
+
+
+        .modal-box {
+
+            background: white;
+
+            width: 100%;
+
+            max-width: 450px;
+
+            border-radius: 20px;
+
+            padding: 25px;
+
+            box-shadow:
+                0 15px 50px
+                rgba(0,0,0,0.15);
+
+        }
+
+
+        .modal-box h2 {
+
+            margin-top: 0;
+
+            color: #41665b;
+
+            text-align: center;
+
+        }
+
+
+        .modal-buttons {
+
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 20px;
+
+        }
+
+
+        .modal-buttons button {
+
+            flex: 1;
+
+            padding: 11px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+        }
+
+
+        .save-edit {
+
+            background: #52796f;
+
+            color: white;
+
+        }
+
+
+        .cancel-edit {
+
+            background: #edf2ef;
+
+            color: #52796f;
 
         }
 
 
         /* =========================
            LOADING
-        ========================= */
+        ========================== */
 
         .loading {
 
@@ -894,7 +1053,7 @@
 
         /* =========================
            FOOTER
-        ========================= */
+        ========================== */
 
         .footer {
 
@@ -911,7 +1070,7 @@
 
         /* =========================
            MOBILE
-        ========================= */
+        ========================== */
 
         @media (max-width: 700px) {
 
@@ -925,7 +1084,8 @@
 
             .hero {
 
-                padding: 25px 15px;
+                padding:
+                    25px 15px;
 
                 border-radius: 20px;
 
@@ -992,7 +1152,8 @@
 
                 font-size: 10px;
 
-                padding: 5px 1px;
+                padding:
+                    5px 1px;
 
             }
 
@@ -1051,8 +1212,8 @@
 
 
     <!-- =========================
-         HEADER
-    ========================= -->
+         HERO
+    ========================== -->
 
     <div class="hero">
 
@@ -1065,8 +1226,8 @@
         </div>
 
         <p>
-            Keep track of our class dates, tasks,
-            activities & birthdays ✨
+            Keep track of our class dates,
+            tasks, activities & birthdays ✨
         </p>
 
     </div>
@@ -1074,9 +1235,12 @@
 
     <!-- =========================
          TEACHER LOGIN
-    ========================= -->
+    ========================== -->
 
-    <div class="teacher-area" id="teacherArea">
+    <div class="teacher-area">
+
+
+        <!-- LOGGED OUT -->
 
         <div id="teacherLoggedOut">
 
@@ -1090,6 +1254,8 @@
         </div>
 
 
+        <!-- LOGGED IN -->
+
         <div
             id="teacherLoggedIn"
             style="display:none;"
@@ -1100,7 +1266,7 @@
                 👩‍🏫 Teacher Mode Active
 
                 <small>
-                    You can now delete calendar events.
+                    You can edit or delete calendar events.
                 </small>
 
                 <button
@@ -1114,6 +1280,8 @@
 
         </div>
 
+
+        <!-- LOGIN BOX -->
 
         <div
             class="login-box"
@@ -1167,7 +1335,7 @@
 
     <!-- =========================
          UPCOMING
-    ========================= -->
+    ========================== -->
 
     <div class="upcoming">
 
@@ -1175,12 +1343,13 @@
             📌 Coming Up
         </div>
 
+
         <div
             id="upcomingList"
             class="upcoming-list"
         >
 
-            <div class="no-events">
+            <div class="loading">
                 Loading upcoming events... ⏳
             </div>
 
@@ -1191,7 +1360,7 @@
 
     <!-- =========================
          ADD EVENT
-    ========================= -->
+    ========================== -->
 
     <div
         id="eventForm"
@@ -1201,6 +1370,7 @@
         <h2>
             ✨ Add to Our Calendar
         </h2>
+
 
         <p id="selectedDate">
             Choose a date from the calendar
@@ -1214,7 +1384,7 @@
         <input
             type="text"
             id="studentName"
-            placeholder="Enter your name"
+            placeholder="Enter your name or nickname"
         >
 
 
@@ -1278,11 +1448,13 @@
 
     <!-- =========================
          CALENDAR
-    ========================= -->
+    ========================== -->
 
     <div id="calendar">
 
+
         <div class="calendar-header">
+
 
             <button
                 onclick="previousMonth()"
@@ -1299,6 +1471,7 @@
             >
                 Next →
             </button>
+
 
         </div>
 
@@ -1321,14 +1494,70 @@
             id="days"
         ></div>
 
+
     </div>
 
+
+    <!-- =========================
+         EDIT MODAL
+    ========================== -->
+
+    <div
+        class="modal"
+        id="editModal"
+    >
+
+        <div class="modal-box">
+
+            <h2>
+                ✏️ Edit Event
+            </h2>
+
+
+            <label>
+                ✏️ Event Details
+            </label>
+
+            <input
+                type="text"
+                id="editDetails"
+                placeholder="Event details"
+            >
+
+
+            <div class="modal-buttons">
+
+                <button
+                    class="cancel-edit"
+                    onclick="closeEditModal()"
+                >
+                    Cancel
+                </button>
+
+
+                <button
+                    class="save-edit"
+                    onclick="saveEdit()"
+                >
+                    Save Changes
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
 
     <div class="footer">
 
         📖 Learn • Reflect • Remember • Apply
 
-        <br>
+        <br><br>
 
         Al-Quran Calendar • Year 10
 
@@ -1338,6 +1567,10 @@
 </div>
 
 
+
+<!-- =========================
+     JAVASCRIPT
+========================== -->
 
 <script>
 
@@ -1368,11 +1601,6 @@ const supabaseClient =
 // ==========================================
 
 
-// This is YOUR teacher account UUID.
-// It is used to make sure only your account
-// can use teacher mode.
-
-
 const TEACHER_ID =
     "e1490b7d-ecf6-4b48-a97f-034bbabfef4c";
 
@@ -1391,11 +1619,16 @@ let selectedDateKey =
     null;
 
 
-let events = {};
+let events =
+    {};
 
 
 let isTeacher =
     false;
+
+
+let editingEventId =
+    null;
 
 
 
@@ -1425,35 +1658,67 @@ async function checkTeacherLogin() {
 
         isTeacher = true;
 
-        document.body.classList.add(
-            "teacher-mode"
-        );
-
-        document.getElementById(
-            "teacherLoggedOut"
-        ).style.display = "none";
-
-        document.getElementById(
-            "teacherLoggedIn"
-        ).style.display = "block";
-
     }
 
     else {
 
         isTeacher = false;
 
+    }
+
+
+    updateTeacherInterface();
+
+
+}
+
+
+
+// ==========================================
+// UPDATE TEACHER INTERFACE
+// ==========================================
+
+
+function updateTeacherInterface() {
+
+
+    const loggedOut =
+        document.getElementById(
+            "teacherLoggedOut"
+        );
+
+
+    const loggedIn =
+        document.getElementById(
+            "teacherLoggedIn"
+        );
+
+
+    if (isTeacher) {
+
+        document.body.classList.add(
+            "teacher-mode"
+        );
+
+        loggedOut.style.display =
+            "none";
+
+        loggedIn.style.display =
+            "block";
+
+    }
+
+    else {
+
         document.body.classList.remove(
             "teacher-mode"
         );
 
-        document.getElementById(
-            "teacherLoggedOut"
-        ).style.display = "block";
+        loggedOut.style.display =
+            "block";
 
-        document.getElementById(
-            "teacherLoggedIn"
-        ).style.display = "none";
+        loggedIn.style.display =
+            "none";
 
     }
 
@@ -1581,10 +1846,6 @@ async function loginTeacher() {
     }
 
 
-    message.textContent =
-        "Login successful! 🎉";
-
-
     document.getElementById(
         "teacherEmail"
     ).value = "";
@@ -1602,7 +1863,10 @@ async function loginTeacher() {
     );
 
 
-    await checkTeacherLogin();
+    isTeacher = true;
+
+
+    updateTeacherInterface();
 
 
     alert(
@@ -1626,27 +1890,11 @@ async function logoutTeacher() {
         .signOut();
 
 
-    isTeacher = false;
+    isTeacher =
+        false;
 
 
-    document.body.classList.remove(
-        "teacher-mode"
-    );
-
-
-    document.getElementById(
-        "teacherLoggedOut"
-    ).style.display = "block";
-
-
-    document.getElementById(
-        "teacherLoggedIn"
-    ).style.display = "none";
-
-
-    createCalendar();
-
-    createUpcomingEvents();
+    updateTeacherInterface();
 
 
     alert(
@@ -1674,28 +1922,20 @@ supabaseClient
                 session.user.id === TEACHER_ID
             ) {
 
-                isTeacher = true;
-
-                document.body.classList.add(
-                    "teacher-mode"
-                );
+                isTeacher =
+                    true;
 
             }
 
             else {
 
-                isTeacher = false;
-
-                document.body.classList.remove(
-                    "teacher-mode"
-                );
+                isTeacher =
+                    false;
 
             }
 
 
-            createCalendar();
-
-            createUpcomingEvents();
+            updateTeacherInterface();
 
         }
     );
@@ -1720,7 +1960,8 @@ async function loadEvents() {
             .order(
                 "event_date",
                 {
-                    ascending: true
+                    ascending:
+                        true
                 }
             );
 
@@ -1731,6 +1972,7 @@ async function loadEvents() {
             "Error loading events:",
             error
         );
+
 
         document.getElementById(
             "upcomingList"
@@ -1748,37 +1990,40 @@ async function loadEvents() {
     events = {};
 
 
-    data.forEach(function(event) {
+    data.forEach(
+        function(event) {
 
 
-        const dateKey =
-            event.event_date;
+            const dateKey =
+                event.event_date;
 
 
-        if (!events[dateKey]) {
+            if (!events[dateKey]) {
 
-            events[dateKey] = [];
+                events[dateKey] =
+                    [];
+
+            }
+
+
+            events[dateKey].push({
+
+                id:
+                    event.id,
+
+                student:
+                    event.student_name,
+
+                type:
+                    event.event_type,
+
+                details:
+                    event.details
+
+            });
 
         }
-
-
-        events[dateKey].push({
-
-            id:
-                event.id,
-
-            student:
-                event.student_name,
-
-            type:
-                event.event_type,
-
-            details:
-                event.details
-
-        });
-
-    });
+    );
 
 
     createCalendar();
@@ -1862,7 +2107,7 @@ function createCalendar() {
 
 
 
-    // Empty spaces
+    // EMPTY SPACES
 
     for (
         let i = 0;
@@ -1883,7 +2128,7 @@ function createCalendar() {
 
 
 
-    // Days
+    // DAYS
 
     for (
         let day = 1;
@@ -1924,6 +2169,8 @@ function createCalendar() {
 
 
 
+        // DATE KEY
+
         const dateKey =
             year +
             "-" +
@@ -1941,7 +2188,7 @@ function createCalendar() {
 
 
 
-        // Click date
+        // CLICK DATE
 
         dayBox.onclick =
             function() {
@@ -1956,13 +2203,10 @@ function createCalendar() {
                 ).textContent =
 
                     "Selected date: " +
-
                     day +
                     " " +
-
                     monthNames[month] +
                     " " +
-
                     year;
 
 
@@ -1979,7 +2223,7 @@ function createCalendar() {
 
 
 
-        // Today
+        // TODAY
 
         const today =
             new Date();
@@ -1988,10 +2232,14 @@ function createCalendar() {
         if (
 
             day ===
-                today.getDate() &&
+                today.getDate()
+
+            &&
 
             month ===
-                today.getMonth() &&
+                today.getMonth()
+
+            &&
 
             year ===
                 today.getFullYear()
@@ -2006,7 +2254,7 @@ function createCalendar() {
 
 
 
-        // Events
+        // EVENTS
 
         if (events[dateKey]) {
 
@@ -2015,19 +2263,19 @@ function createCalendar() {
                 function(event) {
 
 
-                    const eventText =
+                    const eventBox =
                         document.createElement(
                             "div"
                         );
 
 
-                    eventText.classList.add(
+                    eventBox.classList.add(
                         "event"
                     );
 
 
 
-                    // Event colours
+                    // EVENT COLOUR
 
                     if (
                         event.type.includes(
@@ -2035,7 +2283,7 @@ function createCalendar() {
                         )
                     ) {
 
-                        eventText.classList.add(
+                        eventBox.classList.add(
                             "birthday"
                         );
 
@@ -2047,7 +2295,7 @@ function createCalendar() {
                         )
                     ) {
 
-                        eventText.classList.add(
+                        eventBox.classList.add(
                             "assignment"
                         );
 
@@ -2059,7 +2307,7 @@ function createCalendar() {
                         )
                     ) {
 
-                        eventText.classList.add(
+                        eventBox.classList.add(
                             "quiz"
                         );
 
@@ -2071,7 +2319,7 @@ function createCalendar() {
                         )
                     ) {
 
-                        eventText.classList.add(
+                        eventBox.classList.add(
                             "activity"
                         );
 
@@ -2083,7 +2331,7 @@ function createCalendar() {
                         )
                     ) {
 
-                        eventText.classList.add(
+                        eventBox.classList.add(
                             "announcement"
                         );
 
@@ -2091,7 +2339,7 @@ function createCalendar() {
 
                     else {
 
-                        eventText.classList.add(
+                        eventBox.classList.add(
                             "other"
                         );
 
@@ -2099,15 +2347,23 @@ function createCalendar() {
 
 
 
-                    eventText.appendChild(
+                    // EVENT TEXT
+
+                    eventBox.appendChild(
+
                         document.createTextNode(
+
                             event.type +
                             " " +
                             event.details
+
                         )
+
                     );
 
 
+
+                    // STUDENT NAME
 
                     const student =
                         document.createElement(
@@ -2125,13 +2381,55 @@ function createCalendar() {
                         event.student;
 
 
-                    eventText.appendChild(
+                    eventBox.appendChild(
                         student
                     );
 
 
 
-                    // Delete button
+                    // =========================
+                    // TEACHER EDIT BUTTON
+                    // =========================
+
+                    const editButton =
+                        document.createElement(
+                            "button"
+                        );
+
+
+                    editButton.classList.add(
+                        "event-button",
+                        "edit-button"
+                    );
+
+
+                    editButton.textContent =
+                        "✏️ Edit";
+
+
+                    editButton.onclick =
+                        function(e) {
+
+
+                            e.stopPropagation();
+
+
+                            openEditModal(
+                                event.id
+                            );
+
+                        };
+
+
+                    eventBox.appendChild(
+                        editButton
+                    );
+
+
+
+                    // =========================
+                    // TEACHER DELETE BUTTON
+                    // =========================
 
                     const deleteButton =
                         document.createElement(
@@ -2140,6 +2438,7 @@ function createCalendar() {
 
 
                     deleteButton.classList.add(
+                        "event-button",
                         "delete-button"
                     );
 
@@ -2151,7 +2450,9 @@ function createCalendar() {
                     deleteButton.onclick =
                         function(e) {
 
+
                             e.stopPropagation();
+
 
                             deleteEvent(
                                 event.id
@@ -2160,13 +2461,14 @@ function createCalendar() {
                         };
 
 
-                    eventText.appendChild(
+                    eventBox.appendChild(
                         deleteButton
                     );
 
 
+
                     dayBox.appendChild(
-                        eventText
+                        eventBox
                     );
 
                 }
@@ -2241,9 +2543,6 @@ function createUpcomingEvents() {
                             date:
                                 date,
 
-                            dateKey:
-                                dateKey,
-
                             event:
                                 event
 
@@ -2258,7 +2557,6 @@ function createUpcomingEvents() {
     );
 
 
-
     upcoming.sort(
         function(a, b) {
 
@@ -2271,13 +2569,11 @@ function createUpcomingEvents() {
     );
 
 
-
     upcoming =
         upcoming.slice(
             0,
             6
         );
-
 
 
     if (
@@ -2287,15 +2583,12 @@ function createUpcomingEvents() {
         list.innerHTML =
 
             '<div class="no-events">' +
-
             '🌱 No upcoming events yet.' +
-
             '</div>';
 
         return;
 
     }
-
 
 
     upcoming.forEach(
@@ -2328,6 +2621,7 @@ function createUpcomingEvents() {
                 item.date.toLocaleDateString(
                     "en-GB",
                     {
+
                         day:
                             "numeric",
 
@@ -2336,6 +2630,7 @@ function createUpcomingEvents() {
 
                         year:
                             "numeric"
+
                     }
                 );
 
@@ -2389,36 +2684,46 @@ function createUpcomingEvents() {
 
 
 
-            // Teacher delete button
+            // TEACHER DELETE
 
-            const deleteButton =
-                document.createElement(
-                    "button"
+            if (isTeacher) {
+
+
+                const deleteButton =
+                    document.createElement(
+                        "button"
+                    );
+
+
+                deleteButton.classList.add(
+                    "event-button",
+                    "delete-button"
                 );
 
 
-            deleteButton.classList.add(
-                "delete-button"
-            );
+                deleteButton.style.display =
+                    "inline-block";
 
 
-            deleteButton.textContent =
-                "🗑️ Delete";
+                deleteButton.textContent =
+                    "🗑️ Delete";
 
 
-            deleteButton.onclick =
-                function() {
+                deleteButton.onclick =
+                    function() {
 
-                    deleteEvent(
-                        item.event.id
-                    );
+                        deleteEvent(
+                            item.event.id
+                        );
 
-                };
+                    };
 
 
-            card.appendChild(
-                deleteButton
-            );
+                card.appendChild(
+                    deleteButton
+                );
+
+            }
 
 
             list.appendChild(
@@ -2426,6 +2731,175 @@ function createUpcomingEvents() {
             );
 
         }
+    );
+
+}
+
+
+
+// ==========================================
+// OPEN EDIT MODAL
+// ==========================================
+
+
+function openEditModal(eventId) {
+
+
+    if (!isTeacher) {
+
+        alert(
+            "Only the teacher can edit events."
+        );
+
+        return;
+
+    }
+
+
+    const event =
+        Object.values(events)
+        .flat()
+        .find(
+            function(item) {
+
+                return item.id === eventId;
+
+            }
+        );
+
+
+    if (!event) {
+
+        alert(
+            "Event could not be found."
+        );
+
+        return;
+
+    }
+
+
+    editingEventId =
+        eventId;
+
+
+    document.getElementById(
+        "editDetails"
+    ).value =
+        event.details;
+
+
+    document.getElementById(
+        "editModal"
+    ).classList.add(
+        "show"
+    );
+
+
+}
+
+
+
+// ==========================================
+// CLOSE EDIT MODAL
+// ==========================================
+
+
+function closeEditModal() {
+
+
+    editingEventId =
+        null;
+
+
+    document.getElementById(
+        "editModal"
+    ).classList.remove(
+        "show"
+    );
+
+}
+
+
+
+// ==========================================
+// SAVE EDIT
+// ==========================================
+
+
+async function saveEdit() {
+
+
+    if (
+        !isTeacher ||
+        !editingEventId
+    ) {
+
+        return;
+
+    }
+
+
+    const newDetails =
+        document.getElementById(
+            "editDetails"
+        ).value.trim();
+
+
+    if (!newDetails) {
+
+        alert(
+            "Event details cannot be empty."
+        );
+
+        return;
+
+    }
+
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from("Events")
+            .update({
+
+                details:
+                    newDetails
+
+            })
+            .eq(
+                "id",
+                editingEventId
+            );
+
+
+    if (error) {
+
+        console.error(
+            "Edit error:",
+            error
+        );
+
+
+        alert(
+            "The event could not be edited.\n\n" +
+            error.message
+        );
+
+        return;
+
+    }
+
+
+    closeEditModal();
+
+
+    await loadEvents();
+
+
+    alert(
+        "Event updated successfully! ✏️"
     );
 
 }
@@ -2569,7 +3043,6 @@ async function addEvent() {
         ).value.trim();
 
 
-
     if (!selectedDateKey) {
 
         alert(
@@ -2579,7 +3052,6 @@ async function addEvent() {
         return;
 
     }
-
 
 
     if (
@@ -2599,7 +3071,6 @@ async function addEvent() {
     }
 
 
-
     const button =
         document.querySelector(
             ".add-button"
@@ -2614,9 +3085,7 @@ async function addEvent() {
         "Saving... ⏳";
 
 
-
     const {
-        data,
         error
     } =
         await supabaseClient
@@ -2635,13 +3104,10 @@ async function addEvent() {
                 details:
                     eventDetails
 
-            })
-            .select();
-
+            });
 
 
     if (error) {
-
 
         console.error(
             "Error saving event:",
@@ -2668,8 +3134,7 @@ async function addEvent() {
     }
 
 
-
-    // Clear form
+    // CLEAR FORM
 
     document.getElementById(
         "studentName"
@@ -2686,11 +3151,7 @@ async function addEvent() {
     ).value = "";
 
 
-
-    // Reload
-
     await loadEvents();
-
 
 
     button.disabled =
@@ -2710,11 +3171,38 @@ async function addEvent() {
 
 
 // ==========================================
-// START
+// CLOSE MODAL WHEN CLICKING OUTSIDE
+// ==========================================
+
+
+document.getElementById(
+    "editModal"
+).addEventListener(
+    "click",
+    function(e) {
+
+
+        if (
+            e.target ===
+            this
+        ) {
+
+            closeEditModal();
+
+        }
+
+    }
+);
+
+
+
+// ==========================================
+// START APP
 // ==========================================
 
 
 async function startApp() {
+
 
     await checkTeacherLogin();
 
@@ -2730,4 +3218,6 @@ startApp();
 
 
 </body>
+
 </html>
+```
