@@ -92,6 +92,48 @@
         background: #dcefe8;
         border: 2px solid #52796f;
     }
+    .event-form {
+    max-width: 600px;
+    margin: 20px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.event-form h2 {
+    text-align: center;
+    color: #52796f;
+    margin-top: 0;
+}
+
+.event-form p {
+    text-align: center;
+    color: #777;
+}
+
+.event-form label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #52796f;
+}
+
+.event-form input,
+.event-form select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    border: 1px solid #d5e2dc;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+.event-form button {
+    display: block;
+    margin: 20px auto 0;
+}
 </style>
 ```
 
@@ -106,9 +148,35 @@
     Keep track of important dates, birthdays & class activities 📚✨
 </div>
 
-<div id="calendar">
+<div id="eventForm" class="event-form">
 
-    <div class="calendar-header">
+    <h2>📅 Add to Class Calendar</h2>
+
+    <p id="selectedDate">Choose a date from the calendar</p>
+
+    <label>👤 Student's Name</label>
+    <input type="text" id="studentName" placeholder="Enter your name">
+
+    <label>📌 What are you adding?</label>
+
+    <select id="eventType">
+        <option value="">-- Choose one --</option>
+        <option value="🎂 Birthday">🎂 Birthday</option>
+        <option value="📝 Assignment">📝 Assignment</option>
+        <option value="📚 Quiz">📚 Quiz</option>
+        <option value="🏆 Activity">🏆 Activity</option>
+        <option value="📢 Announcement">📢 Announcement</option>
+        <option value="📌 Other">📌 Other</option>
+    </select>
+
+    <label>✏️ Details</label>
+    <input type="text" id="eventDetails" placeholder="What is happening?">
+
+    <button onclick="addEvent()">✨ Add Event</button>
+
+</div>
+  <div id="calendar">
+      <div class="calendar-header">
         <button onclick="previousMonth()">← Previous</button>
 
         <div id="monthYear"></div>
