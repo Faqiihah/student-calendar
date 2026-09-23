@@ -249,6 +249,7 @@
         font-weight: bold;
         color: #527b5e;
         margin-bottom: 5px;
+        font-size: 14px;
     }
 
     .progress-bar {
@@ -270,6 +271,19 @@
         margin-top: 18px;
         color: #748077;
         font-size: 14px;
+    }
+
+    .progress-update-card {
+        margin-top: 15px;
+    }
+
+    .progress-update-card h3 {
+        margin-top: 0;
+        color: #476650;
+    }
+
+    .progress-update-card p {
+        color: #718276;
     }
 
     /* =========================
@@ -827,95 +841,124 @@
 
 
 <!-- =========================
-     CLASS PROGRESS
+     LIVE HAFALAN PROGRESS
 ========================= -->
 
 <section id="progress">
 
     <div class="section-title">
 
-        <h2>🏆 Class Progress</h2>
+        <h2>🏆 Live Hafalan Progress</h2>
 
-        <p>Let's grow together in our Quran journey! 🌱</p>
+        <p>
+            Let's grow together in our Quran journey! 🌱
+        </p>
 
     </div>
 
     <div class="card">
 
-        <div class="progress-grid">
+        <div
+            id="progressGrid"
+            class="progress-grid"
+        >
 
-            <!-- CHANGE THESE PERCENTAGES -->
-
-            <div class="progress-card">
-
-                <h3>🌿 Year 10A</h3>
-
-                <div class="progress-number">87%</div>
-
-                <div class="progress-bar">
-                    <div
-                        class="progress-fill"
-                        style="width: 87%;"
-                    ></div>
-                </div>
-
-            </div>
-
-
-            <div class="progress-card">
-
-                <h3>🌱 Year 10B</h3>
-
-                <div class="progress-number">82%</div>
-
-                <div class="progress-bar">
-                    <div
-                        class="progress-fill"
-                        style="width: 82%;"
-                    ></div>
-                </div>
-
-            </div>
-
-
-            <div class="progress-card">
-
-                <h3>🌸 Year 10C</h3>
-
-                <div class="progress-number">76%</div>
-
-                <div class="progress-bar">
-                    <div
-                        class="progress-fill"
-                        style="width: 76%;"
-                    ></div>
-                </div>
-
-            </div>
-
-
-            <div class="progress-card">
-
-                <h3>🍃 Year 10D</h3>
-
-                <div class="progress-number">71%</div>
-
-                <div class="progress-bar">
-                    <div
-                        class="progress-fill"
-                        style="width: 71%;"
-                    ></div>
-                </div>
-
+            <div class="empty">
+                Loading class progress... 🌱
             </div>
 
         </div>
 
         <div class="progress-note">
 
-            📌 Class progress can be updated by the teacher.
+            📖 Progress is based on students who have
+            completed the current hafalan target.
 
         </div>
+
+    </div>
+
+
+    <!-- TEACHER-ONLY PROGRESS UPDATE -->
+
+    <div
+        id="teacherProgressBox"
+        class="card progress-update-card"
+        style="display:none;"
+    >
+
+        <h3>
+            👩‍🏫 Update Hafalan Progress
+        </h3>
+
+        <p>
+            Enter the number of students who have completed
+            the current hafalan target.
+        </p>
+
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>
+                    🌿 10 Ibnu Sina — 21 students
+                </label>
+
+                <input
+                    type="number"
+                    id="ibnuSinaProgress"
+                    min="0"
+                    max="21"
+                    value="0"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    🌱 10 Al Idrisi — 20 students
+                </label>
+
+                <input
+                    type="number"
+                    id="alIdrisiProgress"
+                    min="0"
+                    max="20"
+                    value="0"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    🌸 10 Al Ghazali — 22 students
+                </label>
+
+                <input
+                    type="number"
+                    id="alGhazaliProgress"
+                    min="0"
+                    max="22"
+                    value="0"
+                >
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="submit-button"
+            type="button"
+            onclick="updateClassProgress()"
+        >
+            💾 Update Progress
+        </button>
 
     </div>
 
@@ -1214,7 +1257,7 @@
 
         <h2>👩‍🏫 Teacher Area</h2>
 
-        <p>Teacher login for managing calendar events.</p>
+        <p>Teacher login for managing calendar events and hafalan progress.</p>
 
     </div>
 
@@ -1275,7 +1318,8 @@
             </h3>
 
             <p>
-                You can now edit or delete calendar events.
+                You can now edit or delete calendar events
+                and update hafalan progress.
             </p>
 
             <button
@@ -1327,7 +1371,7 @@ const SUPABASE_URL =
 
 /*
    IMPORTANT:
-   Keep your EXISTING publishable key here.
+   This is your existing PUBLISHABLE key.
    Do NOT use your sb_secret_ key.
 */
 
@@ -1362,6 +1406,416 @@ let isTeacher = false;
 
 
 /* =========================================================
+   CLASS PROGRESS
+========================================================= */
+
+async function loadClassProgress() {
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("ClassProgress")
+        .select("*")
+        .order("class_name");
+
+
+    if (error) {
+
+        console.error(
+            "Load class progress error:",
+            error
+        );
+
+        const grid =
+            document.getElementById(
+                "progressGrid"
+            );
+
+        if (grid) {
+
+            grid.innerHTML =
+                '<div class="empty">' +
+                "Class progress could not be loaded." +
+                "</div>";
+
+        }
+
+        return;
+    }
+
+
+    const grid =
+        document.getElementById(
+            "progressGrid"
+        );
+
+
+    if (!grid) {
+
+        return;
+
+    }
+
+
+    grid.innerHTML = "";
+
+
+    data.forEach(function(classData) {
+
+        const className =
+            classData.class_name;
+
+        const total =
+            Number(
+                classData.total_students
+            );
+
+        const finished =
+            Number(
+                classData.finished_students
+            );
+
+
+        let percentage =
+            total > 0
+                ? Math.round(
+                    (finished / total) * 100
+                )
+                : 0;
+
+
+        percentage =
+            Math.max(
+                0,
+                Math.min(
+                    100,
+                    percentage
+                )
+            );
+
+
+        let icon = "🌿";
+
+
+        if (
+            className === "10 Al Idrisi"
+        ) {
+
+            icon = "🌱";
+
+        }
+
+        else if (
+            className === "10 Al Ghazali"
+        ) {
+
+            icon = "🌸";
+
+        }
+
+
+        const card =
+            document.createElement(
+                "div"
+            );
+
+
+        card.className =
+            "progress-card";
+
+
+        card.innerHTML =
+
+            '<h3>' +
+            icon +
+            " " +
+            escapeHtml(
+                className
+            ) +
+            '</h3>' +
+
+            '<div class="progress-number">' +
+
+            finished +
+            " / " +
+            total +
+            " students • " +
+            percentage +
+            "%" +
+
+            '</div>' +
+
+            '<div class="progress-bar">' +
+
+            '<div class="progress-fill" style="width:' +
+            percentage +
+            '%;"></div>' +
+
+            '</div>';
+
+
+        grid.appendChild(
+            card
+        );
+
+    });
+
+
+    /*
+       Put current numbers into teacher boxes.
+    */
+
+    if (isTeacher) {
+
+        const ibnuSina =
+            data.find(function(item) {
+
+                return (
+                    item.class_name ===
+                    "10 Ibnu Sina"
+                );
+
+            });
+
+
+        const alIdrisi =
+            data.find(function(item) {
+
+                return (
+                    item.class_name ===
+                    "10 Al Idrisi"
+                );
+
+            });
+
+
+        const alGhazali =
+            data.find(function(item) {
+
+                return (
+                    item.class_name ===
+                    "10 Al Ghazali"
+                );
+
+            });
+
+
+        if (ibnuSina) {
+
+            const input =
+                document.getElementById(
+                    "ibnuSinaProgress"
+                );
+
+            if (input) {
+
+                input.value =
+                    ibnuSina.finished_students;
+
+            }
+
+        }
+
+
+        if (alIdrisi) {
+
+            const input =
+                document.getElementById(
+                    "alIdrisiProgress"
+                );
+
+            if (input) {
+
+                input.value =
+                    alIdrisi.finished_students;
+
+            }
+
+        }
+
+
+        if (alGhazali) {
+
+            const input =
+                document.getElementById(
+                    "alGhazaliProgress"
+                );
+
+            if (input) {
+
+                input.value =
+                    alGhazali.finished_students;
+
+            }
+
+        }
+
+    }
+
+}
+
+
+async function updateClassProgress() {
+
+    if (!isTeacher) {
+
+        alert(
+            "Only the teacher can update class progress."
+        );
+
+        return;
+    }
+
+
+    const ibnuSina =
+        Number(
+            document.getElementById(
+                "ibnuSinaProgress"
+            ).value
+        );
+
+
+    const alIdrisi =
+        Number(
+            document.getElementById(
+                "alIdrisiProgress"
+            ).value
+        );
+
+
+    const alGhazali =
+        Number(
+            document.getElementById(
+                "alGhazaliProgress"
+            ).value
+        );
+
+
+    if (
+        !Number.isInteger(ibnuSina) ||
+        ibnuSina < 0 ||
+        ibnuSina > 21
+    ) {
+
+        alert(
+            "10 Ibnu Sina must be a whole number between 0 and 21."
+        );
+
+        return;
+    }
+
+
+    if (
+        !Number.isInteger(alIdrisi) ||
+        alIdrisi < 0 ||
+        alIdrisi > 20
+    ) {
+
+        alert(
+            "10 Al Idrisi must be a whole number between 0 and 20."
+        );
+
+        return;
+    }
+
+
+    if (
+        !Number.isInteger(alGhazali) ||
+        alGhazali < 0 ||
+        alGhazali > 22
+    ) {
+
+        alert(
+            "10 Al Ghazali must be a whole number between 0 and 22."
+        );
+
+        return;
+    }
+
+
+    const updates = [
+
+        {
+            class_name:
+                "10 Ibnu Sina",
+
+            finished_students:
+                ibnuSina
+        },
+
+        {
+            class_name:
+                "10 Al Idrisi",
+
+            finished_students:
+                alIdrisi
+        },
+
+        {
+            class_name:
+                "10 Al Ghazali",
+
+            finished_students:
+                alGhazali
+        }
+
+    ];
+
+
+    for (
+        const update of updates
+    ) {
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from("ClassProgress")
+                .update({
+
+                    finished_students:
+                        update.finished_students,
+
+                    updated_at:
+                        new Date().toISOString()
+
+                })
+                .eq(
+                    "class_name",
+                    update.class_name
+                );
+
+
+        if (error) {
+
+            console.error(
+                "Update progress error:",
+                error
+            );
+
+            alert(
+                "Progress could not be updated.\n\n" +
+                error.message
+            );
+
+            return;
+        }
+
+    }
+
+
+    await loadClassProgress();
+
+
+    alert(
+        "Hafalan progress updated successfully! 📖🌱"
+    );
+
+}
+
+
+/* =========================================================
    TEACHER LOGIN
 ========================================================= */
 
@@ -1371,6 +1825,7 @@ async function checkTeacherLogin() {
         data,
         error
     } = await supabaseClient.auth.getSession();
+
 
     if (error) {
 
@@ -1399,13 +1854,39 @@ async function checkTeacherLogin() {
             "teacher-mode"
         );
 
-    } else {
+        const progressBox =
+            document.getElementById(
+                "teacherProgressBox"
+            );
+
+        if (progressBox) {
+
+            progressBox.style.display =
+                "block";
+
+        }
+
+    }
+
+    else {
 
         isTeacher = false;
 
         document.body.classList.remove(
             "teacher-mode"
         );
+
+        const progressBox =
+            document.getElementById(
+                "teacherProgressBox"
+            );
+
+        if (progressBox) {
+
+            progressBox.style.display =
+                "none";
+
+        }
 
     }
 
@@ -1487,6 +1968,19 @@ async function loginTeacher() {
     );
 
 
+    const progressBox =
+        document.getElementById(
+            "teacherProgressBox"
+        );
+
+    if (progressBox) {
+
+        progressBox.style.display =
+            "block";
+
+    }
+
+
     document.getElementById(
         "teacherEmail"
     ).value = "";
@@ -1495,6 +1989,9 @@ async function loginTeacher() {
     document.getElementById(
         "teacherPassword"
     ).value = "";
+
+
+    await loadClassProgress();
 
 
     alert(
@@ -1513,6 +2010,20 @@ async function logoutTeacher() {
     document.body.classList.remove(
         "teacher-mode"
     );
+
+
+    const progressBox =
+        document.getElementById(
+            "teacherProgressBox"
+        );
+
+    if (progressBox) {
+
+        progressBox.style.display =
+            "none";
+
+    }
+
 
     alert(
         "You have logged out."
@@ -1536,13 +2047,41 @@ supabaseClient.auth.onAuthStateChange(
                 "teacher-mode"
             );
 
-        } else {
+
+            const progressBox =
+                document.getElementById(
+                    "teacherProgressBox"
+                );
+
+            if (progressBox) {
+
+                progressBox.style.display =
+                    "block";
+
+            }
+
+        }
+
+        else {
 
             isTeacher = false;
 
             document.body.classList.remove(
                 "teacher-mode"
             );
+
+
+            const progressBox =
+                document.getElementById(
+                    "teacherProgressBox"
+                );
+
+            if (progressBox) {
+
+                progressBox.style.display =
+                    "none";
+
+            }
 
         }
 
@@ -2470,14 +3009,6 @@ function formatDate(date) {
    TADABBUR REFLECTIONS
 ========================================================= */
 
-/*
-   These reflections are stored locally on the device
-   for now.
-
-   This means students can write reflections without
-   requiring another Supabase table.
-*/
-
 function loadReflections() {
 
     const saved =
@@ -2687,6 +3218,8 @@ async function startApp() {
     await checkTeacherLogin();
 
     await loadEvents();
+
+    await loadClassProgress();
 
     displayReflections();
 
