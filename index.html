@@ -1,1307 +1,1338 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
-
-<title>Al-Quran Calendar - Ustazah Faqiihah</title>
+<title>Al-Quran Calendar | Year 10 Quran Learning Hub</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-
 <style>
-
-/* =========================================
-   GENERAL
-========================================= */
-
-* {
-    box-sizing: border-box;
-}
-
-body {
-
-    margin: 0;
-
-    font-family:
-        "Segoe UI",
-        Arial,
-        sans-serif;
-
-    background:
-        linear-gradient(
-            135deg,
-            #f5faf7,
-            #eef6f3
-        );
-
-    color: #40564f;
-}
-
-
-.container {
-
-    max-width: 1100px;
-
-    margin: auto;
-
-    padding:
-        25px 18px 50px;
-}
-
-
-/* =========================================
-   HERO
-========================================= */
-
-.hero {
-
-    background:
-        linear-gradient(
-            135deg,
-            #dcefe7,
-            #eef7f3
-        );
-
-    border-radius: 25px;
-
-    padding:
-        35px 25px;
-
-    text-align: center;
-
-    margin-bottom: 25px;
-
-    box-shadow:
-        0 8px 25px
-        rgba(82,121,111,0.10);
-
-    position: relative;
-
-    overflow: hidden;
-}
-
-
-.hero::before {
-
-    content: "☾";
-
-    position: absolute;
-
-    font-size: 100px;
-
-    color:
-        rgba(82,121,111,0.08);
-
-    top: -35px;
-
-    left: 25px;
-}
-
-
-.hero::after {
-
-    content: "✦";
-
-    position: absolute;
-
-    font-size: 80px;
-
-    color:
-        rgba(82,121,111,0.08);
-
-    bottom: -25px;
-
-    right: 30px;
-}
-
-
-.hero h1 {
-
-    margin: 0;
-
-    color: #41665b;
-
-    font-size: 32px;
-
-    position: relative;
-
-    z-index: 1;
-}
-
-
-.hero .arabic {
-
-    font-size: 25px;
-
-    margin-top: 8px;
-
-    color: #52796f;
-
-    font-weight: bold;
-}
-
-
-.hero p {
-
-    margin:
-        10px 0 0;
-
-    color: #71857e;
-
-    font-size: 15px;
-
-    position: relative;
-
-    z-index: 1;
-}
-
-
-/* =========================================
-   TEACHER LOGIN
-========================================= */
-
-.teacher-area {
-
-    background: white;
-
-    border-radius: 20px;
-
-    padding:
-        18px 22px;
-
-    margin-bottom: 25px;
-
-    box-shadow:
-        0 5px 20px
-        rgba(82,121,111,0.08);
-
-    text-align: center;
-}
-
-
-.teacher-login-button {
-
-    border: none;
-
-    background: #e3f0eb;
-
-    color: #41665b;
-
-    padding:
-        10px 18px;
-
-    border-radius: 10px;
-
-    font-weight: 600;
-
-    cursor: pointer;
-
-    font-size: 14px;
-}
-
-
-.teacher-login-button:hover {
-
-    background: #d5e8e1;
-}
-
-
-.teacher-status {
-
-    color: #41665b;
-
-    font-weight: 600;
-
-    font-size: 14px;
-}
-
-
-.teacher-status small {
-
-    display: block;
-
-    margin-top: 4px;
-
-    color: #899792;
-
-    font-weight: normal;
-}
-
-
-.logout-button {
-
-    margin-left: 8px;
-
-    border: none;
-
-    background: #f4e7e9;
-
-    color: #8b5b64;
-
-    padding:
-        8px 14px;
-
-    border-radius: 9px;
-
-    cursor: pointer;
-
-    font-size: 13px;
-}
-
-
-.login-box {
-
-    display: none;
-
-    max-width: 400px;
-
-    margin:
-        15px auto 0;
-
-    padding: 18px;
-
-    background: #f5faf7;
-
-    border-radius: 15px;
-
-    text-align: left;
-}
-
-
-.login-box.show {
-
-    display: block;
-}
-
-
-.login-box h3 {
-
-    margin-top: 0;
-
-    text-align: center;
-
-    color: #41665b;
-}
-
-
-.login-submit {
-
-    width: 100%;
-
-    border: none;
-
-    background: #52796f;
-
-    color: white;
-
-    padding: 11px;
-
-    border-radius: 10px;
-
-    cursor: pointer;
-
-    font-weight: bold;
-}
-
-
-.login-message {
-
-    text-align: center;
-
-    font-size: 13px;
-
-    margin-top: 10px;
-
-    color: #8b5b64;
-}
-
-
-/* =========================================
-   UPCOMING EVENTS
-========================================= */
-
-.upcoming {
-
-    background: white;
-
-    border-radius: 20px;
-
-    padding: 22px;
-
-    margin-bottom: 25px;
-
-    box-shadow:
-        0 5px 20px
-        rgba(82,121,111,0.08);
-}
-
-
-.section-title {
-
-    color: #41665b;
-
-    font-size: 20px;
-
-    font-weight: bold;
-
-    margin-bottom: 15px;
-}
-
-
-.upcoming-list {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(
-            auto-fit,
-            minmax(220px, 1fr)
-        );
-
-    gap: 12px;
-}
-
-
-.upcoming-card {
-
-    background: #f5faf7;
-
-    border-left:
-        5px solid #8eb5a7;
-
-    border-radius: 12px;
-
-    padding: 12px;
-}
-
-
-.upcoming-date {
-
-    font-size: 12px;
-
-    color: #789087;
-
-    font-weight: bold;
-}
-
-
-.upcoming-details {
-
-    margin-top: 5px;
-
-    font-size: 14px;
-
-    font-weight: 600;
-}
-
-
-.upcoming-student {
-
-    margin-top: 5px;
-
-    font-size: 12px;
-
-    color: #8a9994;
-}
-
-
-.no-events {
-
-    color: #899792;
-
-    font-size: 14px;
-
-    text-align: center;
-
-    padding: 10px;
-}
-
-
-/* =========================================
-   EVENT FORM
-========================================= */
-
-.event-form {
-
-    background: white;
-
-    border-radius: 20px;
-
-    padding: 25px;
-
-    margin-bottom: 25px;
-
-    box-shadow:
-        0 5px 20px
-        rgba(82,121,111,0.08);
-}
-
-
-.event-form h2 {
-
-    text-align: center;
-
-    color: #41665b;
-
-    margin-top: 0;
-}
-
-
-#selectedDate {
-
-    text-align: center;
-
-    color: #84958f;
-
-    font-size: 14px;
-
-    margin-bottom: 20px;
-}
-
-
-label {
-
-    display: block;
-
-    margin-top: 15px;
-
-    margin-bottom: 6px;
-
-    color: #52796f;
-
-    font-weight: 600;
-
-    font-size: 14px;
-}
-
-
-input,
-select {
-
-    width: 100%;
-
-    padding:
-        12px 14px;
-
-    border:
-        1px solid #d7e5df;
-
-    border-radius: 10px;
-
-    font-size: 14px;
-
-    background: #fbfdfc;
-
-    color: #40564f;
-}
-
-
-input:focus,
-select:focus {
-
-    outline: none;
-
-    border-color: #8eb5a7;
-
-    box-shadow:
-        0 0 0 3px
-        rgba(142,181,167,0.15);
-}
-
-
-.add-button {
-
-    display: block;
-
-    margin:
-        22px auto 0;
-
-    padding:
-        12px 25px;
-
-    border: none;
-
-    border-radius: 12px;
-
-    background: #52796f;
-
-    color: white;
-
-    font-size: 15px;
-
-    font-weight: bold;
-
-    cursor: pointer;
-}
-
-
-.add-button:hover {
-
-    background: #41665b;
-}
-
-
-.add-button:disabled {
-
-    opacity: 0.6;
-
-    cursor: not-allowed;
-}
-
-
-/* =========================================
-   CALENDAR
-========================================= */
-
-#calendar {
-
-    background: white;
-
-    border-radius: 20px;
-
-    padding: 22px;
-
-    box-shadow:
-        0 5px 20px
-        rgba(82,121,111,0.08);
-}
-
-
-.calendar-header {
-
-    display: flex;
-
-    justify-content:
-        space-between;
-
-    align-items: center;
-
-    gap: 10px;
-
-    margin-bottom: 20px;
-}
-
-
-.calendar-header button {
-
-    background: #e3f0eb;
-
-    color: #41665b;
-
-    border: none;
-
-    padding:
-        9px 15px;
-
-    border-radius: 10px;
-
-    font-weight: 600;
-
-    cursor: pointer;
-}
-
-
-.calendar-header button:hover {
-
-    background: #d5e8e1;
-}
-
-
-#monthYear {
-
-    color: #41665b;
-
-    font-size: 22px;
-
-    font-weight: bold;
-
-    text-align: center;
-}
-
-
-.weekdays,
-.days {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(7, 1fr);
-
-    gap: 6px;
-}
-
-
-.weekdays div {
-
-    text-align: center;
-
-    color: #66877b;
-
-    font-size: 13px;
-
-    font-weight: bold;
-
-    padding:
-        8px 2px;
-}
-
-
-.day {
-
-    min-height: 105px;
-
-    border:
-        1px solid #e2ebe7;
-
-    border-radius: 12px;
-
-    padding: 8px;
-
-    background: #fbfdfc;
-
-    cursor: pointer;
-
-    transition: 0.15s;
-
-    overflow: hidden;
-}
-
-
-.day:hover {
-
-    background: #f0f7f4;
-
-    transform:
-        translateY(-1px);
-}
-
-
-.day-number {
-
-    font-weight: bold;
-
-    color: #526b63;
-
-    margin-bottom: 5px;
-}
-
-
-.today {
-
-    background: #dcefe7;
-
-    border:
-        2px solid #6f9c8d;
-}
-
-
-/* =========================================
-   EVENTS
-========================================= */
-
-.event {
-
-    margin-top: 5px;
-
-    padding:
-        6px 7px;
-
-    border-radius: 7px;
-
-    font-size: 11px;
-
-    line-height: 1.3;
-
-    color: #40564f;
-
-    word-wrap: break-word;
-}
-
-
-.birthday {
-
-    background: #f9e8ed;
-}
-
-
-.assignment {
-
-    background: #e8eff8;
-}
-
-
-.quiz {
-
-    background: #f8efd8;
-}
-
-
-.activity {
-
-    background: #e4f1e8;
-}
-
-
-.announcement {
-
-    background: #eee8f7;
-}
-
-
-.other {
-
-    background: #edf0ee;
-}
-
-
-.event-student {
-
-    font-size: 10px;
-
-    color: #7a8883;
-
-    margin-top: 2px;
-}
-
-
-/* =========================================
-   TEACHER EDIT / DELETE
-========================================= */
-
-.event-actions {
-
-    margin-top: 5px;
-
-    display: none;
-
-    gap: 4px;
-
-    flex-wrap: wrap;
-}
-
-
-.teacher-mode .event-actions {
-
-    display: flex;
-}
-
-
-.action-button {
-
-    border: none;
-
-    padding:
-        3px 7px;
-
-    border-radius: 6px;
-
-    font-size: 10px;
-
-    cursor: pointer;
-}
-
-
-.edit-button {
-
-    background:
-        rgba(82,121,111,0.12);
-
-    color: #52796f;
-}
-
-
-.edit-button:hover {
-
-    background:
-        rgba(82,121,111,0.22);
-}
-
-
-.delete-button {
-
-    background:
-        rgba(139,91,100,0.12);
-
-    color: #8b5b64;
-}
-
-
-.delete-button:hover {
-
-    background:
-        rgba(139,91,100,0.22);
-}
-
-
-/* =========================================
-   FOOTER
-========================================= */
-
-.footer {
-
-    text-align: center;
-
-    margin-top: 25px;
-
-    color: #87958f;
-
-    font-size: 12px;
-}
-
-
-/* =========================================
-   MOBILE
-========================================= */
-
-@media (max-width: 700px) {
-
-    .container {
-
-        padding:
-            12px 10px 35px;
+    * {
+        box-sizing: border-box;
     }
 
-
-    .hero {
-
-        padding:
-            25px 15px;
-
-        border-radius: 20px;
+    html {
+        scroll-behavior: smooth;
     }
 
+    body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background:
+            radial-gradient(circle at top left, rgba(190, 220, 198, 0.35), transparent 30%),
+            radial-gradient(circle at bottom right, rgba(210, 225, 215, 0.45), transparent 30%),
+            #f7faf7;
+        color: #30483a;
+    }
 
-    .hero h1 {
+    /* =========================
+       HEADER
+    ========================= */
 
+    header {
+        background: linear-gradient(135deg, #dcefe1, #edf7ef);
+        padding: 35px 20px 45px;
+        text-align: center;
+        border-bottom-left-radius: 40px;
+        border-bottom-right-radius: 40px;
+        box-shadow: 0 5px 20px rgba(70, 100, 80, 0.08);
+    }
+
+    .top-icon {
+        font-size: 45px;
+        margin-bottom: 5px;
+    }
+
+    header h1 {
+        margin: 5px 0;
+        font-size: 32px;
+        color: #315b42;
+        letter-spacing: 1px;
+    }
+
+    header p {
+        margin: 8px 0;
+        color: #607565;
+        font-size: 16px;
+    }
+
+    .welcome {
+        max-width: 700px;
+        margin: 25px auto 0;
+        background: rgba(255,255,255,0.72);
+        padding: 20px;
+        border-radius: 25px;
+    }
+
+    .welcome h2 {
+        margin: 0 0 8px;
+        color: #406b4d;
+    }
+
+    .welcome p {
+        margin: 0;
+    }
+
+    /* =========================
+       MASCOT
+    ========================= */
+
+    .mascot {
+        font-size: 65px;
+        margin: 5px auto 10px;
+        animation: floatMascot 3s ease-in-out infinite;
+    }
+
+    @keyframes floatMascot {
+        0%, 100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-7px);
+        }
+    }
+
+    /* =========================
+       NAVIGATION
+    ========================= */
+
+    .nav-container {
+        max-width: 1100px;
+        margin: -20px auto 25px;
+        padding: 0 15px;
+        position: relative;
+        z-index: 5;
+    }
+
+    .nav {
+        background: white;
+        padding: 12px;
+        border-radius: 22px;
+        box-shadow: 0 6px 25px rgba(60, 90, 70, 0.10);
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .nav a {
+        text-decoration: none;
+        color: #41624d;
+        background: #f1f7f2;
+        padding: 10px 15px;
+        border-radius: 15px;
+        font-size: 14px;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+
+    .nav a:hover {
+        background: #dcefe1;
+        transform: translateY(-2px);
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    main {
+        max-width: 1100px;
+        margin: auto;
+        padding: 0 15px 50px;
+    }
+
+    section {
+        margin-bottom: 30px;
+        scroll-margin-top: 20px;
+    }
+
+    .section-title {
+        text-align: center;
+        margin-bottom: 18px;
+    }
+
+    .section-title h2 {
+        margin: 0;
+        color: #355d43;
+        font-size: 25px;
+    }
+
+    .section-title p {
+        color: #718276;
+        margin-top: 5px;
+    }
+
+    /* =========================
+       GENERAL CARD
+    ========================= */
+
+    .card {
+        background: rgba(255,255,255,0.94);
+        border-radius: 25px;
+        padding: 22px;
+        box-shadow: 0 7px 25px rgba(70, 100, 80, 0.08);
+        border: 1px solid #e4eee6;
+    }
+
+    /* =========================
+       RESOURCE HUB
+    ========================= */
+
+    .resource-card {
+        text-align: center;
+        padding: 35px 25px;
+        background: linear-gradient(135deg, #ffffff, #edf7ef);
+    }
+
+    .resource-icon {
+        font-size: 55px;
+        margin-bottom: 10px;
+    }
+
+    .resource-card h3 {
+        color: #3d654b;
+        margin: 5px 0 10px;
         font-size: 24px;
     }
 
-
-    .hero .arabic {
-
-        font-size: 20px;
+    .resource-card p {
+        color: #68786d;
+        max-width: 600px;
+        margin: 0 auto 20px;
+        line-height: 1.6;
     }
 
+    .resource-button {
+        display: inline-block;
+        text-decoration: none;
+        background: #527b5e;
+        color: white;
+        padding: 13px 24px;
+        border-radius: 16px;
+        font-weight: 700;
+        transition: 0.2s;
+        box-shadow: 0 5px 12px rgba(70, 100, 80, 0.15);
+    }
+
+    .resource-button:hover {
+        transform: translateY(-2px);
+        background: #416b4d;
+    }
+
+    /* =========================
+       PROGRESS
+    ========================= */
+
+    .progress-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 15px;
+    }
+
+    .progress-card {
+        background: white;
+        padding: 20px;
+        border-radius: 20px;
+        border: 1px solid #e2ece4;
+    }
+
+    .progress-card h3 {
+        margin: 0 0 12px;
+        color: #46644f;
+    }
+
+    .progress-number {
+        text-align: right;
+        font-weight: bold;
+        color: #527b5e;
+        margin-bottom: 5px;
+    }
+
+    .progress-bar {
+        height: 13px;
+        background: #e8eee9;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #7ea58a, #527b5e);
+        border-radius: 20px;
+        transition: width 1s ease;
+    }
+
+    .progress-note {
+        text-align: center;
+        margin-top: 18px;
+        color: #748077;
+        font-size: 14px;
+    }
+
+    /* =========================
+       TADABBUR
+    ========================= */
+
+    .tadabbur-box {
+        background: linear-gradient(135deg, #eef7f0, #ffffff);
+        border-left: 6px solid #7ea58a;
+    }
+
+    .ayah {
+        font-size: 23px;
+        text-align: center;
+        line-height: 2;
+        color: #355d43;
+        margin: 15px 0;
+    }
+
+    .tadabbur-question {
+        text-align: center;
+        font-size: 18px;
+        font-weight: 600;
+        color: #52685a;
+        line-height: 1.6;
+    }
+
+    .reflection-form {
+        margin-top: 20px;
+    }
+
+    textarea {
+        width: 100%;
+        min-height: 110px;
+        padding: 14px;
+        border-radius: 15px;
+        border: 1px solid #d7e4da;
+        resize: vertical;
+        font-family: inherit;
+        font-size: 15px;
+        outline: none;
+    }
+
+    textarea:focus,
+    input:focus,
+    select:focus {
+        border-color: #82a98b;
+        box-shadow: 0 0 0 3px rgba(130, 169, 139, 0.12);
+    }
+
+    .reflection-button {
+        margin-top: 10px;
+        border: none;
+        background: #6e9278;
+        color: white;
+        padding: 11px 20px;
+        border-radius: 14px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+
+    .reflection-button:hover {
+        background: #527b5e;
+    }
+
+    .reflection-list {
+        margin-top: 20px;
+        display: grid;
+        gap: 10px;
+    }
+
+    .reflection {
+        background: white;
+        padding: 15px;
+        border-radius: 17px;
+        border: 1px solid #e0eae2;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .reflection-date {
+        font-size: 11px;
+        color: #91a096;
+        margin-top: 5px;
+    }
+
+    /* =========================
+       CALENDAR
+    ========================= */
+
+    .calendar-card {
+        overflow: hidden;
+    }
 
     .calendar-header {
-
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 18px;
         flex-wrap: wrap;
     }
 
-
-    #monthYear {
-
-        order: -1;
-
-        width: 100%;
-
-        margin-bottom: 8px;
+    .calendar-header h2 {
+        margin: 0;
+        color: #3e6049;
     }
 
-
-    .calendar-header button {
-
-        flex: 1;
+    .calendar-buttons {
+        display: flex;
+        gap: 7px;
     }
 
-
-    #calendar {
-
-        padding: 12px;
-
-        border-radius: 16px;
+    .calendar-buttons button {
+        border: none;
+        background: #e8f2ea;
+        color: #45654e;
+        padding: 9px 13px;
+        border-radius: 12px;
+        cursor: pointer;
+        font-weight: 600;
     }
 
+    .calendar-buttons button:hover {
+        background: #d5e8d9;
+    }
 
     .weekdays,
-    .days {
+    .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+    }
 
+    .weekday {
+        text-align: center;
+        padding: 8px 2px;
+        font-size: 12px;
+        font-weight: bold;
+        color: #789080;
+    }
+
+    .day {
+        min-height: 105px;
+        border: 1px solid #edf1ed;
+        padding: 7px;
+        background: white;
+        cursor: pointer;
+        transition: 0.15s;
+    }
+
+    .day:hover {
+        background: #f6faf6;
+    }
+
+    .day-number {
+        font-size: 13px;
+        font-weight: bold;
+        color: #627467;
+    }
+
+    .today {
+        background: #edf7ef !important;
+        box-shadow: inset 0 0 0 2px #86aa8e;
+    }
+
+    .selected-day {
+        background: #f4f8f4 !important;
+    }
+
+    .event {
+        margin-top: 5px;
+        padding: 5px 6px;
+        border-radius: 8px;
+        font-size: 11px;
+        line-height: 1.35;
+        word-break: break-word;
+    }
+
+    .birthday {
+        background: #fff0f3;
+        color: #925767;
+    }
+
+    .assignment {
+        background: #edf3ff;
+        color: #52698c;
+    }
+
+    .quiz {
+        background: #fff6dd;
+        color: #8b7040;
+    }
+
+    .activity {
+        background: #eeeaff;
+        color: #675d91;
+    }
+
+    .announcement {
+        background: #e8f6f3;
+        color: #4f776d;
+    }
+
+    .other {
+        background: #f0f0f0;
+        color: #656565;
+    }
+
+    .event-title {
+        font-weight: bold;
+    }
+
+    .event-details {
+        margin-top: 2px;
+    }
+
+    .event-added {
+        margin-top: 3px;
+        font-size: 9px;
+        opacity: 0.75;
+    }
+
+    .teacher-actions {
+        display: none;
+        margin-top: 5px;
         gap: 3px;
     }
 
-
-    .weekdays div {
-
-        font-size: 10px;
-
-        padding:
-            5px 1px;
+    body.teacher-mode .teacher-actions {
+        display: flex;
     }
 
-
-    .day {
-
-        min-height: 80px;
-
-        padding: 5px;
-
-        border-radius: 7px;
-    }
-
-
-    .day-number {
-
-        font-size: 12px;
-    }
-
-
-    .event {
-
+    .action-button {
+        border: none;
+        padding: 3px 5px;
+        border-radius: 6px;
+        cursor: pointer;
         font-size: 9px;
-
-        padding: 4px;
     }
 
+    .edit-button {
+        background: #e7f0ea;
+        color: #45634e;
+    }
 
-    .event-student {
+    .delete-button {
+        background: #f8e4e4;
+        color: #8a5555;
+    }
 
+    /* =========================
+       ADD EVENT
+    ========================= */
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .form-group.full {
+        grid-column: 1 / -1;
+    }
+
+    label {
+        font-size: 13px;
+        font-weight: 700;
+        color: #5e7164;
+    }
+
+    input,
+    select {
+        width: 100%;
+        padding: 12px;
+        border-radius: 13px;
+        border: 1px solid #d7e4da;
+        background: white;
+        font-family: inherit;
+        outline: none;
+    }
+
+    .submit-button {
+        margin-top: 15px;
+        border: none;
+        background: #527b5e;
+        color: white;
+        padding: 13px 22px;
+        border-radius: 14px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .submit-button:hover {
+        background: #416b4d;
+    }
+
+    /* =========================
+       COMING UP
+    ========================= */
+
+    .upcoming-list {
+        display: grid;
+        gap: 10px;
+    }
+
+    .upcoming-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        background: white;
+        border: 1px solid #e4ece5;
+        border-radius: 16px;
+        padding: 13px 15px;
+    }
+
+    .upcoming-left {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .upcoming-date {
+        font-size: 12px;
+        color: #829087;
+    }
+
+    .upcoming-title {
+        font-weight: 700;
+        color: #506557;
+    }
+
+    .empty {
+        text-align: center;
+        padding: 25px;
+        color: #87928a;
+    }
+
+    /* =========================
+       LOGIN
+    ========================= */
+
+    .login-card {
+        max-width: 500px;
+        margin: auto;
+    }
+
+    .login-card h3 {
+        margin-top: 0;
+        color: #476650;
+    }
+
+    .teacher-active {
+        display: none;
+        text-align: center;
+        background: #edf7ef;
+        padding: 15px;
+        border-radius: 17px;
+    }
+
+    body.teacher-mode .teacher-login {
         display: none;
     }
 
-
-    .teacher-area {
-
-        padding: 15px;
+    body.teacher-mode .teacher-active {
+        display: block;
     }
 
-}
+    .logout-button {
+        margin-top: 10px;
+        border: none;
+        background: #e8eeee;
+        color: #53645a;
+        padding: 9px 16px;
+        border-radius: 12px;
+        cursor: pointer;
+    }
 
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+        text-align: center;
+        padding: 30px 20px;
+        color: #849188;
+        font-size: 13px;
+    }
+
+    footer .footer-mascot {
+        font-size: 30px;
+        margin-bottom: 5px;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 700px) {
+
+        header h1 {
+            font-size: 25px;
+        }
+
+        .nav {
+            gap: 5px;
+        }
+
+        .nav a {
+            padding: 8px 10px;
+            font-size: 12px;
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .form-group.full {
+            grid-column: auto;
+        }
+
+        .day {
+            min-height: 85px;
+            padding: 4px;
+        }
+
+        .weekday {
+            font-size: 10px;
+        }
+
+        .event {
+            font-size: 9px;
+            padding: 4px;
+        }
+
+        .event-details,
+        .event-added {
+            display: none;
+        }
+
+        .calendar-header {
+            justify-content: center;
+        }
+
+        .upcoming-item {
+            align-items: flex-start;
+        }
+    }
 </style>
-
 </head>
-
 
 <body>
 
-
-<div class="container">
-
-
-<!-- =========================================
+<!-- =========================
      HEADER
-========================================= -->
+========================= -->
 
-<div class="hero">
+<header>
 
-    <h1>
-        🌙 Al-Quran Calendar
-    </h1>
+    <div class="top-icon">📖🌿</div>
 
-    <div class="arabic">
-        📖 Year 10 • Ustazah Faqiihah
+    <h1>AL-QURAN CALENDAR</h1>
+
+    <p>Year 10 Quran Learning Hub</p>
+
+    <div class="mascot">🐼</div>
+
+    <div class="welcome">
+
+        <h2>Assalamu'alaikum, Year 10! 🌱</h2>
+
+        <p>
+            Welcome to our Quran learning journey.
+            Keep track of your activities, explore resources,
+            reflect on the Quran and grow together.
+        </p>
+
     </div>
 
-    <p>
-        Keep track of our class dates, tasks,
-        activities & birthdays ✨
-    </p>
+</header>
+
+
+<!-- =========================
+     NAVIGATION
+========================= -->
+
+<div class="nav-container">
+
+    <nav class="nav">
+
+        <a href="#calendar">📅 Calendar</a>
+
+        <a href="#resources">📚 Resources</a>
+
+        <a href="#progress">🏆 Progress</a>
+
+        <a href="#tadabbur">💭 Tadabbur</a>
+
+        <a href="#add-event">➕ Add Event</a>
+
+        <a href="#teacher">👩‍🏫 Teacher</a>
+
+    </nav>
 
 </div>
 
 
-<!-- =========================================
-     TEACHER LOGIN
-========================================= -->
-
-<div class="teacher-area">
+<main>
 
 
-    <div id="teacherLoggedOut">
+<!-- =========================
+     RESOURCE HUB
+========================= -->
 
-        <button
-            class="teacher-login-button"
-            onclick="toggleLogin()"
-        >
+<section id="resources">
 
-            🔐 Teacher Login
+    <div class="section-title">
 
-        </button>
+        <h2>📚 Resource Corner</h2>
+
+        <p>Everything you need for Quran class in one place.</p>
 
     </div>
 
+    <div class="card resource-card">
 
-    <div
-        id="teacherLoggedIn"
-        style="display:none;"
-    >
+        <div class="resource-icon">📖✨</div>
 
-        <div class="teacher-status">
+        <h3>Quran Resource Hub</h3>
 
-            👩‍🏫 Teacher Mode Active
+        <p>
+            Access your Quran learning materials, worksheets,
+            tajwid resources, quizzes, activities, videos,
+            audio and other class materials.
+        </p>
 
-            <small>
+        <a
+            class="resource-button"
+            href="https://sway.cloud.microsoft/VoTgc7yvyLGYC9Da?ref=Link"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            📚 Open Resource Hub →
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     CLASS PROGRESS
+========================= -->
+
+<section id="progress">
+
+    <div class="section-title">
+
+        <h2>🏆 Class Progress</h2>
+
+        <p>Let's grow together in our Quran journey! 🌱</p>
+
+    </div>
+
+    <div class="card">
+
+        <div class="progress-grid">
+
+            <!-- CHANGE THESE PERCENTAGES -->
+
+            <div class="progress-card">
+
+                <h3>🌿 Year 10A</h3>
+
+                <div class="progress-number">87%</div>
+
+                <div class="progress-bar">
+                    <div
+                        class="progress-fill"
+                        style="width: 87%;"
+                    ></div>
+                </div>
+
+            </div>
+
+
+            <div class="progress-card">
+
+                <h3>🌱 Year 10B</h3>
+
+                <div class="progress-number">82%</div>
+
+                <div class="progress-bar">
+                    <div
+                        class="progress-fill"
+                        style="width: 82%;"
+                    ></div>
+                </div>
+
+            </div>
+
+
+            <div class="progress-card">
+
+                <h3>🌸 Year 10C</h3>
+
+                <div class="progress-number">76%</div>
+
+                <div class="progress-bar">
+                    <div
+                        class="progress-fill"
+                        style="width: 76%;"
+                    ></div>
+                </div>
+
+            </div>
+
+
+            <div class="progress-card">
+
+                <h3>🍃 Year 10D</h3>
+
+                <div class="progress-number">71%</div>
+
+                <div class="progress-bar">
+                    <div
+                        class="progress-fill"
+                        style="width: 71%;"
+                    ></div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="progress-note">
+
+            📌 Class progress can be updated by the teacher.
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     TADABBUR CORNER
+========================= -->
+
+<section id="tadabbur">
+
+    <div class="section-title">
+
+        <h2>💭 Tadabbur Corner</h2>
+
+        <p>Pause. Reflect. Connect the Quran to your life. 🌱</p>
+
+    </div>
+
+    <div class="card tadabbur-box">
+
+        <div style="text-align:center; font-size:35px;">
+            🌿
+        </div>
+
+        <div class="ayah">
+            فَبِأَيِّ آلَاءِ رَبِّكُمَا تُكَذِّبَانِ
+        </div>
+
+        <div style="text-align:center; color:#718276;">
+            Surah Ar-Rahman: 13
+        </div>
+
+        <div class="tadabbur-question">
+
+            💭 What is one blessing from Allah
+            that you sometimes forget to appreciate?
+
+        </div>
+
+
+        <div class="reflection-form">
+
+            <textarea
+                id="reflectionInput"
+                placeholder="Write a short reflection here... 🌱"
+            ></textarea>
+
+            <button
+                class="reflection-button"
+                onclick="addReflection()"
+            >
+                🌱 Share Reflection
+            </button>
+
+        </div>
+
+
+        <div
+            id="reflectionList"
+            class="reflection-list"
+        ></div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     CALENDAR
+========================= -->
+
+<section id="calendar">
+
+    <div class="section-title">
+
+        <h2>📅 Class Calendar</h2>
+
+        <p>Keep track of what is happening in our Quran class.</p>
+
+    </div>
+
+    <div class="card calendar-card">
+
+        <div class="calendar-header">
+
+            <h2 id="monthTitle"></h2>
+
+            <div class="calendar-buttons">
+
+                <button onclick="previousMonth()">
+                    ←
+                </button>
+
+                <button onclick="goToday()">
+                    Today
+                </button>
+
+                <button onclick="nextMonth()">
+                    →
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="weekdays">
+
+            <div class="weekday">Sun</div>
+            <div class="weekday">Mon</div>
+            <div class="weekday">Tue</div>
+            <div class="weekday">Wed</div>
+            <div class="weekday">Thu</div>
+            <div class="weekday">Fri</div>
+            <div class="weekday">Sat</div>
+
+        </div>
+
+
+        <div
+            id="calendarGrid"
+            class="calendar-grid"
+        ></div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     COMING UP
+========================= -->
+
+<section>
+
+    <div class="section-title">
+
+        <h2>🔔 Coming Up</h2>
+
+        <p>Don't forget what's happening next!</p>
+
+    </div>
+
+    <div class="card">
+
+        <div
+            id="upcomingList"
+            class="upcoming-list"
+        ></div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     ADD EVENT
+========================= -->
+
+<section id="add-event">
+
+    <div class="section-title">
+
+        <h2>➕ Add to Calendar</h2>
+
+        <p>Add a birthday, assignment, quiz or class activity.</p>
+
+    </div>
+
+    <div class="card">
+
+        <form
+            id="eventForm"
+            onsubmit="addEvent(event)"
+        >
+
+            <div class="form-grid">
+
+
+                <div class="form-group">
+
+                    <label>
+                        📅 Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="eventDate"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        👤 Student Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="studentName"
+                        placeholder="Enter your name"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        📌 Event Type
+                    </label>
+
+                    <select
+                        id="eventType"
+                        required
+                    >
+
+                        <option value="">
+                            Select event type
+                        </option>
+
+                        <option value="birthday">
+                            🎂 Birthday
+                        </option>
+
+                        <option value="assignment">
+                            📝 Assignment
+                        </option>
+
+                        <option value="quiz">
+                            📚 Quiz
+                        </option>
+
+                        <option value="activity">
+                            🏆 Activity
+                        </option>
+
+                        <option value="announcement">
+                            📢 Announcement
+                        </option>
+
+                        <option value="other">
+                            📌 Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label>
+                        ✏️ Details
+                    </label>
+
+                    <input
+                        type="text"
+                        id="eventDetails"
+                        placeholder="What is happening?"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="submit-button"
+                type="submit"
+            >
+                🌱 Add to Calendar
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     TEACHER LOGIN
+========================= -->
+
+<section id="teacher">
+
+    <div class="section-title">
+
+        <h2>👩‍🏫 Teacher Area</h2>
+
+        <p>Teacher login for managing calendar events.</p>
+
+    </div>
+
+    <div class="card login-card">
+
+
+        <div class="teacher-login">
+
+            <h3>🔐 Teacher Login</h3>
+
+            <div class="form-group">
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="teacherEmail"
+                    placeholder="Teacher email"
+                >
+
+            </div>
+
+
+            <br>
+
+
+            <div class="form-group">
+
+                <label>
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="teacherPassword"
+                    placeholder="Password"
+                >
+
+            </div>
+
+
+            <button
+                class="submit-button"
+                onclick="loginTeacher()"
+            >
+                🔐 Login
+            </button>
+
+        </div>
+
+
+        <div class="teacher-active">
+
+            <h3>
+                👩‍🏫 Teacher Mode Active
+            </h3>
+
+            <p>
                 You can now edit or delete calendar events.
-            </small>
+            </p>
 
             <button
                 class="logout-button"
                 onclick="logoutTeacher()"
             >
-
-                Log Out
-
+                Logout
             </button>
 
         </div>
 
     </div>
 
+</section>
 
-    <div
-        class="login-box"
-        id="loginBox"
-    >
-
-        <h3>
-            🔐 Teacher Login
-        </h3>
+</main>
 
 
-        <label>
-            📧 Email
-        </label>
+<!-- =========================
+     FOOTER
+========================= -->
 
-        <input
-            type="email"
-            id="teacherEmail"
-            placeholder="Teacher email"
-        >
+<footer>
 
-
-        <label>
-            🔑 Password
-        </label>
-
-        <input
-            type="password"
-            id="teacherPassword"
-            placeholder="Password"
-        >
-
-
-        <button
-            class="login-submit"
-            onclick="loginTeacher()"
-        >
-
-            Login
-
-        </button>
-
-
-        <div
-            class="login-message"
-            id="loginMessage"
-        ></div>
-
+    <div class="footer-mascot">
+        🐼📖🌿
     </div>
 
-</div>
-
-
-<!-- =========================================
-     UPCOMING EVENTS
-========================================= -->
-
-<div class="upcoming">
-
-    <div class="section-title">
-
-        📌 Coming Up
-
+    <div>
+        Al-Quran Calendar • Year 10 Quran Learning Hub
     </div>
 
-
-    <div
-        id="upcomingList"
-        class="upcoming-list"
-    >
-
-        <div class="no-events">
-
-            Loading upcoming events... ⏳
-
-        </div>
-
+    <div style="margin-top:5px;">
+        Learn • Reflect • Practise • Grow
     </div>
 
-</div>
-
-
-<!-- =========================================
-     ADD EVENT FORM
-========================================= -->
-
-<div
-    id="eventForm"
-    class="event-form"
->
-
-    <h2>
-        ✨ Add to Our Calendar
-    </h2>
-
-
-    <p id="selectedDate">
-
-        Choose a date from the calendar
-
-    </p>
-
-
-    <label>
-        👤 Your Name
-    </label>
-
-    <input
-        type="text"
-        id="studentName"
-        placeholder="Enter your name"
-    >
-
-
-    <label>
-        📌 What are you adding?
-    </label>
-
-    <select id="eventType">
-
-        <option value="">
-            -- Choose one --
-        </option>
-
-        <option value="🎂 Birthday">
-            🎂 Birthday
-        </option>
-
-        <option value="📝 Assignment">
-            📝 Assignment
-        </option>
-
-        <option value="📚 Quiz">
-            📚 Quiz
-        </option>
-
-        <option value="🏆 Activity">
-            🏆 Activity
-        </option>
-
-        <option value="📢 Announcement">
-            📢 Announcement
-        </option>
-
-        <option value="📌 Other">
-            📌 Other
-        </option>
-
-    </select>
-
-
-    <label>
-        ✏️ Details
-    </label>
-
-    <input
-        type="text"
-        id="eventDetails"
-        placeholder="What is happening?"
-    >
-
-
-    <button
-        class="add-button"
-        onclick="addEvent()"
-    >
-
-        ✨ Add Event
-
-    </button>
-
-</div>
-
-
-<!-- =========================================
-     CALENDAR
-========================================= -->
-
-<div id="calendar">
-
-
-    <div class="calendar-header">
-
-        <button onclick="previousMonth()">
-
-            ← Previous
-
-        </button>
-
-
-        <div id="monthYear"></div>
-
-
-        <button onclick="nextMonth()">
-
-            Next →
-
-        </button>
-
-    </div>
-
-
-    <div class="weekdays">
-
-        <div>Sun</div>
-        <div>Mon</div>
-        <div>Tue</div>
-        <div>Wed</div>
-        <div>Thu</div>
-        <div>Fri</div>
-        <div>Sat</div>
-
-    </div>
-
-
-    <div
-        class="days"
-        id="days"
-    ></div>
-
-
-</div>
-
-
-<div class="footer">
-
-    📖 Learn • Reflect • Remember • Apply
-
-    <br>
-
-    Al-Quran Calendar • Year 10
-
-</div>
-
-
-</div>
+</footer>
 
 
 <script>
 
-
-// ==========================================
-// SUPABASE CONNECTION
-// ==========================================
+/* =========================================================
+   SUPABASE
+========================================================= */
 
 const SUPABASE_URL =
     "https://jbcxpgtufzdahecmjmlk.supabase.co";
 
 
+/*
+   IMPORTANT:
+   Keep your EXISTING publishable key here.
+   Do NOT use your sb_secret_ key.
+*/
+
 const SUPABASE_KEY =
-    "sb_publishable_8OQm67DTwqrnU0qrWvc0g_-AK3xTUl";
+    "sb_publishable_8OQm67DTwqrnUq0qrWvc0g_-AK3xTUl";
 
 
 const supabaseClient =
@@ -1311,45 +1342,49 @@ const supabaseClient =
     );
 
 
-// ==========================================
-// TEACHER ACCOUNT
-// ==========================================
+/* Teacher's Supabase Auth UUID */
 
 const TEACHER_ID =
     "e1490b7d-ecf6-4b48-a97f-034bbabfef4c";
 
 
-// ==========================================
-// VARIABLES
-// ==========================================
+/* =========================================================
+   VARIABLES
+========================================================= */
 
-let currentDate =
-    new Date();
+let currentDate = new Date();
 
-let selectedDateKey =
-    null;
+let selectedDateKey = null;
 
-let events =
-    {};
+let events = {};
 
-let isTeacher =
-    false;
+let isTeacher = false;
 
 
-// ==========================================
-// CHECK LOGIN
-// ==========================================
+/* =========================================================
+   TEACHER LOGIN
+========================================================= */
 
 async function checkTeacherLogin() {
 
     const {
-        data: {
-            session
-        }
-    } =
-        await supabaseClient
-            .auth
-            .getSession();
+        data,
+        error
+    } = await supabaseClient.auth.getSession();
+
+    if (error) {
+
+        console.error(
+            "Session error:",
+            error
+        );
+
+        return;
+    }
+
+
+    const session =
+        data.session;
 
 
     if (
@@ -1358,94 +1393,24 @@ async function checkTeacherLogin() {
         session.user.id === TEACHER_ID
     ) {
 
-        setTeacherMode(true);
-
-    }
-
-    else {
-
-        setTeacherMode(false);
-
-    }
-
-}
-
-
-// ==========================================
-// SET TEACHER MODE
-// ==========================================
-
-function setTeacherMode(status) {
-
-    isTeacher =
-        status;
-
-
-    if (isTeacher) {
+        isTeacher = true;
 
         document.body.classList.add(
             "teacher-mode"
         );
 
-        document.getElementById(
-            "teacherLoggedOut"
-        ).style.display =
-            "none";
+    } else {
 
-        document.getElementById(
-            "teacherLoggedIn"
-        ).style.display =
-            "block";
-
-    }
-
-    else {
+        isTeacher = false;
 
         document.body.classList.remove(
             "teacher-mode"
         );
 
-        document.getElementById(
-            "teacherLoggedOut"
-        ).style.display =
-            "block";
-
-        document.getElementById(
-            "teacherLoggedIn"
-        ).style.display =
-            "none";
-
     }
 
-    createCalendar();
-
-    createUpcomingEvents();
-
 }
 
-
-// ==========================================
-// TOGGLE LOGIN
-// ==========================================
-
-function toggleLogin() {
-
-    const box =
-        document.getElementById(
-            "loginBox"
-        );
-
-
-    box.classList.toggle(
-        "show"
-    );
-
-}
-
-
-// ==========================================
-// LOGIN
-// ==========================================
 
 async function loginTeacher() {
 
@@ -1461,44 +1426,27 @@ async function loginTeacher() {
         ).value;
 
 
-    const message =
-        document.getElementById(
-            "loginMessage"
+    if (!email || !password) {
+
+        alert(
+            "Please enter your email and password."
         );
 
-
-    if (
-        !email ||
-        !password
-    ) {
-
-        message.textContent =
-            "Please enter your email and password.";
-
         return;
-
     }
-
-
-    message.textContent =
-        "Logging in... ⏳";
 
 
     const {
         data,
         error
     } =
-        await supabaseClient
-            .auth
-            .signInWithPassword({
+        await supabaseClient.auth.signInWithPassword({
 
-                email:
-                    email,
+            email: email,
 
-                password:
-                    password
+            password: password
 
-            });
+        });
 
 
     if (error) {
@@ -1508,11 +1456,12 @@ async function loginTeacher() {
             error
         );
 
-        message.textContent =
-            "Login failed. Please check your email and password.";
+        alert(
+            "Login failed.\n\n" +
+            error.message
+        );
 
         return;
-
     }
 
 
@@ -1521,17 +1470,21 @@ async function loginTeacher() {
         data.user.id !== TEACHER_ID
     ) {
 
-        await supabaseClient
-            .auth
-            .signOut();
+        await supabaseClient.auth.signOut();
 
-
-        message.textContent =
-            "This account is not authorised as the teacher.";
+        alert(
+            "This account is not authorised as the teacher."
+        );
 
         return;
-
     }
+
+
+    isTeacher = true;
+
+    document.body.classList.add(
+        "teacher-mode"
+    );
 
 
     document.getElementById(
@@ -1544,76 +1497,62 @@ async function loginTeacher() {
     ).value = "";
 
 
-    document.getElementById(
-        "loginBox"
-    ).classList.remove(
-        "show"
-    );
-
-
-    setTeacherMode(true);
-
-
     alert(
-        "Welcome, Ustazah! 👩‍🏫✨\n\nTeacher Mode is now active."
+        "Teacher login successful! 👩‍🏫"
     );
 
 }
 
-
-// ==========================================
-// LOGOUT
-// ==========================================
 
 async function logoutTeacher() {
 
-    await supabaseClient
-        .auth
-        .signOut();
+    await supabaseClient.auth.signOut();
 
+    isTeacher = false;
 
-    setTeacherMode(false);
-
+    document.body.classList.remove(
+        "teacher-mode"
+    );
 
     alert(
-        "You have been logged out. 👋"
+        "You have logged out."
     );
 
 }
 
 
-// ==========================================
-// AUTH STATE
-// ==========================================
+supabaseClient.auth.onAuthStateChange(
+    function(event, session) {
 
-supabaseClient
-    .auth
-    .onAuthStateChange(
-        function(event, session) {
+        if (
+            session &&
+            session.user &&
+            session.user.id === TEACHER_ID
+        ) {
 
-            if (
-                session &&
-                session.user &&
-                session.user.id === TEACHER_ID
-            ) {
+            isTeacher = true;
 
-                setTeacherMode(true);
+            document.body.classList.add(
+                "teacher-mode"
+            );
 
-            }
+        } else {
 
-            else {
+            isTeacher = false;
 
-                setTeacherMode(false);
-
-            }
+            document.body.classList.remove(
+                "teacher-mode"
+            );
 
         }
-    );
+
+    }
+);
 
 
-// ==========================================
-// LOAD EVENTS
-// ==========================================
+/* =========================================================
+   LOAD EVENTS
+========================================================= */
 
 async function loadEvents() {
 
@@ -1635,94 +1574,59 @@ async function loadEvents() {
     if (error) {
 
         console.error(
-            "Error loading events:",
+            "Load events error:",
             error
         );
 
-
-        document.getElementById(
-            "upcomingList"
-        ).innerHTML =
-
-            `
-            <div class="no-events">
-                ⚠️ Could not load events.
-            </div>
-            `;
+        alert(
+            "Events could not be loaded.\n\n" +
+            error.message
+        );
 
         return;
-
     }
 
 
-    events =
-        {};
+    events = {};
 
 
-    data.forEach(function(event) {
+    data.forEach(function(item) {
 
         const dateKey =
-            event.event_date;
+            item.event_date;
 
 
         if (!events[dateKey]) {
 
-            events[dateKey] =
-                [];
+            events[dateKey] = [];
 
         }
 
 
-        events[dateKey].push({
-
-            id:
-                event.id,
-
-            student:
-                event.student_name,
-
-            type:
-                event.event_type,
-
-            details:
-                event.details
-
-        });
+        events[dateKey].push(item);
 
     });
 
 
     createCalendar();
 
-    createUpcomingEvents();
+    createUpcomingList();
 
 }
 
 
-// ==========================================
-// CREATE CALENDAR
-// ==========================================
+/* =========================================================
+   CALENDAR
+========================================================= */
 
 function createCalendar() {
-
-    const month =
-        currentDate.getMonth();
-
 
     const year =
         currentDate.getFullYear();
 
 
-    const monthYear =
-        document.getElementById(
-            "monthYear"
-        );
-
-
-    const daysContainer =
-        document.getElementById(
-            "days"
-        );
+    const month =
+        currentDate.getMonth();
 
 
     const monthNames = [
@@ -1743,14 +1647,12 @@ function createCalendar() {
     ];
 
 
-    monthYear.textContent =
+    document.getElementById(
+        "monthTitle"
+    ).textContent =
         monthNames[month] +
         " " +
         year;
-
-
-    daysContainer.innerHTML =
-        "";
 
 
     const firstDay =
@@ -1769,7 +1671,14 @@ function createCalendar() {
         ).getDate();
 
 
-    // EMPTY DAYS
+    const grid =
+        document.getElementById(
+            "calendarGrid"
+        );
+
+
+    grid.innerHTML = "";
+
 
     for (
         let i = 0;
@@ -1782,15 +1691,25 @@ function createCalendar() {
                 "div"
             );
 
+        emptyDay.className =
+            "day";
 
-        daysContainer.appendChild(
+        emptyDay.style.background =
+            "#fafcfa";
+
+        emptyDay.style.cursor =
+            "default";
+
+        grid.appendChild(
             emptyDay
         );
 
     }
 
 
-    // ACTUAL DAYS
+    const today =
+        new Date();
+
 
     for (
         let day = 1;
@@ -1798,35 +1717,13 @@ function createCalendar() {
         day++
     ) {
 
-        const dayBox =
+        const cell =
             document.createElement(
                 "div"
             );
 
-
-        dayBox.classList.add(
-            "day"
-        );
-
-
-        const dayNumber =
-            document.createElement(
-                "div"
-            );
-
-
-        dayNumber.classList.add(
-            "day-number"
-        );
-
-
-        dayNumber.textContent =
-            day;
-
-
-        dayBox.appendChild(
-            dayNumber
-        );
+        cell.className =
+            "day";
 
 
         const dateKey =
@@ -1834,10 +1731,7 @@ function createCalendar() {
             "-" +
             String(
                 month + 1
-            ).padStart(
-                2,
-                "0"
-            ) +
+            ).padStart(2, "0") +
             "-" +
             String(day).padStart(
                 2,
@@ -1845,283 +1739,185 @@ function createCalendar() {
             );
 
 
-        // CLICK DATE
-
-        dayBox.onclick =
-            function() {
-
-                selectedDateKey =
-                    dateKey;
-
-
-                document.getElementById(
-                    "selectedDate"
-                ).textContent =
-
-                    "Selected date: " +
-
-                    day +
-                    " " +
-
-                    monthNames[month] +
-                    " " +
-
-                    year;
-
-
-                document.getElementById(
-                    "eventForm"
-                ).scrollIntoView({
-
-                    behavior:
-                        "smooth"
-
-                });
-
-            };
-
-
-        // TODAY
-
-        const today =
-            new Date();
+        const todayKey =
+            today.getFullYear() +
+            "-" +
+            String(
+                today.getMonth() + 1
+            ).padStart(2, "0") +
+            "-" +
+            String(
+                today.getDate()
+            ).padStart(2, "0");
 
 
         if (
-
-            day ===
-                today.getDate() &&
-
-            month ===
-                today.getMonth() &&
-
-            year ===
-                today.getFullYear()
-
+            dateKey === todayKey
         ) {
 
-            dayBox.classList.add(
+            cell.classList.add(
                 "today"
             );
 
         }
 
 
-        // EVENTS
+        if (
+            dateKey === selectedDateKey
+        ) {
+
+            cell.classList.add(
+                "selected-day"
+            );
+
+        }
+
+
+        cell.innerHTML =
+            '<div class="day-number">' +
+            day +
+            '</div>';
+
 
         if (events[dateKey]) {
 
             events[dateKey].forEach(
                 function(event) {
 
-                    const eventBox =
+                    const eventDiv =
                         document.createElement(
                             "div"
                         );
 
 
-                    eventBox.classList.add(
-                        "event"
-                    );
+                    let eventClass =
+                        "other";
 
-
-                    // COLOUR
 
                     if (
-                        event.type.includes(
-                            "Birthday"
-                        )
+                        event.event_type ===
+                        "birthday"
                     ) {
 
-                        eventBox.classList.add(
-                            "birthday"
-                        );
+                        eventClass =
+                            "birthday";
 
                     }
 
                     else if (
-                        event.type.includes(
-                            "Assignment"
-                        )
+                        event.event_type ===
+                        "assignment"
                     ) {
 
-                        eventBox.classList.add(
-                            "assignment"
-                        );
+                        eventClass =
+                            "assignment";
 
                     }
 
                     else if (
-                        event.type.includes(
-                            "Quiz"
-                        )
+                        event.event_type ===
+                        "quiz"
                     ) {
 
-                        eventBox.classList.add(
-                            "quiz"
-                        );
+                        eventClass =
+                            "quiz";
 
                     }
 
                     else if (
-                        event.type.includes(
-                            "Activity"
-                        )
+                        event.event_type ===
+                        "activity"
                     ) {
 
-                        eventBox.classList.add(
-                            "activity"
-                        );
+                        eventClass =
+                            "activity";
 
                     }
 
                     else if (
-                        event.type.includes(
-                            "Announcement"
-                        )
+                        event.event_type ===
+                        "announcement"
                     ) {
 
-                        eventBox.classList.add(
-                            "announcement"
-                        );
-
-                    }
-
-                    else {
-
-                        eventBox.classList.add(
-                            "other"
-                        );
+                        eventClass =
+                            "announcement";
 
                     }
 
 
-                    eventBox.appendChild(
-                        document.createTextNode(
-                            event.type +
-                            " " +
+                    eventDiv.className =
+                        "event " +
+                        eventClass;
+
+
+                    const icons = {
+
+                        birthday: "🎂",
+
+                        assignment: "📝",
+
+                        quiz: "📚",
+
+                        activity: "🏆",
+
+                        announcement: "📢",
+
+                        other: "📌"
+
+                    };
+
+
+                    const icon =
+                        icons[
+                            event.event_type
+                        ] ||
+                        "📌";
+
+
+                    eventDiv.innerHTML =
+
+                        '<div class="event-title">' +
+
+                        icon +
+                        " " +
+                        escapeHtml(
+                            event.student_name
+                        ) +
+
+                        '</div>' +
+
+                        '<div class="event-details">' +
+
+                        escapeHtml(
                             event.details
-                        )
-                    );
+                        ) +
+
+                        '</div>' +
+
+                        '<div class="event-added">' +
+
+                        "Added by " +
+                        escapeHtml(
+                            event.student_name
+                        ) +
+
+                        '</div>' +
+
+                        '<div class="teacher-actions">' +
+
+                        '<button class="action-button edit-button" onclick="event.stopPropagation(); editEvent(\'' +
+                        event.id +
+                        '\')">✏️</button>' +
+
+                        '<button class="action-button delete-button" onclick="event.stopPropagation(); deleteEvent(\'' +
+                        event.id +
+                        '\')">🗑️</button>' +
+
+                        '</div>';
 
 
-                    // STUDENT
-
-                    const student =
-                        document.createElement(
-                            "div"
-                        );
-
-
-                    student.classList.add(
-                        "event-student"
-                    );
-
-
-                    student.textContent =
-                        "by " +
-                        event.student;
-
-
-                    eventBox.appendChild(
-                        student
-                    );
-
-
-                    // ACTIONS
-
-                    if (isTeacher) {
-
-                        const actions =
-                            document.createElement(
-                                "div"
-                            );
-
-
-                        actions.classList.add(
-                            "event-actions"
-                        );
-
-
-                        // EDIT
-
-                        const editButton =
-                            document.createElement(
-                                "button"
-                            );
-
-
-                        editButton.classList.add(
-                            "action-button",
-                            "edit-button"
-                        );
-
-
-                        editButton.textContent =
-                            "✏️ Edit";
-
-
-                        editButton.onclick =
-                            function(e) {
-
-                                e.stopPropagation();
-
-                                editEvent(
-                                    event.id
-                                );
-
-                            };
-
-
-                        actions.appendChild(
-                            editButton
-                        );
-
-
-                        // DELETE
-
-                        const deleteButton =
-                            document.createElement(
-                                "button"
-                            );
-
-
-                        deleteButton.classList.add(
-                            "action-button",
-                            "delete-button"
-                        );
-
-
-                        deleteButton.textContent =
-                            "🗑️ Delete";
-
-
-                        deleteButton.onclick =
-                            function(e) {
-
-                                e.stopPropagation();
-
-                                deleteEvent(
-                                    event.id
-                                );
-
-                            };
-
-
-                        actions.appendChild(
-                            deleteButton
-                        );
-
-
-                        eventBox.appendChild(
-                            actions
-                        );
-
-                    }
-
-
-                    dayBox.appendChild(
-                        eventBox
+                    cell.appendChild(
+                        eventDiv
                     );
 
                 }
@@ -2130,8 +1926,36 @@ function createCalendar() {
         }
 
 
-        daysContainer.appendChild(
-            dayBox
+        cell.addEventListener(
+            "click",
+            function() {
+
+                selectedDateKey =
+                    dateKey;
+
+                document.getElementById(
+                    "eventDate"
+                ).value =
+                    dateKey;
+
+
+                createCalendar();
+
+
+                document.getElementById(
+                    "add-event"
+                ).scrollIntoView({
+
+                    behavior: "smooth"
+
+                });
+
+            }
+        );
+
+
+        grid.appendChild(
+            cell
         );
 
     }
@@ -2139,295 +1963,142 @@ function createCalendar() {
 }
 
 
-// ==========================================
-// UPCOMING EVENTS
-// ==========================================
+function previousMonth() {
 
-function createUpcomingEvents() {
+    currentDate.setMonth(
+        currentDate.getMonth() - 1
+    );
 
-    const list =
-        document.getElementById(
-            "upcomingList"
-        );
+    createCalendar();
 
-
-    list.innerHTML =
-        "";
+}
 
 
-    const today =
+function nextMonth() {
+
+    currentDate.setMonth(
+        currentDate.getMonth() + 1
+    );
+
+    createCalendar();
+
+}
+
+
+function goToday() {
+
+    currentDate =
         new Date();
 
+    createCalendar();
 
-    today.setHours(
-        0,
-        0,
-        0,
-        0
-    );
+}
 
 
-    let upcoming =
-        [];
+/* =========================================================
+   ADD EVENT
+========================================================= */
+
+async function addEvent(e) {
+
+    e.preventDefault();
 
 
-    Object.keys(events).forEach(
-        function(dateKey) {
-
-            const date =
-                new Date(
-                    dateKey +
-                    "T00:00:00"
-                );
+    const eventDate =
+        document.getElementById(
+            "eventDate"
+        ).value;
 
 
-            if (date >= today) {
-
-                events[dateKey].forEach(
-                    function(event) {
-
-                        upcoming.push({
-
-                            date:
-                                date,
-
-                            event:
-                                event
-
-                        });
-
-                    }
-                );
-
-            }
-
-        }
-    );
+    const studentName =
+        document.getElementById(
+            "studentName"
+        ).value.trim();
 
 
-    upcoming.sort(
-        function(a, b) {
-
-            return a.date - b.date;
-
-        }
-    );
+    const eventType =
+        document.getElementById(
+            "eventType"
+        ).value;
 
 
-    upcoming =
-        upcoming.slice(
-            0,
-            6
-        );
+    const eventDetails =
+        document.getElementById(
+            "eventDetails"
+        ).value.trim();
 
 
     if (
-        upcoming.length === 0
+        !eventDate ||
+        !studentName ||
+        !eventType ||
+        !eventDetails
     ) {
 
-        list.innerHTML =
-
-            `
-            <div class="no-events">
-                🌱 No upcoming events yet.
-            </div>
-            `;
+        alert(
+            "Please complete all fields."
+        );
 
         return;
-
     }
 
 
-    upcoming.forEach(
-        function(item) {
+    const {
+        error
+    } =
+        await supabaseClient
+            .from("Events")
+            .insert([{
 
-            const card =
-                document.createElement(
-                    "div"
-                );
+                event_date:
+                    eventDate,
 
+                student_name:
+                    studentName,
 
-            card.classList.add(
-                "upcoming-card"
-            );
+                event_type:
+                    eventType,
 
+                details:
+                    eventDetails
 
-            const dateText =
-                document.createElement(
-                    "div"
-                );
+            }]);
 
 
-            dateText.classList.add(
-                "upcoming-date"
-            );
+    if (error) {
 
+        console.error(
+            "Add event error:",
+            error
+        );
 
-            dateText.textContent =
-                item.date.toLocaleDateString(
-                    "en-GB",
-                    {
-                        day:
-                            "numeric",
+        alert(
+            "The event could not be added.\n\n" +
+            error.message
+        );
 
-                        month:
-                            "short",
+        return;
+    }
 
-                        year:
-                            "numeric"
-                    }
-                );
 
+    document.getElementById(
+        "eventForm"
+    ).reset();
 
-            const details =
-                document.createElement(
-                    "div"
-                );
 
+    await loadEvents();
 
-            details.classList.add(
-                "upcoming-details"
-            );
 
-
-            details.textContent =
-                item.event.type +
-                " " +
-                item.event.details;
-
-
-            const student =
-                document.createElement(
-                    "div"
-                );
-
-
-            student.classList.add(
-                "upcoming-student"
-            );
-
-
-            student.textContent =
-                "Added by " +
-                item.event.student;
-
-
-            card.appendChild(
-                dateText
-            );
-
-
-            card.appendChild(
-                details
-            );
-
-
-            card.appendChild(
-                student
-            );
-
-
-            // TEACHER ACTIONS
-
-            if (isTeacher) {
-
-                const actions =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                actions.classList.add(
-                    "event-actions"
-                );
-
-
-                // EDIT
-
-                const editButton =
-                    document.createElement(
-                        "button"
-                    );
-
-
-                editButton.classList.add(
-                    "action-button",
-                    "edit-button"
-                );
-
-
-                editButton.textContent =
-                    "✏️ Edit";
-
-
-                editButton.onclick =
-                    function() {
-
-                        editEvent(
-                            item.event.id
-                        );
-
-                    };
-
-
-                actions.appendChild(
-                    editButton
-                );
-
-
-                // DELETE
-
-                const deleteButton =
-                    document.createElement(
-                        "button"
-                    );
-
-
-                deleteButton.classList.add(
-                    "action-button",
-                    "delete-button"
-                );
-
-
-                deleteButton.textContent =
-                    "🗑️ Delete";
-
-
-                deleteButton.onclick =
-                    function() {
-
-                        deleteEvent(
-                            item.event.id
-                        );
-
-                    };
-
-
-                actions.appendChild(
-                    deleteButton
-                );
-
-
-                card.appendChild(
-                    actions
-                );
-
-            }
-
-
-            list.appendChild(
-                card
-            );
-
-        }
+    alert(
+        "Event added successfully! 📅✨"
     );
 
 }
 
 
-// ==========================================
-// EDIT EVENT
-// ==========================================
+/* =========================================================
+   EDIT EVENT
+========================================================= */
 
 async function editEvent(eventId) {
 
@@ -2438,7 +2109,6 @@ async function editEvent(eventId) {
         );
 
         return;
-
     }
 
 
@@ -2461,7 +2131,6 @@ async function editEvent(eventId) {
         );
 
         return;
-
     }
 
 
@@ -2490,7 +2159,6 @@ async function editEvent(eventId) {
         );
 
         return;
-
     }
 
 
@@ -2518,14 +2186,12 @@ async function editEvent(eventId) {
             error
         );
 
-
         alert(
             "The event could not be edited.\n\n" +
             error.message
         );
 
         return;
-
     }
 
 
@@ -2539,9 +2205,9 @@ async function editEvent(eventId) {
 }
 
 
-// ==========================================
-// DELETE EVENT
-// ==========================================
+/* =========================================================
+   DELETE EVENT
+========================================================= */
 
 async function deleteEvent(eventId) {
 
@@ -2552,7 +2218,6 @@ async function deleteEvent(eventId) {
         );
 
         return;
-
     }
 
 
@@ -2588,14 +2253,12 @@ async function deleteEvent(eventId) {
             error
         );
 
-
         alert(
             "The event could not be deleted.\n\n" +
             error.message
         );
 
         return;
-
     }
 
 
@@ -2609,189 +2272,415 @@ async function deleteEvent(eventId) {
 }
 
 
-// ==========================================
-// PREVIOUS MONTH
-// ==========================================
+/* =========================================================
+   UPCOMING EVENTS
+========================================================= */
 
-function previousMonth() {
+function createUpcomingList() {
 
-    currentDate.setMonth(
-        currentDate.getMonth() - 1
-    );
-
-
-    createCalendar();
-
-}
-
-
-// ==========================================
-// NEXT MONTH
-// ==========================================
-
-function nextMonth() {
-
-    currentDate.setMonth(
-        currentDate.getMonth() + 1
-    );
-
-
-    createCalendar();
-
-}
-
-
-// ==========================================
-// ADD EVENT
-// ==========================================
-
-async function addEvent() {
-
-    const studentName =
+    const list =
         document.getElementById(
-            "studentName"
-        ).value.trim();
-
-
-    const eventType =
-        document.getElementById(
-            "eventType"
-        ).value;
-
-
-    const eventDetails =
-        document.getElementById(
-            "eventDetails"
-        ).value.trim();
-
-
-    if (!selectedDateKey) {
-
-        alert(
-            "Please choose a date first 😊"
+            "upcomingList"
         );
 
-        return;
 
-    }
+    list.innerHTML = "";
+
+
+    const today =
+        new Date();
+
+
+    today.setHours(
+        0,
+        0,
+        0,
+        0
+    );
+
+
+    const upcoming = [];
+
+
+    Object.keys(events)
+        .forEach(
+            function(dateKey) {
+
+                const date =
+                    new Date(
+                        dateKey +
+                        "T00:00:00"
+                    );
+
+
+                if (
+                    date >= today
+                ) {
+
+                    events[dateKey]
+                        .forEach(
+                            function(event) {
+
+                                upcoming.push({
+                                    date:
+                                        date,
+
+                                    event:
+                                        event
+
+                                });
+
+                            }
+                        );
+
+                }
+
+            }
+        );
+
+
+    upcoming.sort(
+        function(a, b) {
+
+            return (
+                a.date - b.date
+            );
+
+        }
+    );
+
+
+    const limited =
+        upcoming.slice(
+            0,
+            8
+        );
 
 
     if (
-        !studentName ||
-        !eventType ||
-        !eventDetails
+        limited.length === 0
     ) {
 
-        alert(
-            "Please fill in all the information 😊"
-        );
+        list.innerHTML =
+            '<div class="empty">' +
+            "No upcoming events yet. 🌱" +
+            "</div>";
 
         return;
-
     }
 
 
-    const button =
-        document.querySelector(
-            ".add-button"
-        );
+    limited.forEach(
+        function(item) {
+
+            const event =
+                item.event;
 
 
-    button.disabled =
-        true;
+            const icons = {
+
+                birthday: "🎂",
+
+                assignment: "📝",
+
+                quiz: "📚",
+
+                activity: "🏆",
+
+                announcement: "📢",
+
+                other: "📌"
+
+            };
 
 
-    button.textContent =
-        "Saving... ⏳";
+            const icon =
+                icons[
+                    event.event_type
+                ] ||
+                "📌";
 
 
-    const {
-        error
-    } =
-        await supabaseClient
-            .from("Events")
-            .insert({
-
-                event_date:
-                    selectedDateKey,
-
-                student_name:
-                    studentName,
-
-                event_type:
-                    eventType,
-
-                details:
-                    eventDetails
-
-            });
+            const div =
+                document.createElement(
+                    "div"
+                );
 
 
-    if (error) {
-
-        console.error(
-            "Error saving event:",
-            error
-        );
+            div.className =
+                "upcoming-item";
 
 
-        alert(
-            "Sorry! The event could not be saved. 😢\n\n" +
-            error.message
-        );
+            div.innerHTML =
+
+                '<div class="upcoming-left">' +
+
+                '<div style="font-size:25px;">' +
+                icon +
+                '</div>' +
+
+                '<div>' +
+
+                '<div class="upcoming-title">' +
+                escapeHtml(
+                    event.details
+                ) +
+                '</div>' +
+
+                '<div class="upcoming-date">' +
+                escapeHtml(
+                    event.student_name
+                ) +
+                " • " +
+                formatDate(
+                    item.date
+                ) +
+                '</div>' +
+
+                '</div>' +
+
+                '</div>';
 
 
-        button.disabled =
-            false;
+            list.appendChild(
+                div
+            );
 
-
-        button.textContent =
-            "✨ Add Event";
-
-
-        return;
-
-    }
-
-
-    // CLEAR FORM
-
-    document.getElementById(
-        "studentName"
-    ).value = "";
-
-
-    document.getElementById(
-        "eventType"
-    ).value = "";
-
-
-    document.getElementById(
-        "eventDetails"
-    ).value = "";
-
-
-    await loadEvents();
-
-
-    button.disabled =
-        false;
-
-
-    button.textContent =
-        "✨ Add Event";
-
-
-    alert(
-        "Event added successfully! 🎉"
+        }
     );
 
 }
 
 
-// ==========================================
-// START APP
-// ==========================================
+function formatDate(date) {
+
+    return date.toLocaleDateString(
+        "en-GB",
+        {
+            day: "numeric",
+            month: "short",
+            year: "numeric"
+        }
+    );
+
+}
+
+
+/* =========================================================
+   TADABBUR REFLECTIONS
+========================================================= */
+
+/*
+   These reflections are stored locally on the device
+   for now.
+
+   This means students can write reflections without
+   requiring another Supabase table.
+*/
+
+function loadReflections() {
+
+    const saved =
+        localStorage.getItem(
+            "quranTadabburReflections"
+        );
+
+
+    if (!saved) {
+
+        return [];
+
+    }
+
+
+    try {
+
+        return JSON.parse(
+            saved
+        );
+
+    } catch (error) {
+
+        return [];
+
+    }
+
+}
+
+
+function saveReflections(
+    reflections
+) {
+
+    localStorage.setItem(
+        "quranTadabburReflections",
+        JSON.stringify(
+            reflections
+        )
+    );
+
+}
+
+
+function addReflection() {
+
+    const input =
+        document.getElementById(
+            "reflectionInput"
+        );
+
+
+    const text =
+        input.value.trim();
+
+
+    if (!text) {
+
+        alert(
+            "Please write a short reflection first. 🌱"
+        );
+
+        return;
+    }
+
+
+    const reflections =
+        loadReflections();
+
+
+    reflections.unshift({
+
+        text:
+            text,
+
+        date:
+            new Date().toLocaleDateString(
+                "en-GB"
+            )
+
+    });
+
+
+    saveReflections(
+        reflections
+    );
+
+
+    input.value = "";
+
+
+    displayReflections();
+
+
+    alert(
+        "Your reflection has been added! 🌱✨"
+    );
+
+}
+
+
+function displayReflections() {
+
+    const list =
+        document.getElementById(
+            "reflectionList"
+        );
+
+
+    const reflections =
+        loadReflections();
+
+
+    list.innerHTML = "";
+
+
+    reflections
+        .slice(0, 10)
+        .forEach(
+            function(reflection) {
+
+                const div =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                div.className =
+                    "reflection";
+
+
+                div.innerHTML =
+
+                    "🌱 " +
+                    escapeHtml(
+                        reflection.text
+                    ) +
+
+                    '<div class="reflection-date">' +
+
+                    escapeHtml(
+                        reflection.date
+                    ) +
+
+                    '</div>';
+
+
+                list.appendChild(
+                    div
+                );
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   SECURITY / HTML ESCAPING
+========================================================= */
+
+function escapeHtml(
+    text
+) {
+
+    if (
+        text === null ||
+        text === undefined
+    ) {
+
+        return "";
+
+    }
+
+
+    return String(text)
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* =========================================================
+   START APP
+========================================================= */
 
 async function startApp() {
 
@@ -2799,8 +2688,39 @@ async function startApp() {
 
     await loadEvents();
 
+    displayReflections();
+
+
+    /*
+       Automatically put today's date
+       into the event form.
+    */
+
+    const today =
+        new Date();
+
+
+    const todayKey =
+        today.getFullYear() +
+        "-" +
+        String(
+            today.getMonth() + 1
+        ).padStart(2, "0") +
+        "-" +
+        String(
+            today.getDate()
+        ).padStart(2, "0");
+
+
+    document.getElementById(
+        "eventDate"
+    ).value =
+        todayKey;
+
 }
 
+
+/* Start */
 
 startApp();
 
