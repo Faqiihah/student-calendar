@@ -10,1178 +10,1292 @@
 
 <style>
 
-    /* =========================================================
-       GENERAL
-    ========================================================= */
+* {
+    box-sizing: border-box;
+}
 
-    * {
-        box-sizing: border-box;
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+
+    background:
+        linear-gradient(
+            30deg,
+            rgba(82, 123, 94, 0.035) 12%,
+            transparent 12.5%,
+            transparent 87%,
+            rgba(82, 123, 94, 0.035) 87.5%,
+            rgba(82, 123, 94, 0.035)
+        ),
+        linear-gradient(
+            150deg,
+            rgba(82, 123, 94, 0.035) 12%,
+            transparent 12.5%,
+            transparent 87%,
+            rgba(82, 123, 94, 0.035) 87.5%,
+            rgba(82, 123, 94, 0.035)
+        ),
+        radial-gradient(
+            circle at top left,
+            rgba(190, 220, 198, 0.35),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at bottom right,
+            rgba(210, 225, 215, 0.45),
+            transparent 30%
+        ),
+        #f7faf7;
+
+    background-size:
+        32px 32px,
+        32px 32px,
+        auto,
+        auto;
+
+    color: #30483a;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+header {
+    background:
+        linear-gradient(
+            135deg,
+            #dcefe1,
+            #edf7ef
+        );
+
+    padding: 35px 20px 45px;
+
+    text-align: center;
+
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+
+    box-shadow:
+        0 5px 20px rgba(70, 100, 80, 0.08);
+}
+
+.top-icon {
+    font-size: 45px;
+    margin-bottom: 5px;
+}
+
+header h1 {
+    margin: 5px 0;
+    font-size: 32px;
+    color: #315b42;
+    letter-spacing: 1px;
+}
+
+header p {
+    margin: 8px 0;
+    color: #607565;
+    font-size: 16px;
+}
+
+.welcome {
+    max-width: 700px;
+    margin: 25px auto 0;
+    background: rgba(255,255,255,0.72);
+    padding: 20px;
+    border-radius: 25px;
+}
+
+.welcome h2 {
+    margin: 0 0 8px;
+    color: #406b4d;
+}
+
+.welcome p {
+    margin: 0;
+}
+
+
+/* =========================================================
+   MASCOT
+========================================================= */
+
+.mascot {
+    width: 105px;
+    height: 105px;
+    margin: 8px auto 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    animation: floatMascot 3s ease-in-out infinite;
+}
+
+.mascot img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+@keyframes floatMascot {
+
+    0%, 100% {
+        transform: translateY(0);
     }
 
-    html {
-        scroll-behavior: smooth;
+    50% {
+        transform: translateY(-7px);
     }
 
-    body {
-        margin: 0;
-        font-family: "Segoe UI", Arial, sans-serif;
-
-        background:
-            linear-gradient(
-                30deg,
-                rgba(82, 123, 94, 0.035) 12%,
-                transparent 12.5%,
-                transparent 87%,
-                rgba(82, 123, 94, 0.035) 87.5%,
-                rgba(82, 123, 94, 0.035)
-            ),
-            linear-gradient(
-                150deg,
-                rgba(82, 123, 94, 0.035) 12%,
-                transparent 12.5%,
-                transparent 87%,
-                rgba(82, 123, 94, 0.035) 87.5%,
-                rgba(82, 123, 94, 0.035)
-            ),
-            radial-gradient(
-                circle at top left,
-                rgba(190, 220, 198, 0.35),
-                transparent 30%
-            ),
-            radial-gradient(
-                circle at bottom right,
-                rgba(210, 225, 215, 0.45),
-                transparent 30%
-            ),
-            #f7faf7;
-
-        background-size:
-            32px 32px,
-            32px 32px,
-            auto,
-            auto;
-
-        color: #30483a;
-    }
+}
 
 
-    /* =========================================================
-       HEADER
-    ========================================================= */
+/* =========================================================
+   NAVIGATION
+========================================================= */
 
-    header {
-        background:
-            linear-gradient(
-                135deg,
-                #dcefe1,
-                #edf7ef
-            );
+.nav-container {
+    max-width: 1100px;
+    margin: -20px auto 25px;
+    padding: 0 15px;
 
-        padding: 35px 20px 45px;
+    position: relative;
+    z-index: 5;
+}
 
-        text-align: center;
+.nav {
+    background: white;
+    padding: 12px;
 
-        border-bottom-left-radius: 40px;
-        border-bottom-right-radius: 40px;
+    border-radius: 22px;
 
-        box-shadow:
-            0 5px 20px rgba(70, 100, 80, 0.08);
-    }
+    box-shadow:
+        0 6px 25px rgba(60, 90, 70, 0.10);
 
-    .top-icon {
-        font-size: 45px;
-        margin-bottom: 5px;
-    }
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.nav a {
+    text-decoration: none;
+    color: #41624d;
+    background: #f1f7f2;
+    padding: 10px 15px;
+    border-radius: 15px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.nav a:hover {
+    background: #dcefe1;
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+main {
+    max-width: 1100px;
+    margin: auto;
+    padding: 0 15px 50px;
+}
+
+section {
+    margin-bottom: 30px;
+    scroll-margin-top: 20px;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+.section-title h2 {
+    margin: 0;
+    color: #355d43;
+    font-size: 25px;
+}
+
+.section-title p {
+    color: #718276;
+    margin-top: 5px;
+}
+
+
+/* =========================================================
+   GENERAL CARD
+========================================================= */
+
+.card {
+    background: rgba(255,255,255,0.94);
+
+    border-radius: 25px;
+
+    padding: 22px;
+
+    box-shadow:
+        0 7px 25px rgba(70, 100, 80, 0.08);
+
+    border: 1px solid #e4eee6;
+}
+
+
+/* =========================================================
+   CALENDAR
+========================================================= */
+
+.calendar-card {
+    overflow: hidden;
+    position: relative;
+}
+
+.calendar-card::before {
+    content: "✦  ◇  ✦  ◇  ✦";
+
+    display: block;
+
+    text-align: center;
+
+    color: rgba(82, 123, 94, 0.20);
+
+    font-size: 16px;
+
+    letter-spacing: 12px;
+
+    margin-bottom: 8px;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 18px;
+
+    flex-wrap: wrap;
+}
+
+.calendar-header h2 {
+    margin: 0;
+    color: #3e6049;
+}
+
+.calendar-buttons {
+    display: flex;
+    gap: 7px;
+    align-items: center;
+}
+
+.calendar-buttons button {
+    border: none;
+
+    background: #e8f2ea;
+    color: #45654e;
+
+    padding: 9px 13px;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    font-weight: 600;
+}
+
+.calendar-buttons button:hover {
+    background: #d5e8d9;
+}
+
+
+/* MONTH/YEAR DROPDOWN */
+
+.month-selector {
+    display: flex;
+    gap: 7px;
+    align-items: center;
+}
+
+.month-selector select {
+    width: auto;
+    min-width: 115px;
+
+    padding: 9px 12px;
+
+    border-radius: 12px;
+
+    border: 1px solid #d7e4da;
+
+    background: #f8fbf8;
+
+    color: #45654e;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.weekdays,
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.weekday {
+    text-align: center;
+
+    padding: 8px 2px;
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    color: #789080;
+}
+
+.day {
+    min-height: 105px;
+
+    border: 1px solid #edf1ed;
+
+    padding: 7px;
+
+    background: white;
+
+    cursor: pointer;
+
+    transition: 0.15s;
+}
+
+.day:hover {
+    background: #f6faf6;
+}
+
+.day-number {
+    font-size: 13px;
+
+    font-weight: bold;
+
+    color: #627467;
+}
+
+.today {
+    background: #edf7ef !important;
+
+    box-shadow:
+        inset 0 0 0 2px #86aa8e;
+}
+
+.selected-day {
+    background: #f4f8f4 !important;
+}
+
+
+/* =========================================================
+   CLASS LEGEND
+========================================================= */
+
+.class-legend {
+    margin-bottom: 18px;
+
+    padding: 12px 15px;
+
+    border-radius: 16px;
+
+    background: #f8fbf8;
+
+    border: 1px solid #e3ece5;
+}
+
+.legend-title {
+    text-align: center;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    color: #55705d;
+
+    margin-bottom: 9px;
+}
+
+.legend-items {
+    display: flex;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+}
+
+.legend-item {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 6px 10px;
+
+    border-radius: 10px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+.legend-dot {
+    width: 10px;
+    height: 10px;
+
+    border-radius: 50%;
+}
+
+.legend-ibnu {
+    background: #fff8d7;
+    color: #75621c;
+}
+
+.legend-ibnu .legend-dot {
+    background: #e5c84b;
+}
+
+.legend-idrisi {
+    background: #e8f4ff;
+    color: #3d6387;
+}
+
+.legend-idrisi .legend-dot {
+    background: #5d9bd3;
+}
+
+.legend-ghazali {
+    background: #f0e9ff;
+    color: #66528c;
+}
+
+.legend-ghazali .legend-dot {
+    background: #9676d1;
+}
+
+
+/* =========================================================
+   EVENTS
+========================================================= */
+
+.event {
+    margin-top: 5px;
+
+    padding: 5px 6px;
+
+    border-radius: 8px;
+
+    font-size: 11px;
+
+    line-height: 1.35;
+
+    word-break: break-word;
+}
+
+.birthday {
+    background: #fff0f3;
+    color: #925767;
+}
+
+.assignment {
+    background: #edf3ff;
+    color: #52698c;
+}
+
+.quiz {
+    background: #fff6dd;
+    color: #8b7040;
+}
+
+.activity {
+    background: #eeeaff;
+    color: #675d91;
+}
+
+.announcement {
+    background: #e8f6f3;
+    color: #4f776d;
+}
+
+.other {
+    background: #f0f0f0;
+    color: #656565;
+}
+
+
+/* =========================================================
+   AUTOMATIC CLASS COLOURS
+========================================================= */
+
+.class-ibnu-sina {
+    background: #fff3b8 !important;
+    color: #75621c !important;
+
+    border-left: 4px solid #e5c84b;
+}
+
+.class-al-idrisi {
+    background: #dceeff !important;
+    color: #3d6387 !important;
+
+    border-left: 4px solid #5d9bd3;
+}
+
+.class-al-ghazali {
+    background: #eadfff !important;
+    color: #66528c !important;
+
+    border-left: 4px solid #9676d1;
+}
+
+.event-title {
+    font-weight: bold;
+}
+
+.event-details {
+    margin-top: 2px;
+}
+
+.event-added {
+    margin-top: 3px;
+
+    font-size: 9px;
+
+    opacity: 0.75;
+}
+
+.pinned-badge {
+    display: inline-block;
+
+    margin-left: 3px;
+
+    font-size: 9px;
+
+    background: rgba(255,255,255,0.65);
+
+    padding: 2px 4px;
+
+    border-radius: 5px;
+}
+
+
+/* =========================================================
+   TEACHER ACTIONS
+========================================================= */
+
+.teacher-actions {
+    display: none;
+
+    margin-top: 5px;
+
+    gap: 3px;
+}
+
+body.teacher-mode .teacher-actions {
+    display: flex;
+}
+
+.action-button {
+    border: none;
+
+    padding: 3px 5px;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    font-size: 9px;
+}
+
+.edit-button {
+    background: #e7f0ea;
+    color: #45634e;
+}
+
+.delete-button {
+    background: #f8e4e4;
+    color: #8a5555;
+}
+
+
+/* =========================================================
+   COMING UP
+========================================================= */
+
+.upcoming-list {
+    display: grid;
+    gap: 10px;
+}
+
+.upcoming-item {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 15px;
+
+    background: white;
+
+    border: 1px solid #e4ece5;
+
+    border-radius: 16px;
+
+    padding: 13px 15px;
+}
+
+.upcoming-announcement {
+    background: #f1faf7;
+
+    border-left: 5px solid #6eaa94;
+}
+
+.upcoming-left {
+    display: flex;
+
+    gap: 10px;
+
+    align-items: center;
+}
+
+.upcoming-date {
+    font-size: 12px;
+
+    color: #829087;
+}
+
+.upcoming-title {
+    font-weight: 700;
+
+    color: #506557;
+}
+
+.upcoming-pin {
+    font-size: 11px;
+
+    color: #648676;
+
+    margin-top: 3px;
+}
+
+.empty {
+    text-align: center;
+
+    padding: 25px;
+
+    color: #87928a;
+}
+
+
+/* =========================================================
+   RESOURCE HUB
+========================================================= */
+
+.resource-card {
+    text-align: center;
+
+    padding: 35px 25px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #edf7ef
+        );
+}
+
+.resource-icon {
+    font-size: 55px;
+
+    margin-bottom: 10px;
+}
+
+.resource-card h3 {
+    color: #3d654b;
+
+    margin: 5px 0 10px;
+
+    font-size: 24px;
+}
+
+.resource-card p {
+    color: #68786d;
+
+    max-width: 600px;
+
+    margin: 0 auto 20px;
+
+    line-height: 1.6;
+}
+
+.resource-button {
+    display: inline-block;
+
+    text-decoration: none;
+
+    background: #527b5e;
+
+    color: white;
+
+    padding: 13px 24px;
+
+    border-radius: 16px;
+
+    font-weight: 700;
+
+    transition: 0.2s;
+
+    box-shadow:
+        0 5px 12px rgba(70, 100, 80, 0.15);
+}
+
+.resource-button:hover {
+    transform: translateY(-2px);
+
+    background: #416b4d;
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.progress-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(220px, 1fr)
+        );
+
+    gap: 15px;
+}
+
+.progress-card {
+    background: white;
+
+    padding: 20px;
+
+    border-radius: 20px;
+
+    border: 1px solid #e2ece4;
+}
+
+.progress-card h3 {
+    margin: 0 0 12px;
+
+    color: #46644f;
+}
+
+.progress-number {
+    text-align: right;
+
+    font-weight: bold;
+
+    color: #527b5e;
+
+    margin-bottom: 5px;
+
+    font-size: 14px;
+}
+
+.progress-bar {
+    height: 13px;
+
+    background: #e8eee9;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #7ea58a,
+            #527b5e
+        );
+
+    border-radius: 20px;
+
+    transition: width 1s ease;
+}
+
+.progress-note {
+    text-align: center;
+
+    margin-top: 18px;
+
+    color: #748077;
+
+    font-size: 14px;
+}
+
+.progress-update-card {
+    margin-top: 15px;
+}
+
+.progress-update-card h3 {
+    margin-top: 0;
+
+    color: #476650;
+}
+
+.progress-update-card p {
+    color: #718276;
+}
+
+
+/* =========================================================
+   TADABBUR
+========================================================= */
+
+.tadabbur-box {
+    background:
+        linear-gradient(
+            135deg,
+            #eef7f0,
+            #ffffff
+        );
+
+    border-left:
+        6px solid #7ea58a;
+}
+
+.ayah {
+    font-size: 23px;
+
+    text-align: center;
+
+    line-height: 2;
+
+    color: #355d43;
+
+    margin: 15px 0;
+}
+
+.tadabbur-question {
+    text-align: center;
+
+    font-size: 18px;
+
+    font-weight: 600;
+
+    color: #52685a;
+
+    line-height: 1.6;
+}
+
+.reflection-form {
+    margin-top: 20px;
+}
+
+textarea {
+    width: 100%;
+
+    min-height: 110px;
+
+    padding: 14px;
+
+    border-radius: 15px;
+
+    border: 1px solid #d7e4da;
+
+    resize: vertical;
+
+    font-family: inherit;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+textarea:focus,
+input:focus,
+select:focus {
+    border-color: #82a98b;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(130, 169, 139, 0.12);
+}
+
+.reflection-button {
+    margin-top: 10px;
+
+    border: none;
+
+    background: #6e9278;
+
+    color: white;
+
+    padding: 11px 20px;
+
+    border-radius: 14px;
+
+    cursor: pointer;
+
+    font-weight: 600;
+}
+
+.reflection-button:hover {
+    background: #527b5e;
+}
+
+.reflection-list {
+    margin-top: 20px;
+
+    display: grid;
+
+    gap: 10px;
+}
+
+.reflection {
+    background: white;
+
+    padding: 15px;
+
+    border-radius: 17px;
+
+    border: 1px solid #e0eae2;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+.reflection-date {
+    font-size: 11px;
+
+    color: #91a096;
+
+    margin-top: 5px;
+}
+
+
+/* =========================================================
+   ADD EVENT
+========================================================= */
+
+.form-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+.form-group.full {
+    grid-column: 1 / -1;
+}
+
+label {
+    font-size: 13px;
+
+    font-weight: 700;
+
+    color: #5e7164;
+}
+
+input,
+select {
+    width: 100%;
+
+    padding: 12px;
+
+    border-radius: 13px;
+
+    border: 1px solid #d7e4da;
+
+    background: white;
+
+    font-family: inherit;
+
+    outline: none;
+}
+
+
+/* CLASS DROPDOWN */
+
+.class-select {
+    position: relative;
+}
+
+.class-select select {
+    cursor: pointer;
+}
+
+.class-preview {
+    margin-top: 3px;
+
+    min-height: 18px;
+
+    font-size: 11px;
+
+    color: #7b897f;
+}
+
+
+/* PIN OPTION */
+
+.pin-box {
+    display: none;
+
+    margin-top: 3px;
+
+    padding: 11px 13px;
+
+    border-radius: 13px;
+
+    background: #f1faf7;
+
+    border: 1px solid #dceee6;
+}
+
+.pin-box.visible {
+    display: block;
+}
+
+.pin-label {
+    display: flex;
+
+    flex-direction: row;
+
+    align-items: center;
+
+    gap: 8px;
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    color: #557467;
+}
+
+.pin-label input {
+    width: auto;
+
+    accent-color: #6e9278;
+
+    cursor: pointer;
+}
+
+.submit-button {
+    margin-top: 15px;
+
+    border: none;
+
+    background: #527b5e;
+
+    color: white;
+
+    padding: 13px 22px;
+
+    border-radius: 14px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+}
+
+.submit-button:hover {
+    background: #416b4d;
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+.login-card {
+    max-width: 500px;
+
+    margin: auto;
+}
+
+.login-card h3 {
+    margin-top: 0;
+
+    color: #476650;
+}
+
+.teacher-active {
+    display: none;
+
+    text-align: center;
+
+    background: #edf7ef;
+
+    padding: 15px;
+
+    border-radius: 17px;
+}
+
+body.teacher-mode .teacher-login {
+    display: none;
+}
+
+body.teacher-mode .teacher-active {
+    display: block;
+}
+
+.logout-button {
+    margin-top: 10px;
+
+    border: none;
+
+    background: #e8eeee;
+
+    color: #53645a;
+
+    padding: 9px 16px;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+    text-align: center;
+
+    padding: 30px 20px;
+
+    color: #849188;
+
+    font-size: 13px;
+}
+
+.footer-mascot {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 5px;
+}
+
+.footer-mascot img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 700px) {
 
     header h1 {
-        margin: 5px 0;
-        font-size: 32px;
-        color: #315b42;
-        letter-spacing: 1px;
-    }
-
-    header p {
-        margin: 8px 0;
-        color: #607565;
-        font-size: 16px;
-    }
-
-    .welcome {
-        max-width: 700px;
-        margin: 25px auto 0;
-
-        background:
-            rgba(255,255,255,0.72);
-
-        padding: 20px;
-        border-radius: 25px;
-    }
-
-    .welcome h2 {
-        margin: 0 0 8px;
-        color: #406b4d;
-    }
-
-    .welcome p {
-        margin: 0;
-    }
-
-
-    /* =========================================================
-       MASCOT
-    ========================================================= */
-
-    .mascot {
-        font-size: 65px;
-        margin: 5px auto 10px;
-
-        animation:
-            floatMascot 3s ease-in-out infinite;
-    }
-
-    @keyframes floatMascot {
-
-        0%, 100% {
-            transform: translateY(0);
-        }
-
-        50% {
-            transform: translateY(-7px);
-        }
-
-    }
-
-
-    /* =========================================================
-       NAVIGATION
-    ========================================================= */
-
-    .nav-container {
-        max-width: 1100px;
-        margin: -20px auto 25px;
-        padding: 0 15px;
-
-        position: relative;
-        z-index: 5;
-    }
-
-    .nav {
-        background: white;
-        padding: 12px;
-
-        border-radius: 22px;
-
-        box-shadow:
-            0 6px 25px rgba(60, 90, 70, 0.10);
-
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 8px;
-    }
-
-    .nav a {
-        text-decoration: none;
-
-        color: #41624d;
-
-        background: #f1f7f2;
-
-        padding: 10px 15px;
-
-        border-radius: 15px;
-
-        font-size: 14px;
-        font-weight: 600;
-
-        transition: 0.2s;
-    }
-
-    .nav a:hover {
-        background: #dcefe1;
-        transform: translateY(-2px);
-    }
-
-
-    /* =========================================================
-       MAIN
-    ========================================================= */
-
-    main {
-        max-width: 1100px;
-        margin: auto;
-        padding: 0 15px 50px;
-    }
-
-    section {
-        margin-bottom: 30px;
-        scroll-margin-top: 20px;
-    }
-
-    .section-title {
-        text-align: center;
-        margin-bottom: 18px;
-    }
-
-    .section-title h2 {
-        margin: 0;
-        color: #355d43;
         font-size: 25px;
     }
 
-    .section-title p {
-        color: #718276;
-        margin-top: 5px;
+    .nav {
+        gap: 5px;
     }
 
-
-    /* =========================================================
-       GENERAL CARD
-    ========================================================= */
-
-    .card {
-        background:
-            rgba(255,255,255,0.94);
-
-        border-radius: 25px;
-
-        padding: 22px;
-
-        box-shadow:
-            0 7px 25px rgba(70, 100, 80, 0.08);
-
-        border: 1px solid #e4eee6;
-    }
-
-
-    /* =========================================================
-       CALENDAR
-    ========================================================= */
-
-    .calendar-card {
-        overflow: hidden;
-        position: relative;
-    }
-
-    .calendar-card::before {
-        content: "✦  ◇  ✦  ◇  ✦";
-
-        display: block;
-
-        text-align: center;
-
-        color: rgba(82, 123, 94, 0.20);
-
-        font-size: 16px;
-
-        letter-spacing: 12px;
-
-        margin-bottom: 8px;
-    }
-
-    .calendar-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        gap: 10px;
-
-        margin-bottom: 18px;
-
-        flex-wrap: wrap;
-    }
-
-    .calendar-header h2 {
-        margin: 0;
-        color: #3e6049;
-    }
-
-    .calendar-buttons {
-        display: flex;
-        gap: 7px;
-    }
-
-    .calendar-buttons button {
-        border: none;
-
-        background: #e8f2ea;
-        color: #45654e;
-
-        padding: 9px 13px;
-
-        border-radius: 12px;
-
-        cursor: pointer;
-
-        font-weight: 600;
-    }
-
-    .calendar-buttons button:hover {
-        background: #d5e8d9;
-    }
-
-    .weekdays,
-    .calendar-grid {
-        display: grid;
-
-        grid-template-columns:
-            repeat(7, 1fr);
-    }
-
-    .weekday {
-        text-align: center;
-
-        padding: 8px 2px;
+    .nav a {
+        padding: 8px 10px;
 
         font-size: 12px;
-
-        font-weight: bold;
-
-        color: #789080;
     }
-
-    .day {
-        min-height: 105px;
-
-        border: 1px solid #edf1ed;
-
-        padding: 7px;
-
-        background: white;
-
-        cursor: pointer;
-
-        transition: 0.15s;
-    }
-
-    .day:hover {
-        background: #f6faf6;
-    }
-
-    .day-number {
-        font-size: 13px;
-
-        font-weight: bold;
-
-        color: #627467;
-    }
-
-    .today {
-        background: #edf7ef !important;
-
-        box-shadow:
-            inset 0 0 0 2px #86aa8e;
-    }
-
-    .selected-day {
-        background: #f4f8f4 !important;
-    }
-
-
-    /* =========================================================
-       CLASS LEGEND
-    ========================================================= */
-
-    .class-legend {
-        margin-bottom: 18px;
-
-        padding: 12px 15px;
-
-        border-radius: 16px;
-
-        background: #f8fbf8;
-
-        border: 1px solid #e3ece5;
-    }
-
-    .legend-title {
-        text-align: center;
-
-        font-size: 13px;
-
-        font-weight: 700;
-
-        color: #55705d;
-
-        margin-bottom: 9px;
-    }
-
-    .legend-items {
-        display: flex;
-
-        justify-content: center;
-
-        flex-wrap: wrap;
-
-        gap: 10px;
-    }
-
-    .legend-item {
-        display: inline-flex;
-
-        align-items: center;
-
-        gap: 6px;
-
-        padding: 6px 10px;
-
-        border-radius: 10px;
-
-        font-size: 12px;
-
-        font-weight: 600;
-    }
-
-    .legend-dot {
-        width: 10px;
-        height: 10px;
-
-        border-radius: 50%;
-    }
-
-    .legend-ibnu {
-        background: #fff8d7;
-        color: #75621c;
-    }
-
-    .legend-ibnu .legend-dot {
-        background: #e5c84b;
-    }
-
-    .legend-idrisi {
-        background: #e8f4ff;
-        color: #3d6387;
-    }
-
-    .legend-idrisi .legend-dot {
-        background: #5d9bd3;
-    }
-
-    .legend-ghazali {
-        background: #f0e9ff;
-        color: #66528c;
-    }
-
-    .legend-ghazali .legend-dot {
-        background: #9676d1;
-    }
-
-
-    /* =========================================================
-       EVENTS
-    ========================================================= */
-
-    .event {
-        margin-top: 5px;
-
-        padding: 5px 6px;
-
-        border-radius: 8px;
-
-        font-size: 11px;
-
-        line-height: 1.35;
-
-        word-break: break-word;
-    }
-
-    .birthday {
-        background: #fff0f3;
-        color: #925767;
-    }
-
-    .assignment {
-        background: #edf3ff;
-        color: #52698c;
-    }
-
-    .quiz {
-        background: #fff6dd;
-        color: #8b7040;
-    }
-
-    .activity {
-        background: #eeeaff;
-        color: #675d91;
-    }
-
-    .announcement {
-        background: #e8f6f3;
-        color: #4f776d;
-    }
-
-    .other {
-        background: #f0f0f0;
-        color: #656565;
-    }
-
-
-    /* =========================================================
-       AUTOMATIC CLASS COLOURS
-    ========================================================= */
-
-    .class-ibnu-sina {
-        background: #fff3b8 !important;
-        color: #75621c !important;
-
-        border-left:
-            4px solid #e5c84b;
-    }
-
-    .class-al-idrisi {
-        background: #dceeff !important;
-        color: #3d6387 !important;
-
-        border-left:
-            4px solid #5d9bd3;
-    }
-
-    .class-al-ghazali {
-        background: #eadfff !important;
-        color: #66528c !important;
-
-        border-left:
-            4px solid #9676d1;
-    }
-
-    .event-title {
-        font-weight: bold;
-    }
-
-    .event-details {
-        margin-top: 2px;
-    }
-
-    .event-added {
-        margin-top: 3px;
-
-        font-size: 9px;
-
-        opacity: 0.75;
-    }
-
-
-    /* =========================================================
-       TEACHER ACTIONS
-    ========================================================= */
-
-    .teacher-actions {
-        display: none;
-
-        margin-top: 5px;
-
-        gap: 3px;
-    }
-
-    body.teacher-mode .teacher-actions {
-        display: flex;
-    }
-
-    .action-button {
-        border: none;
-
-        padding: 3px 5px;
-
-        border-radius: 6px;
-
-        cursor: pointer;
-
-        font-size: 9px;
-    }
-
-    .edit-button {
-        background: #e7f0ea;
-        color: #45634e;
-    }
-
-    .delete-button {
-        background: #f8e4e4;
-        color: #8a5555;
-    }
-
-
-    /* =========================================================
-       COMING UP
-    ========================================================= */
-
-    .upcoming-list {
-        display: grid;
-        gap: 10px;
-    }
-
-    .upcoming-item {
-        display: flex;
-
-        justify-content: space-between;
-
-        align-items: center;
-
-        gap: 15px;
-
-        background: white;
-
-        border: 1px solid #e4ece5;
-
-        border-radius: 16px;
-
-        padding: 13px 15px;
-    }
-
-    .upcoming-ibnu {
-        background: #fffaf0;
-
-        border-left:
-            5px solid #e5c84b;
-    }
-
-    .upcoming-idrisi {
-        background: #f2f8ff;
-
-        border-left:
-            5px solid #5d9bd3;
-    }
-
-    .upcoming-ghazali {
-        background: #f8f4ff;
-
-        border-left:
-            5px solid #9676d1;
-    }
-
-    .upcoming-left {
-        display: flex;
-
-        gap: 10px;
-
-        align-items: center;
-    }
-
-    .upcoming-date {
-        font-size: 12px;
-
-        color: #829087;
-    }
-
-    .upcoming-title {
-        font-weight: 700;
-
-        color: #506557;
-    }
-
-    .empty {
-        text-align: center;
-
-        padding: 25px;
-
-        color: #87928a;
-    }
-
-
-    /* =========================================================
-       RESOURCE HUB
-    ========================================================= */
-
-    .resource-card {
-        text-align: center;
-
-        padding: 35px 25px;
-
-        background:
-            linear-gradient(
-                135deg,
-                #ffffff,
-                #edf7ef
-            );
-    }
-
-    .resource-icon {
-        font-size: 55px;
-
-        margin-bottom: 10px;
-    }
-
-    .resource-card h3 {
-        color: #3d654b;
-
-        margin: 5px 0 10px;
-
-        font-size: 24px;
-    }
-
-    .resource-card p {
-        color: #68786d;
-
-        max-width: 600px;
-
-        margin: 0 auto 20px;
-
-        line-height: 1.6;
-    }
-
-    .resource-button {
-        display: inline-block;
-
-        text-decoration: none;
-
-        background: #527b5e;
-
-        color: white;
-
-        padding: 13px 24px;
-
-        border-radius: 16px;
-
-        font-weight: 700;
-
-        transition: 0.2s;
-
-        box-shadow:
-            0 5px 12px rgba(70, 100, 80, 0.15);
-    }
-
-    .resource-button:hover {
-        transform: translateY(-2px);
-
-        background: #416b4d;
-    }
-
-
-    /* =========================================================
-       PROGRESS
-    ========================================================= */
-
-    .progress-grid {
-        display: grid;
-
-        grid-template-columns:
-            repeat(
-                auto-fit,
-                minmax(220px, 1fr)
-            );
-
-        gap: 15px;
-    }
-
-    .progress-card {
-        background: white;
-
-        padding: 20px;
-
-        border-radius: 20px;
-
-        border: 1px solid #e2ece4;
-    }
-
-    .progress-card h3 {
-        margin: 0 0 12px;
-
-        color: #46644f;
-    }
-
-    .progress-number {
-        text-align: right;
-
-        font-weight: bold;
-
-        color: #527b5e;
-
-        margin-bottom: 5px;
-
-        font-size: 14px;
-    }
-
-    .progress-bar {
-        height: 13px;
-
-        background: #e8eee9;
-
-        border-radius: 20px;
-
-        overflow: hidden;
-    }
-
-    .progress-fill {
-        height: 100%;
-
-        background:
-            linear-gradient(
-                90deg,
-                #7ea58a,
-                #527b5e
-            );
-
-        border-radius: 20px;
-
-        transition: width 1s ease;
-    }
-
-    .progress-note {
-        text-align: center;
-
-        margin-top: 18px;
-
-        color: #748077;
-
-        font-size: 14px;
-    }
-
-    .progress-update-card {
-        margin-top: 15px;
-    }
-
-    .progress-update-card h3 {
-        margin-top: 0;
-
-        color: #476650;
-    }
-
-    .progress-update-card p {
-        color: #718276;
-    }
-
-
-    /* =========================================================
-       TADABBUR
-    ========================================================= */
-
-    .tadabbur-box {
-        background:
-            linear-gradient(
-                135deg,
-                #eef7f0,
-                #ffffff
-            );
-
-        border-left:
-            6px solid #7ea58a;
-    }
-
-    .ayah {
-        font-size: 23px;
-
-        text-align: center;
-
-        line-height: 2;
-
-        color: #355d43;
-
-        margin: 15px 0;
-    }
-
-    .tadabbur-question {
-        text-align: center;
-
-        font-size: 18px;
-
-        font-weight: 600;
-
-        color: #52685a;
-
-        line-height: 1.6;
-    }
-
-    .reflection-form {
-        margin-top: 20px;
-    }
-
-    textarea {
-        width: 100%;
-
-        min-height: 110px;
-
-        padding: 14px;
-
-        border-radius: 15px;
-
-        border:
-            1px solid #d7e4da;
-
-        resize: vertical;
-
-        font-family: inherit;
-
-        font-size: 15px;
-
-        outline: none;
-    }
-
-    textarea:focus,
-    input:focus,
-    select:focus {
-        border-color: #82a98b;
-
-        box-shadow:
-            0 0 0 3px
-            rgba(130, 169, 139, 0.12);
-    }
-
-    .reflection-button {
-        margin-top: 10px;
-
-        border: none;
-
-        background: #6e9278;
-
-        color: white;
-
-        padding: 11px 20px;
-
-        border-radius: 14px;
-
-        cursor: pointer;
-
-        font-weight: 600;
-    }
-
-    .reflection-button:hover {
-        background: #527b5e;
-    }
-
-    .reflection-list {
-        margin-top: 20px;
-
-        display: grid;
-
-        gap: 10px;
-    }
-
-    .reflection {
-        background: white;
-
-        padding: 15px;
-
-        border-radius: 17px;
-
-        border: 1px solid #e0eae2;
-
-        font-size: 14px;
-
-        line-height: 1.6;
-    }
-
-    .reflection-date {
-        font-size: 11px;
-
-        color: #91a096;
-
-        margin-top: 5px;
-    }
-
-
-    /* =========================================================
-       ADD EVENT
-    ========================================================= */
 
     .form-grid {
-        display: grid;
-
-        grid-template-columns:
-            repeat(2, 1fr);
-
-        gap: 15px;
-    }
-
-    .form-group {
-        display: flex;
-
-        flex-direction: column;
-
-        gap: 6px;
+        grid-template-columns: 1fr;
     }
 
     .form-group.full {
-        grid-column: 1 / -1;
+        grid-column: auto;
     }
 
-    label {
-        font-size: 13px;
+    .day {
+        min-height: 85px;
 
-        font-weight: 700;
-
-        color: #5e7164;
+        padding: 4px;
     }
 
-    input,
-    select {
+    .weekday {
+        font-size: 10px;
+    }
+
+    .event {
+        font-size: 9px;
+
+        padding: 4px;
+    }
+
+    .event-details,
+    .event-added {
+        display: none;
+    }
+
+    .calendar-header {
+        justify-content: center;
+    }
+
+    .calendar-buttons {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .upcoming-item {
+        align-items: flex-start;
+    }
+
+    .legend-items {
+        gap: 6px;
+    }
+
+    .legend-item {
+        font-size: 11px;
+    }
+
+    .month-selector {
         width: 100%;
-
-        padding: 12px;
-
-        border-radius: 13px;
-
-        border:
-            1px solid #d7e4da;
-
-        background: white;
-
-        font-family: inherit;
-
-        outline: none;
+        justify-content: center;
     }
 
-    .submit-button {
-        margin-top: 15px;
-
-        border: none;
-
-        background: #527b5e;
-
-        color: white;
-
-        padding: 13px 22px;
-
-        border-radius: 14px;
-
-        cursor: pointer;
-
-        font-weight: bold;
+    .month-selector select {
+        flex: 1;
     }
 
-    .submit-button:hover {
-        background: #416b4d;
-    }
-
-
-    /* =========================================================
-       LOGIN
-    ========================================================= */
-
-    .login-card {
-        max-width: 500px;
-
-        margin: auto;
-    }
-
-    .login-card h3 {
-        margin-top: 0;
-
-        color: #476650;
-    }
-
-    .teacher-active {
-        display: none;
-
-        text-align: center;
-
-        background: #edf7ef;
-
-        padding: 15px;
-
-        border-radius: 17px;
-    }
-
-    body.teacher-mode .teacher-login {
-        display: none;
-    }
-
-    body.teacher-mode .teacher-active {
-        display: block;
-    }
-
-    .logout-button {
-        margin-top: 10px;
-
-        border: none;
-
-        background: #e8eeee;
-
-        color: #53645a;
-
-        padding: 9px 16px;
-
-        border-radius: 12px;
-
-        cursor: pointer;
-    }
-
-
-    /* =========================================================
-       FOOTER
-    ========================================================= */
-
-    footer {
-        text-align: center;
-
-        padding: 30px 20px;
-
-        color: #849188;
-
-        font-size: 13px;
-    }
-
-    footer .footer-mascot {
-        font-size: 30px;
-
-        margin-bottom: 5px;
-    }
-
-
-    /* =========================================================
-       RESPONSIVE
-    ========================================================= */
-
-    @media (max-width: 700px) {
-
-        header h1 {
-            font-size: 25px;
-        }
-
-        .nav {
-            gap: 5px;
-        }
-
-        .nav a {
-            padding: 8px 10px;
-
-            font-size: 12px;
-        }
-
-        .form-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .form-group.full {
-            grid-column: auto;
-        }
-
-        .day {
-            min-height: 85px;
-
-            padding: 4px;
-        }
-
-        .weekday {
-            font-size: 10px;
-        }
-
-        .event {
-            font-size: 9px;
-
-            padding: 4px;
-        }
-
-        .event-details,
-        .event-added {
-            display: none;
-        }
-
-        .calendar-header {
-            justify-content: center;
-        }
-
-        .upcoming-item {
-            align-items: flex-start;
-        }
-
-        .legend-items {
-            gap: 6px;
-        }
-
-        .legend-item {
-            font-size: 11px;
-        }
-
-    }
+}
 
 </style>
 </head>
@@ -1208,8 +1322,12 @@
         Year 10 Quran Learning Hub
     </p>
 
+    <!-- YOUR SMILING PANDA IMAGE -->
     <div class="mascot">
-        🐼
+        <img
+            src="panda.png"
+            alt="Cute smiling panda"
+        >
     </div>
 
     <div class="welcome">
@@ -1291,8 +1409,6 @@
     <div class="card calendar-card">
 
 
-        <!-- CLASS LEGEND -->
-
         <div class="class-legend">
 
             <div class="legend-title">
@@ -1302,29 +1418,18 @@
             <div class="legend-items">
 
                 <span class="legend-item legend-ibnu">
-
                     <span class="legend-dot"></span>
-
                     Ibnu Sina
-
                 </span>
-
 
                 <span class="legend-item legend-idrisi">
-
                     <span class="legend-dot"></span>
-
                     Al-Idrisi
-
                 </span>
 
-
                 <span class="legend-item legend-ghazali">
-
                     <span class="legend-dot"></span>
-
                     Al-Ghazali
-
                 </span>
 
             </div>
@@ -1332,29 +1437,38 @@
         </div>
 
 
-        <!-- CALENDAR HEADER -->
-
         <div class="calendar-header">
 
             <h2 id="monthTitle"></h2>
 
+            <!-- MONTH / YEAR DROPDOWN -->
+
+            <div class="month-selector">
+
+                <select
+                    id="monthSelect"
+                    onchange="changeMonthFromDropdown()"
+                ></select>
+
+                <select
+                    id="yearSelect"
+                    onchange="changeMonthFromDropdown()"
+                ></select>
+
+            </div>
+
+
             <div class="calendar-buttons">
 
-                <button
-                    onclick="previousMonth()"
-                >
+                <button onclick="previousMonth()">
                     ←
                 </button>
 
-                <button
-                    onclick="goToday()"
-                >
+                <button onclick="goToday()">
                     Today
                 </button>
 
-                <button
-                    onclick="nextMonth()"
-                >
+                <button onclick="nextMonth()">
                     →
                 </button>
 
@@ -1363,42 +1477,18 @@
         </div>
 
 
-        <!-- WEEKDAYS -->
-
         <div class="weekdays">
 
-            <div class="weekday">
-                Sun
-            </div>
-
-            <div class="weekday">
-                Mon
-            </div>
-
-            <div class="weekday">
-                Tue
-            </div>
-
-            <div class="weekday">
-                Wed
-            </div>
-
-            <div class="weekday">
-                Thu
-            </div>
-
-            <div class="weekday">
-                Fri
-            </div>
-
-            <div class="weekday">
-                Sat
-            </div>
+            <div class="weekday">Sun</div>
+            <div class="weekday">Mon</div>
+            <div class="weekday">Tue</div>
+            <div class="weekday">Wed</div>
+            <div class="weekday">Thu</div>
+            <div class="weekday">Fri</div>
+            <div class="weekday">Sat</div>
 
         </div>
 
-
-        <!-- CALENDAR GRID -->
 
         <div
             id="calendarGrid"
@@ -1412,6 +1502,7 @@
 
 <!-- =========================================================
      COMING UP
+     ONLY PINNED ANNOUNCEMENTS
 ========================================================= -->
 
 <section>
@@ -1419,11 +1510,11 @@
     <div class="section-title">
 
         <h2>
-            🔔 Coming Up
+            📌 Coming Up
         </h2>
 
         <p>
-            Don't forget what's happening next!
+            Important announcements pinned by the teacher.
         </p>
 
     </div>
@@ -1475,7 +1566,6 @@
             tajwid resources, quizzes, activities, videos,
             audio and other class materials.
         </p>
-
 
         <a
             class="resource-button"
@@ -1534,8 +1624,6 @@
     </div>
 
 
-    <!-- TEACHER-ONLY PROGRESS UPDATE -->
-
     <div
         id="teacherProgressBox"
         class="card progress-update-card"
@@ -1553,7 +1641,6 @@
 
 
         <div class="form-grid">
-
 
             <div class="form-group">
 
@@ -1622,7 +1709,7 @@
 
 
 <!-- =========================================================
-     TADABBUR CORNER
+     TADABBUR
 ========================================================= -->
 
 <section id="tadabbur">
@@ -1642,24 +1729,17 @@
 
     <div class="card tadabbur-box">
 
-        <div
-            style="text-align:center; font-size:35px;"
-        >
+        <div style="text-align:center; font-size:35px;">
             🌿
         </div>
-
 
         <div class="ayah">
             فَبِأَيِّ آلَاءِ رَبِّكُمَا تُكَذِّبَانِ
         </div>
 
-
-        <div
-            style="text-align:center; color:#718276;"
-        >
+        <div style="text-align:center; color:#718276;">
             Surah Ar-Rahman: 13
         </div>
-
 
         <div class="tadabbur-question">
 
@@ -1723,9 +1803,10 @@
             onsubmit="addEvent(event)"
         >
 
-
             <div class="form-grid">
 
+
+                <!-- DATE -->
 
                 <div class="form-group">
 
@@ -1741,6 +1822,8 @@
 
                 </div>
 
+
+                <!-- NAME -->
 
                 <div class="form-group">
 
@@ -1758,6 +1841,50 @@
                 </div>
 
 
+                <!-- CLASS DROPDOWN -->
+
+                <div class="form-group">
+
+                    <label>
+                        🏫 Class
+                    </label>
+
+                    <select
+                        id="eventClass"
+                        onchange="updateClassPreview()"
+                        required
+                    >
+
+                        <option value="">
+                            ▼ Select class
+                        </option>
+
+                        <option value="Ibnu Sina">
+                            🟡 Ibnu Sina
+                        </option>
+
+                        <option value="Al-Idrisi">
+                            🔵 Al-Idrisi
+                        </option>
+
+                        <option value="Al-Ghazali">
+                            🟣 Al-Ghazali
+                        </option>
+
+                    </select>
+
+                    <div
+                        id="classPreview"
+                        class="class-preview"
+                    >
+                        Choose your class to colour-code the event.
+                    </div>
+
+                </div>
+
+
+                <!-- EVENT TYPE -->
+
                 <div class="form-group">
 
                     <label>
@@ -1766,6 +1893,7 @@
 
                     <select
                         id="eventType"
+                        onchange="togglePinOption()"
                         required
                     >
 
@@ -1802,6 +1930,8 @@
                 </div>
 
 
+                <!-- DETAILS -->
+
                 <div class="form-group full">
 
                     <label>
@@ -1814,6 +1944,27 @@
                         placeholder="What is happening?"
                         required
                     >
+
+                </div>
+
+
+                <!-- PIN ANNOUNCEMENT -->
+
+                <div
+                    id="pinBox"
+                    class="form-group full pin-box"
+                >
+
+                    <label class="pin-label">
+
+                        <input
+                            type="checkbox"
+                            id="pinAnnouncement"
+                        >
+
+                        📌 Pin this announcement in "Coming Up"
+
+                    </label>
 
                 </div>
 
@@ -1855,7 +2006,6 @@
 
 
     <div class="card login-card">
-
 
         <div class="teacher-login">
 
@@ -1943,11 +2093,16 @@
 <footer>
 
     <div class="footer-mascot">
-        🐼📖🌿
+
+        <img
+            src="panda.png"
+            alt="Cute smiling panda"
+        >
+
     </div>
 
     <div>
-        Al-Quran Calendar • Year 10 Quran Learning Hub
+        📖🌿 Al-Quran Calendar • Year 10 Quran Learning Hub
     </div>
 
     <div style="margin-top:5px;">
@@ -1967,24 +2122,14 @@
 const SUPABASE_URL =
     "https://jbcxpgtufzdahecmjmlk.supabase.co";
 
-
-/*
-   This is your existing PUBLISHABLE key.
-   Do NOT use your sb_secret_ key.
-*/
-
 const SUPABASE_KEY =
     "sb_publishable_8OQm67DTwqrnUq0qrWvc0g_-AK3xTUl";
-
 
 const supabaseClient =
     supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
     );
-
-
-/* Teacher's Supabase Auth UUID */
 
 const TEACHER_ID =
     "e1490b7d-ecf6-4b48-a97f-034bbabfef4c";
@@ -2008,6 +2153,297 @@ let isTeacher =
 
 
 /* =========================================================
+   MONTH DROPDOWN
+========================================================= */
+
+function createMonthDropdowns() {
+
+    const monthSelect =
+        document.getElementById(
+            "monthSelect"
+        );
+
+    const yearSelect =
+        document.getElementById(
+            "yearSelect"
+        );
+
+
+    if (!monthSelect || !yearSelect) {
+        return;
+    }
+
+
+    const monthNames = [
+
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+
+    ];
+
+
+    monthSelect.innerHTML = "";
+
+
+    monthNames.forEach(
+        function(month, index) {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value =
+                index;
+
+            option.textContent =
+                month;
+
+            monthSelect.appendChild(
+                option
+            );
+
+        }
+    );
+
+
+    yearSelect.innerHTML = "";
+
+
+    const currentYear =
+        new Date().getFullYear();
+
+
+    for (
+        let year = currentYear - 5;
+        year <= currentYear + 5;
+        year++
+    ) {
+
+        const option =
+            document.createElement(
+                "option"
+            );
+
+        option.value =
+            year;
+
+        option.textContent =
+            year;
+
+        yearSelect.appendChild(
+            option
+        );
+
+    }
+
+
+    monthSelect.value =
+        currentDate.getMonth();
+
+    yearSelect.value =
+        currentDate.getFullYear();
+
+}
+
+
+function updateMonthDropdowns() {
+
+    const monthSelect =
+        document.getElementById(
+            "monthSelect"
+        );
+
+    const yearSelect =
+        document.getElementById(
+            "yearSelect"
+        );
+
+
+    if (!monthSelect || !yearSelect) {
+        return;
+    }
+
+
+    monthSelect.value =
+        currentDate.getMonth();
+
+    yearSelect.value =
+        currentDate.getFullYear();
+
+}
+
+
+function changeMonthFromDropdown() {
+
+    const monthSelect =
+        document.getElementById(
+            "monthSelect"
+        );
+
+    const yearSelect =
+        document.getElementById(
+            "yearSelect"
+        );
+
+
+    if (!monthSelect || !yearSelect) {
+        return;
+    }
+
+
+    currentDate =
+        new Date(
+            Number(yearSelect.value),
+            Number(monthSelect.value),
+            1
+        );
+
+
+    createCalendar();
+
+}
+
+
+/* =========================================================
+   CLASS DROPDOWN
+========================================================= */
+
+function updateClassPreview() {
+
+    const classSelect =
+        document.getElementById(
+            "eventClass"
+        );
+
+    const preview =
+        document.getElementById(
+            "classPreview"
+        );
+
+
+    if (!classSelect || !preview) {
+        return;
+    }
+
+
+    const value =
+        classSelect.value;
+
+
+    if (!value) {
+
+        preview.textContent =
+            "Choose your class to colour-code the event.";
+
+        preview.style.color =
+            "#7b897f";
+
+        return;
+
+    }
+
+
+    const messages = {
+
+        "Ibnu Sina":
+            "🟡 This event will appear in the Ibnu Sina colour.",
+
+        "Al-Idrisi":
+            "🔵 This event will appear in the Al-Idrisi colour.",
+
+        "Al-Ghazali":
+            "🟣 This event will appear in the Al-Ghazali colour."
+
+    };
+
+
+    preview.textContent =
+        messages[value];
+
+
+    if (value === "Ibnu Sina") {
+
+        preview.style.color =
+            "#a18a29";
+
+    }
+
+    else if (value === "Al-Idrisi") {
+
+        preview.style.color =
+            "#4d79a0";
+
+    }
+
+    else {
+
+        preview.style.color =
+            "#7660a2";
+
+    }
+
+}
+
+
+/* =========================================================
+   PIN OPTION
+========================================================= */
+
+function togglePinOption() {
+
+    const eventType =
+        document.getElementById(
+            "eventType"
+        ).value;
+
+    const pinBox =
+        document.getElementById(
+            "pinBox"
+        );
+
+    const pinCheckbox =
+        document.getElementById(
+            "pinAnnouncement"
+        );
+
+
+    if (
+        eventType ===
+        "announcement"
+    ) {
+
+        pinBox.classList.add(
+            "visible"
+        );
+
+    }
+
+    else {
+
+        pinBox.classList.remove(
+            "visible"
+        );
+
+        pinCheckbox.checked =
+            false;
+
+    }
+
+}
+
+
+/* =========================================================
    CLASS PROGRESS
 ========================================================= */
 
@@ -2020,9 +2456,7 @@ async function loadClassProgress() {
         await supabaseClient
             .from("ClassProgress")
             .select("*")
-            .order(
-                "class_name"
-            );
+            .order("class_name");
 
 
     if (error) {
@@ -2059,9 +2493,7 @@ async function loadClassProgress() {
 
 
     if (!grid) {
-
         return;
-
     }
 
 
@@ -2075,18 +2507,15 @@ async function loadClassProgress() {
             const className =
                 classData.class_name;
 
-
             const total =
                 Number(
                     classData.total_students
                 );
 
-
             const finished =
                 Number(
                     classData.finished_students
                 );
-
 
             let percentage =
                 total > 0
@@ -2094,7 +2523,6 @@ async function loadClassProgress() {
                         (finished / total) * 100
                     )
                     : 0;
-
 
             percentage =
                 Math.max(
@@ -2143,17 +2571,15 @@ async function loadClassProgress() {
 
             card.innerHTML =
 
-                '<h3>' +
+                "<h3>" +
 
                 icon +
                 " " +
-
                 escapeHtml(
                     className
                 ) +
 
-                '</h3>' +
-
+                "</h3>" +
 
                 '<div class="progress-number">' +
 
@@ -2164,8 +2590,7 @@ async function loadClassProgress() {
                 percentage +
                 "%" +
 
-                '</div>' +
-
+                "</div>" +
 
                 '<div class="progress-bar">' +
 
@@ -2173,7 +2598,7 @@ async function loadClassProgress() {
                 percentage +
                 '%;"></div>' +
 
-                '</div>';
+                "</div>";
 
 
             grid.appendChild(
@@ -2183,10 +2608,6 @@ async function loadClassProgress() {
         }
     );
 
-
-    /*
-       Put current numbers into teacher boxes.
-    */
 
     if (isTeacher) {
 
@@ -2231,54 +2652,30 @@ async function loadClassProgress() {
 
         if (ibnuSina) {
 
-            const input =
-                document.getElementById(
-                    "ibnuSinaProgress"
-                );
-
-
-            if (input) {
-
-                input.value =
-                    ibnuSina.finished_students;
-
-            }
+            document.getElementById(
+                "ibnuSinaProgress"
+            ).value =
+                ibnuSina.finished_students;
 
         }
 
 
         if (alIdrisi) {
 
-            const input =
-                document.getElementById(
-                    "alIdrisiProgress"
-                );
-
-
-            if (input) {
-
-                input.value =
-                    alIdrisi.finished_students;
-
-            }
+            document.getElementById(
+                "alIdrisiProgress"
+            ).value =
+                alIdrisi.finished_students;
 
         }
 
 
         if (alGhazali) {
 
-            const input =
-                document.getElementById(
-                    "alGhazaliProgress"
-                );
-
-
-            if (input) {
-
-                input.value =
-                    alGhazali.finished_students;
-
-            }
+            document.getElementById(
+                "alGhazaliProgress"
+            ).value =
+                alGhazali.finished_students;
 
         }
 
@@ -2288,7 +2685,7 @@ async function loadClassProgress() {
 
 
 /* =========================================================
-   UPDATE CLASS PROGRESS
+   UPDATE PROGRESS
 ========================================================= */
 
 async function updateClassProgress() {
@@ -2310,14 +2707,12 @@ async function updateClassProgress() {
             ).value
         );
 
-
     const alIdrisi =
         Number(
             document.getElementById(
                 "alIdrisiProgress"
             ).value
         );
-
 
     const alGhazali =
         Number(
@@ -2328,9 +2723,7 @@ async function updateClassProgress() {
 
 
     if (
-        !Number.isInteger(
-            ibnuSina
-        ) ||
+        !Number.isInteger(ibnuSina) ||
         ibnuSina < 0 ||
         ibnuSina > 21
     ) {
@@ -2344,9 +2737,7 @@ async function updateClassProgress() {
 
 
     if (
-        !Number.isInteger(
-            alIdrisi
-        ) ||
+        !Number.isInteger(alIdrisi) ||
         alIdrisi < 0 ||
         alIdrisi > 20
     ) {
@@ -2360,9 +2751,7 @@ async function updateClassProgress() {
 
 
     if (
-        !Number.isInteger(
-            alGhazali
-        ) ||
+        !Number.isInteger(alGhazali) ||
         alGhazali < 0 ||
         alGhazali > 22
     ) {
@@ -2435,7 +2824,6 @@ async function updateClassProgress() {
                 error
             );
 
-
             alert(
                 "Progress could not be updated.\n\n" +
                 error.message
@@ -2495,7 +2883,6 @@ async function checkTeacherLogin() {
         isTeacher =
             true;
 
-
         document.body.classList.add(
             "teacher-mode"
         );
@@ -2520,7 +2907,6 @@ async function checkTeacherLogin() {
 
         isTeacher =
             false;
-
 
         document.body.classList.remove(
             "teacher-mode"
@@ -2648,7 +3034,6 @@ async function loginTeacher() {
         "teacherEmail"
     ).value =
         "";
-
 
     document.getElementById(
         "teacherPassword"
@@ -2841,7 +3226,7 @@ async function loadEvents() {
 
 
 /* =========================================================
-   GET AUTOMATIC CLASS COLOUR
+   CLASS COLOUR
 ========================================================= */
 
 function getClassEventClass(event) {
@@ -2860,17 +3245,9 @@ function getClassEventClass(event) {
         ).toLowerCase();
 
 
-    /*
-       Ibnu Sina
-    */
-
     if (
-        classText.includes(
-            "ibnu sina"
-        ) ||
-        classText.includes(
-            "ibnusina"
-        )
+        classText.includes("ibnu sina") ||
+        classText.includes("ibnusina")
     ) {
 
         return "class-ibnu-sina";
@@ -2878,20 +3255,10 @@ function getClassEventClass(event) {
     }
 
 
-    /*
-       Al-Idrisi
-    */
-
     if (
-        classText.includes(
-            "al idrisi"
-        ) ||
-        classText.includes(
-            "al-idrisi"
-        ) ||
-        classText.includes(
-            "idrisi"
-        )
+        classText.includes("al idrisi") ||
+        classText.includes("al-idrisi") ||
+        classText.includes("idrisi")
     ) {
 
         return "class-al-idrisi";
@@ -2899,20 +3266,10 @@ function getClassEventClass(event) {
     }
 
 
-    /*
-       Al-Ghazali
-    */
-
     if (
-        classText.includes(
-            "al ghazali"
-        ) ||
-        classText.includes(
-            "al-ghazali"
-        ) ||
-        classText.includes(
-            "ghazali"
-        )
+        classText.includes("al ghazali") ||
+        classText.includes("al-ghazali") ||
+        classText.includes("ghazali")
     ) {
 
         return "class-al-ghazali";
@@ -2926,6 +3283,45 @@ function getClassEventClass(event) {
 
 
 /* =========================================================
+   CHECK PINNED ANNOUNCEMENT
+========================================================= */
+
+function isPinnedAnnouncement(event) {
+
+    if (
+        event.event_type !==
+        "announcement"
+    ) {
+
+        return false;
+
+    }
+
+
+    return String(
+        event.details || ""
+    ).startsWith(
+        "[PINNED]"
+    );
+
+}
+
+
+function cleanEventDetails(details) {
+
+    return String(
+        details || ""
+    )
+        .replace(
+            /^\[PINNED\]\s*/i,
+            ""
+        )
+        .trim();
+
+}
+
+
+/* =========================================================
    CALENDAR
 ========================================================= */
 
@@ -2933,7 +3329,6 @@ function createCalendar() {
 
     const year =
         currentDate.getFullYear();
-
 
     const month =
         currentDate.getMonth();
@@ -2965,6 +3360,9 @@ function createCalendar() {
         year;
 
 
+    updateMonthDropdowns();
+
+
     const firstDay =
         new Date(
             year,
@@ -2990,11 +3388,6 @@ function createCalendar() {
     grid.innerHTML =
         "";
 
-
-    /*
-       Empty days before
-       the first day.
-    */
 
     for (
         let i = 0;
@@ -3110,12 +3503,8 @@ function createCalendar() {
         cell.innerHTML =
             '<div class="day-number">' +
             day +
-            '</div>';
+            "</div>";
 
-
-        /*
-           Display events.
-        */
 
         if (
             events[dateKey]
@@ -3124,16 +3513,11 @@ function createCalendar() {
             events[dateKey].forEach(
                 function(event) {
 
-
                     const eventDiv =
                         document.createElement(
                             "div"
                         );
 
-
-                    /*
-                       Default event colour.
-                    */
 
                     let eventClass =
                         "other";
@@ -3190,14 +3574,6 @@ function createCalendar() {
                     }
 
 
-                    /*
-                       Check whether the
-                       event belongs to a class.
-
-                       Class colour overrides
-                       the normal event colour.
-                    */
-
                     const classColour =
                         getClassEventClass(
                             event
@@ -3249,6 +3625,18 @@ function createCalendar() {
                         "📌";
 
 
+                    const pinned =
+                        isPinnedAnnouncement(
+                            event
+                        );
+
+
+                    const cleanDetails =
+                        cleanEventDetails(
+                            event.details
+                        );
+
+
                     eventDiv.innerHTML =
 
                         '<div class="event-title">' +
@@ -3260,16 +3648,22 @@ function createCalendar() {
                             event.student_name
                         ) +
 
-                        '</div>' +
+                        (
+                            pinned
+                                ? '<span class="pinned-badge">📌 Pinned</span>'
+                                : ""
+                        ) +
+
+                        "</div>" +
 
 
                         '<div class="event-details">' +
 
                         escapeHtml(
-                            event.details
+                            cleanDetails
                         ) +
 
-                        '</div>' +
+                        "</div>" +
 
 
                         '<div class="event-added">' +
@@ -3280,7 +3674,7 @@ function createCalendar() {
                             event.student_name
                         ) +
 
-                        '</div>' +
+                        "</div>" +
 
 
                         '<div class="teacher-actions">' +
@@ -3289,16 +3683,16 @@ function createCalendar() {
 
                         event.id +
 
-                        '\')">✏️</button>' +
+                        "')\">✏️</button>" +
 
 
                         '<button class="action-button delete-button" onclick="event.stopPropagation(); deleteEvent(\'' +
 
                         event.id +
 
-                        '\')">🗑️</button>' +
+                        "')\">🗑️</button>" +
 
-                        '</div>';
+                        "</div>";
 
 
                     cell.appendChild(
@@ -3310,11 +3704,6 @@ function createCalendar() {
 
         }
 
-
-        /*
-           Clicking a day selects
-           it and moves to Add Event.
-        */
 
         cell.addEventListener(
             "click",
@@ -3361,7 +3750,6 @@ function previousMonth() {
         currentDate.getMonth() - 1
     );
 
-
     createCalendar();
 
 }
@@ -3373,7 +3761,6 @@ function nextMonth() {
         currentDate.getMonth() + 1
     );
 
-
     createCalendar();
 
 }
@@ -3383,7 +3770,6 @@ function goToday() {
 
     currentDate =
         new Date();
-
 
     createCalendar();
 
@@ -3411,21 +3797,34 @@ async function addEvent(e) {
         ).value.trim();
 
 
+    const eventClass =
+        document.getElementById(
+            "eventClass"
+        ).value;
+
+
     const eventType =
         document.getElementById(
             "eventType"
         ).value;
 
 
-    const eventDetails =
+    let eventDetails =
         document.getElementById(
             "eventDetails"
         ).value.trim();
 
 
+    const pinAnnouncement =
+        document.getElementById(
+            "pinAnnouncement"
+        ).checked;
+
+
     if (
         !eventDate ||
         !studentName ||
+        !eventClass ||
         !eventType ||
         !eventDetails
     ) {
@@ -3436,6 +3835,38 @@ async function addEvent(e) {
 
         return;
     }
+
+
+    /*
+       Only announcements can be pinned.
+    */
+
+    if (
+        eventType ===
+        "announcement" &&
+        pinAnnouncement
+    ) {
+
+        eventDetails =
+            "[PINNED] " +
+            eventDetails;
+
+    }
+
+
+    /*
+       The selected class is added
+       automatically to the event.
+
+       This makes the class colour
+       reliable even if the student
+       writes nothing about their class.
+    */
+
+    const storedStudentName =
+        eventClass +
+        ": " +
+        studentName;
 
 
     const {
@@ -3449,7 +3880,7 @@ async function addEvent(e) {
                     eventDate,
 
                 student_name:
-                    studentName,
+                    storedStudentName,
 
                 event_type:
                     eventType,
@@ -3480,6 +3911,16 @@ async function addEvent(e) {
     document.getElementById(
         "eventForm"
     ).reset();
+
+
+    document.getElementById(
+        "pinBox"
+    ).classList.remove(
+        "visible"
+    );
+
+
+    updateClassPreview();
 
 
     await loadEvents();
@@ -3535,10 +3976,16 @@ async function editEvent(
     }
 
 
+    const currentDetails =
+        cleanEventDetails(
+            event.details
+        );
+
+
     const newDetails =
         prompt(
             "Edit the event details:",
-            event.details
+            currentDetails
         );
 
 
@@ -3564,6 +4011,28 @@ async function editEvent(
     }
 
 
+    let updatedDetails =
+        newDetails.trim();
+
+
+    /*
+       Preserve the pinned status
+       when teacher edits the event.
+    */
+
+    if (
+        isPinnedAnnouncement(
+            event
+        )
+    ) {
+
+        updatedDetails =
+            "[PINNED] " +
+            updatedDetails;
+
+    }
+
+
     const {
         error
     } =
@@ -3572,7 +4041,7 @@ async function editEvent(
             .update({
 
                 details:
-                    newDetails.trim()
+                    updatedDetails
 
             })
             .eq(
@@ -3679,7 +4148,8 @@ async function deleteEvent(
 
 
 /* =========================================================
-   UPCOMING EVENTS
+   COMING UP
+   ONLY PINNED ANNOUNCEMENTS
 ========================================================= */
 
 function createUpcomingList() {
@@ -3730,15 +4200,31 @@ function createUpcomingList() {
                         .forEach(
                             function(event) {
 
-                                upcoming.push({
+                                /*
+                                   IMPORTANT:
 
-                                    date:
-                                        date,
+                                   Only pinned
+                                   announcements
+                                   appear here.
+                                */
 
-                                    event:
+                                if (
+                                    isPinnedAnnouncement(
                                         event
+                                    )
+                                ) {
 
-                                });
+                                    upcoming.push({
+
+                                        date:
+                                            date,
+
+                                        event:
+                                            event
+
+                                    });
+
+                                }
 
                             }
                         );
@@ -3761,10 +4247,14 @@ function createUpcomingList() {
     );
 
 
+    /*
+       Keep the list short.
+    */
+
     const limited =
         upcoming.slice(
             0,
-            8
+            6
         );
 
 
@@ -3775,7 +4265,9 @@ function createUpcomingList() {
 
         list.innerHTML =
             '<div class="empty">' +
-            "No upcoming events yet. 🌱" +
+
+            "No pinned announcements yet. 🌱" +
+
             "</div>";
 
         return;
@@ -3789,36 +4281,6 @@ function createUpcomingList() {
                 item.event;
 
 
-            const icons = {
-
-                birthday:
-                    "🎂",
-
-                assignment:
-                    "📝",
-
-                quiz:
-                    "📚",
-
-                activity:
-                    "🏆",
-
-                announcement:
-                    "📢",
-
-                other:
-                    "📌"
-
-            };
-
-
-            const icon =
-                icons[
-                    event.event_type
-                ] ||
-                "📌";
-
-
             const div =
                 document.createElement(
                     "div"
@@ -3826,52 +4288,13 @@ function createUpcomingList() {
 
 
             div.className =
-                "upcoming-item";
+                "upcoming-item upcoming-announcement";
 
 
-            /*
-               Apply automatic
-               class colour here too.
-            */
-
-            const classColour =
-                getClassEventClass(
-                    event
+            const cleanDetails =
+                cleanEventDetails(
+                    event.details
                 );
-
-
-            if (
-                classColour ===
-                "class-ibnu-sina"
-            ) {
-
-                div.classList.add(
-                    "upcoming-ibnu"
-                );
-
-            }
-
-            else if (
-                classColour ===
-                "class-al-idrisi"
-            ) {
-
-                div.classList.add(
-                    "upcoming-idrisi"
-                );
-
-            }
-
-            else if (
-                classColour ===
-                "class-al-ghazali"
-            ) {
-
-                div.classList.add(
-                    "upcoming-ghazali"
-                );
-
-            }
 
 
             div.innerHTML =
@@ -3880,20 +4303,20 @@ function createUpcomingList() {
 
                 '<div style="font-size:25px;">' +
 
-                icon +
+                "📢" +
 
-                '</div>' +
+                "</div>" +
 
 
-                '<div>' +
+                "<div>" +
 
                 '<div class="upcoming-title">' +
 
                 escapeHtml(
-                    event.details
+                    cleanDetails
                 ) +
 
-                '</div>' +
+                "</div>" +
 
 
                 '<div class="upcoming-date">' +
@@ -3908,11 +4331,18 @@ function createUpcomingList() {
                     item.date
                 ) +
 
-                '</div>' +
+                "</div>" +
 
-                '</div>' +
 
-                '</div>';
+                '<div class="upcoming-pin">' +
+
+                "📌 Pinned announcement" +
+
+                "</div>" +
+
+                "</div>" +
+
+                "</div>";
 
 
             list.appendChild(
@@ -3949,7 +4379,7 @@ function formatDate(
 
 
 /* =========================================================
-   TADABBUR REFLECTIONS
+   TADABBUR
 ========================================================= */
 
 function loadReflections() {
@@ -3961,9 +4391,7 @@ function loadReflections() {
 
 
     if (!saved) {
-
         return [];
-
     }
 
 
@@ -4105,7 +4533,7 @@ function displayReflections() {
                         reflection.date
                     ) +
 
-                    '</div>';
+                    "</div>";
 
 
                 list.appendChild(
@@ -4119,7 +4547,7 @@ function displayReflections() {
 
 
 /* =========================================================
-   SECURITY / HTML ESCAPING
+   SECURITY
 ========================================================= */
 
 function escapeHtml(
@@ -4172,6 +4600,8 @@ function escapeHtml(
 
 async function startApp() {
 
+    createMonthDropdowns();
+
     await checkTeacherLogin();
 
     await loadEvents();
@@ -4180,11 +4610,6 @@ async function startApp() {
 
     displayReflections();
 
-
-    /*
-       Automatically put today's date
-       into the event form.
-    */
 
     const today =
         new Date();
