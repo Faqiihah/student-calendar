@@ -2796,7 +2796,12 @@ const pinned=
 isPinnedAnnouncement(
 event
 );
-
+    
+const displayStudentName=
+event.student_name.includes(":")
+? event.student_name.split(":").slice(1).join(":").trim()
+: event.student_name;
+    
 const cleanDetails=
 cleanEventDetails(
 event.details
@@ -2810,7 +2815,7 @@ icon+
 " "+
 
 escapeHtml(
-event.student_name
+displayStudentName
 )+
 
 (
