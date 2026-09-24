@@ -2834,7 +2834,9 @@ cleanDetails
 "Added by "+
 
 escapeHtml(
-event.student_name
+event.student_name.includes(":")
+? event.student_name.split(":").slice(1).join(":").trim()
+: event.student_name
 )+
 
 "</div>"+
