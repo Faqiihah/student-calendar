@@ -781,6 +781,112 @@ font-size:30px;
 line-height:1.2;
 }
 
+/* DATE EVENT VIEWER */
+
+.date-viewer-overlay{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(35,55,42,.42);
+z-index:1000;
+padding:18px;
+align-items:center;
+justify-content:center;
+}
+
+.date-viewer-overlay.open{
+display:flex;
+}
+
+.date-viewer{
+width:min(560px,100%);
+max-height:85vh;
+overflow:auto;
+background:#fff;
+border-radius:24px;
+padding:22px;
+box-shadow:0 18px 55px rgba(35,55,42,.22);
+}
+
+.date-viewer-header{
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+gap:12px;
+margin-bottom:15px;
+}
+
+.date-viewer-header h3{
+margin:0;
+color:#355d43;
+font-size:21px;
+}
+
+.viewer-close{
+border:none;
+background:#eef4ef;
+color:#52685a;
+width:36px;
+height:36px;
+border-radius:50%;
+cursor:pointer;
+font-size:18px;
+}
+
+.viewer-events{
+display:grid;
+gap:10px;
+}
+
+.viewer-event{
+padding:14px;
+border-radius:16px;
+border:1px solid #e3ece5;
+}
+
+.viewer-event-title{
+font-weight:800;
+font-size:15px;
+margin-bottom:5px;
+}
+
+.viewer-event-details{
+font-size:14px;
+line-height:1.5;
+}
+
+.viewer-event-added{
+font-size:11px;
+opacity:.72;
+margin-top:7px;
+}
+
+.viewer-actions{
+display:flex;
+justify-content:flex-end;
+gap:8px;
+margin-top:18px;
+flex-wrap:wrap;
+}
+
+.viewer-add{
+border:none;
+background:#527b5e;
+color:#fff;
+padding:11px 17px;
+border-radius:13px;
+font-weight:700;
+cursor:pointer;
+}
+
+.viewer-empty{
+text-align:center;
+padding:18px;
+color:#7b897f;
+background:#f8fbf8;
+border-radius:15px;
+}
+
 /* MOBILE */
 
 @media(max-width:700px){
@@ -789,17 +895,76 @@ header h1{font-size:25px}
 .nav a{padding:8px 10px;font-size:12px}
 .form-grid{grid-template-columns:1fr}
 .form-group.full{grid-column:auto}
-.day{min-height:85px;padding:4px}
-.weekday{font-size:10px}
-.event{font-size:9px;padding:4px}
-.event-details,.event-added{display:none}
-.calendar-header{justify-content:center}
-.calendar-buttons{flex-wrap:wrap;justify-content:center}
-.upcoming-item{align-items:flex-start}
-.legend-items{gap:6px}
-.legend-item{font-size:11px}
-.month-selector{width:100%;justify-content:center}
-.month-selector select{flex:1}
+
+.calendar-card{
+padding:12px;
+}
+
+.day{
+min-height:70px;
+padding:4px;
+overflow:hidden;
+}
+
+.day-number{
+font-size:12px;
+}
+
+.weekday{
+font-size:10px;
+}
+
+.event{
+font-size:9px;
+padding:4px;
+margin-top:3px;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.event-details,
+.event-added,
+.event .teacher-actions,
+.pinned-badge{
+display:none!important;
+}
+
+.calendar-header{
+justify-content:center;
+}
+
+.calendar-buttons{
+flex-wrap:wrap;
+justify-content:center;
+}
+
+.upcoming-item{
+align-items:flex-start;
+}
+
+.legend-items{
+gap:6px;
+}
+
+.legend-item{
+font-size:11px;
+}
+
+.month-selector{
+width:100%;
+justify-content:center;
+}
+
+.month-selector select{
+flex:1;
+min-width:0;
+}
+
+.date-viewer{
+padding:18px;
+border-radius:20px;
+}
 }
 
 </style>
@@ -1225,8 +1390,6 @@ required>
 
 </div>
 
-<!-- UPDATED CLASS DROPDOWN -->
-
 <div class="form-group">
 
 <label>
@@ -1444,6 +1607,52 @@ Logout
 </section>
 
 </main>
+
+<!-- DATE EVENT VIEWER -->
+
+<div
+id="dateViewerOverlay"
+class="date-viewer-overlay"
+onclick="closeDateViewer(event)">
+
+<div
+class="date-viewer"
+onclick="event.stopPropagation()">
+
+<div class="date-viewer-header">
+
+<h3 id="dateViewerTitle">
+📅 Events
+</h3>
+
+<button
+class="viewer-close"
+type="button"
+onclick="closeDateViewer()">
+✕
+</button>
+
+</div>
+
+<div
+id="dateViewerEvents"
+class="viewer-events">
+</div>
+
+<div class="viewer-actions">
+
+<button
+class="viewer-add"
+type="button"
+onclick="addEventForSelectedDate()">
+＋ Add Event
+</button>
+
+</div>
+
+</div>
+
+</div>
 
 <footer>
 
@@ -2792,16 +3001,29 @@ event.event_type
 ]||
 "📌";
 
+const eventLabels={
+birthday:"Birthday",
+assignment:"Reminder",
+quiz:"Quiz",
+activity:"Activity",
+announcement:"Announcement",
+other:"Reminder"
+};
+
+const eventLabel=
+eventLabels[event.event_type]||
+"Reminder";
+
 const pinned=
 isPinnedAnnouncement(
 event
 );
-    
+
 const displayStudentName=
 event.student_name.includes(":")
 ? event.student_name.split(":").slice(1).join(":").trim()
 : event.student_name;
-    
+
 const cleanDetails=
 cleanEventDetails(
 event.details
@@ -2815,7 +3037,7 @@ icon+
 " "+
 
 escapeHtml(
-displayStudentName
+eventLabel
 )+
 
 (
@@ -2839,9 +3061,7 @@ cleanDetails
 "Added by "+
 
 escapeHtml(
-event.student_name.includes(":")
-? event.student_name.split(":").slice(1).join(":").trim()
-: event.student_name
+displayStudentName
 )+
 
 "</div>"+
@@ -2875,24 +3095,9 @@ cell.addEventListener(
 "click",
 function(){
 
-selectedDateKey=
-dateKey;
-
-document.getElementById(
-"eventDate"
-).value=
-dateKey;
-
-createCalendar();
-
-document.getElementById(
-"add-event"
-).scrollIntoView({
-
-behavior:
-"smooth"
-
-});
+openDateViewer(
+dateKey
+);
 
 }
 );
@@ -2905,6 +3110,334 @@ cell
 
 }
 
+
+/* DATE EVENT VIEWER */
+
+function getDisplayStudentName(event){
+
+const storedName=
+String(
+event.student_name||
+""
+);
+
+return storedName.includes(":")
+?storedName.split(":").slice(1).join(":").trim()
+:storedName;
+
+}
+
+
+function getEventLabel(eventType){
+
+const labels={
+
+birthday:
+"Birthday",
+
+assignment:
+"Reminder",
+
+quiz:
+"Quiz",
+
+activity:
+"Activity",
+
+announcement:
+"Announcement",
+
+other:
+"Reminder"
+
+};
+
+return labels[eventType]||
+"Reminder";
+
+}
+
+
+function getEventIcon(eventType){
+
+const icons={
+
+birthday:
+"🎂",
+
+assignment:
+"📝",
+
+quiz:
+"📚",
+
+activity:
+"🏆",
+
+announcement:
+"📢",
+
+other:
+"📌"
+
+};
+
+return icons[eventType]||
+"📌";
+
+}
+
+
+function openDateViewer(dateKey){
+
+selectedDateKey=
+dateKey;
+
+const overlay=
+document.getElementById(
+"dateViewerOverlay"
+);
+
+const title=
+document.getElementById(
+"dateViewerTitle"
+);
+
+const container=
+document.getElementById(
+"dateViewerEvents"
+);
+
+const selectedDate=
+new Date(
+dateKey+
+"T00:00:00"
+);
+
+title.textContent=
+
+"📅 "+
+
+selectedDate.toLocaleDateString(
+"en-GB",
+{
+
+day:
+"numeric",
+
+month:
+"long",
+
+year:
+"numeric"
+
+}
+);
+
+container.innerHTML="";
+
+const dayEvents=
+events[dateKey]||
+[];
+
+if(
+dayEvents.length===
+0
+){
+
+container.innerHTML=
+
+'<div class="viewer-empty">'+
+"No events for this date yet. 🌱"+
+"</div>";
+
+}
+
+else{
+
+dayEvents.forEach(
+function(event){
+
+const eventCard=
+document.createElement(
+"div"
+);
+
+const classColour=
+getClassEventClass(
+event
+);
+
+const eventClass=
+classColour||
+event.event_type||
+"other";
+
+eventCard.className=
+
+"viewer-event "+
+eventClass;
+
+const pinned=
+isPinnedAnnouncement(
+event
+);
+
+const cleanDetails=
+cleanEventDetails(
+event.details
+);
+
+const displayName=
+getDisplayStudentName(
+event
+);
+
+const label=
+getEventLabel(
+event.event_type
+);
+
+const icon=
+getEventIcon(
+event.event_type
+);
+
+eventCard.innerHTML=
+
+'<div class="viewer-event-title">'+
+
+icon+
+" "+
+
+escapeHtml(
+label
+)+
+
+(
+pinned
+?' <span class="pinned-badge">📌 Pinned</span>'
+:""
+)+
+
+"</div>"+
+
+'<div class="viewer-event-details">'+
+
+escapeHtml(
+cleanDetails
+)+
+
+"</div>"+
+
+'<div class="viewer-event-added">'+
+
+"Added by "+
+
+escapeHtml(
+displayName
+)+
+
+"</div>"+
+
+'<div class="teacher-actions">'+
+
+'<button class="action-button edit-button" onclick="editEvent(\''+
+
+event.id+
+
+"')\">✏️ Edit</button>"+
+
+'<button class="action-button delete-button" onclick="deleteEvent(\''+
+
+event.id+
+
+"')\">🗑️ Delete</button>"+
+
+"</div>";
+
+container.appendChild(
+eventCard
+);
+
+}
+);
+
+}
+
+createCalendar();
+
+overlay.classList.add(
+"open"
+);
+
+document.body.style.overflow=
+"hidden";
+
+}
+
+
+function closeDateViewer(event){
+
+if(
+event&&
+event.target!==
+event.currentTarget
+){
+
+return;
+
+}
+
+const overlay=
+document.getElementById(
+"dateViewerOverlay"
+);
+
+if(overlay){
+
+overlay.classList.remove(
+"open"
+);
+
+}
+
+document.body.style.overflow=
+"";
+
+}
+
+
+function addEventForSelectedDate(){
+
+if(
+!selectedDateKey
+){
+
+return;
+
+}
+
+document.getElementById(
+"eventDate"
+).value=
+selectedDateKey;
+
+closeDateViewer();
+
+document.getElementById(
+"add-event"
+).scrollIntoView({
+
+behavior:
+"smooth"
+
+});
+
+}
+
+
+/* MONTH NAVIGATION */
 
 function previousMonth(){
 
@@ -2990,10 +3523,6 @@ return;
 
 }
 
-/*
-PINNED ANNOUNCEMENT
-*/
-
 if(
 eventType===
 "announcement"&&
@@ -3005,20 +3534,6 @@ eventDetails=
 eventDetails;
 
 }
-
-
-/*
-NEW CLASS BEHAVIOUR
-
-All:
-shows "All Classes: Name"
-
-No Class:
-shows only the person's name
-
-Individual class:
-shows "Class: Name"
-*/
 
 let storedStudentName;
 
@@ -3051,7 +3566,6 @@ eventClass+
 studentName;
 
 }
-
 
 const {error}=
 await supabaseClient
@@ -3228,6 +3742,16 @@ return;
 
 await loadEvents();
 
+if(
+selectedDateKey
+){
+
+openDateViewer(
+selectedDateKey
+);
+
+}
+
 alert(
 "Event updated successfully! ✏️"
 );
@@ -3291,6 +3815,16 @@ return;
 
 await loadEvents();
 
+if(
+selectedDateKey
+){
+
+openDateViewer(
+selectedDateKey
+);
+
+}
+
 alert(
 "Event deleted successfully. 🗑️"
 );
@@ -3305,36 +3839,42 @@ document.getElementById(
 "upcomingList"
 );
 
+if(!list){
+return;
+}
+
 list.innerHTML="";
 
 const today=
 new Date();
 
 today.setHours(
-0,
-0,
-0,
-0
+0,0,0,0
 );
 
-const upcoming=[];
+let upcoming=[];
 
-Object.keys(events)
-.forEach(
+Object.keys(
+events
+).forEach(
 function(dateKey){
 
-const date=
+const eventDate=
 new Date(
 dateKey+
 "T00:00:00"
 );
 
 if(
-date>=today
+eventDate<
+today
 ){
 
-events[dateKey]
-.forEach(
+return;
+
+}
+
+events[dateKey].forEach(
 function(event){
 
 if(
@@ -3346,7 +3886,10 @@ event
 upcoming.push({
 
 date:
-date,
+eventDate,
+
+dateKey:
+dateKey,
 
 event:
 event
@@ -3357,8 +3900,6 @@ event
 
 }
 );
-
-}
 
 }
 );
@@ -3374,30 +3915,28 @@ b.date
 }
 );
 
-const limited=
+upcoming=
 upcoming.slice(
 0,
 6
 );
 
 if(
-limited.length===
+upcoming.length===
 0
 ){
 
 list.innerHTML=
 
 '<div class="empty">'+
-
 "No pinned announcements yet. 🌱"+
-
 "</div>";
 
 return;
 
 }
 
-limited.forEach(
+upcoming.forEach(
 function(item){
 
 const event=
@@ -3409,21 +3948,21 @@ document.createElement(
 );
 
 div.className=
-"upcoming-item upcoming-announcement";
 
-const cleanDetails=
-cleanEventDetails(
-event.details
+"upcoming-item "+
+"upcoming-announcement";
+
+const displayName=
+getDisplayStudentName(
+event
 );
 
 div.innerHTML=
 
 '<div class="upcoming-left">'+
 
-'<div style="font-size:25px;">'+
-
+'<div style="font-size:24px;">'+
 "📢"+
-
 "</div>"+
 
 "<div>"+
@@ -3431,18 +3970,14 @@ div.innerHTML=
 '<div class="upcoming-title">'+
 
 escapeHtml(
-cleanDetails
+cleanEventDetails(
+event.details
+)
 )+
 
 "</div>"+
 
 '<div class="upcoming-date">'+
-
-escapeHtml(
-event.student_name
-)+
-
-" • "+
 
 formatDate(
 item.date
@@ -3452,13 +3987,31 @@ item.date
 
 '<div class="upcoming-pin">'+
 
-"📌 Pinned announcement"+
+"📌 Pinned announcement • Added by "+
+
+escapeHtml(
+displayName
+)+
 
 "</div>"+
 
 "</div>"+
 
 "</div>";
+
+div.addEventListener(
+"click",
+function(){
+
+openDateViewer(
+item.dateKey
+);
+
+}
+);
+
+div.style.cursor=
+"pointer";
 
 list.appendChild(
 div
@@ -3469,6 +4022,8 @@ div
 
 }
 
+
+/* FORMAT DATE */
 
 function formatDate(
 date
@@ -3493,54 +4048,7 @@ year:
 }
 
 
-/* TADABBUR REFLECTIONS */
-
-function loadReflections(){
-
-const saved=
-localStorage.getItem(
-"quranTadabburReflections"
-);
-
-if(
-!saved
-){
-
-return [];
-
-}
-
-try{
-
-return JSON.parse(
-saved
-);
-
-}
-
-catch(error){
-
-return [];
-
-}
-
-}
-
-
-function saveReflections(
-reflections
-){
-
-localStorage.setItem(
-"quranTadabburReflections",
-
-JSON.stringify(
-reflections
-)
-);
-
-}
-
+/* TADABBUR */
 
 function addReflection(){
 
@@ -3552,20 +4060,23 @@ document.getElementById(
 const text=
 input.value.trim();
 
-if(
-!text
-){
+if(!text){
 
 alert(
-"Please write a short reflection first. 🌱"
+"Write a short reflection first. 🌱"
 );
 
 return;
 
 }
 
-const reflections=
-loadReflections();
+let reflections=
+JSON.parse(
+localStorage.getItem(
+"quranReflections"
+)||
+"[]"
+);
 
 reflections.unshift({
 
@@ -3573,24 +4084,20 @@ text:
 text,
 
 date:
-new Date()
-.toLocaleDateString(
-"en-GB"
-)
+new Date().toISOString()
 
 });
 
-saveReflections(
+localStorage.setItem(
+"quranReflections",
+JSON.stringify(
 reflections
+)
 );
 
 input.value="";
 
 displayReflections();
-
-alert(
-"Your reflection has been added! 🌱✨"
-);
 
 }
 
@@ -3602,18 +4109,37 @@ document.getElementById(
 "reflectionList"
 );
 
-const reflections=
-loadReflections();
+if(!list){
+return;
+}
+
+let reflections=
+JSON.parse(
+localStorage.getItem(
+"quranReflections"
+)||
+"[]"
+);
 
 list.innerHTML="";
 
-reflections
-.slice(
-0,
-10
-)
-.forEach(
-function(reflection){
+if(
+reflections.length===
+0
+){
+
+list.innerHTML=
+
+'<div class="empty">'+
+"Your reflections will appear here. 🌿"+
+"</div>";
+
+return;
+
+}
+
+reflections.forEach(
+function(item){
 
 const div=
 document.createElement(
@@ -3623,18 +4149,35 @@ document.createElement(
 div.className=
 "reflection";
 
+const reflectionDate=
+new Date(
+item.date
+);
+
 div.innerHTML=
 
-"🌱 "+
-
+'<div>'+
 escapeHtml(
-reflection.text
+item.text
 )+
+"</div>"+
 
 '<div class="reflection-date">'+
 
-escapeHtml(
-reflection.date
+reflectionDate.toLocaleDateString(
+"en-GB",
+{
+
+day:
+"numeric",
+
+month:
+"long",
+
+year:
+"numeric"
+
+}
 )+
 
 "</div>";
@@ -3649,43 +4192,32 @@ div
 }
 
 
-/* SECURITY */
+/* ESCAPE HTML */
 
 function escapeHtml(
 text
 ){
 
-if(
-text===null||
-text===undefined
-){
-
-return "";
-
-}
-
-return String(text)
-
+return String(
+text||
+""
+)
 .replace(
 /&/g,
 "&amp;"
 )
-
 .replace(
 /</g,
 "&lt;"
 )
-
 .replace(
 />/g,
 "&gt;"
 )
-
 .replace(
 /"/g,
 "&quot;"
 )
-
 .replace(
 /'/g,
 "&#039;"
@@ -3694,19 +4226,30 @@ return String(text)
 }
 
 
+/* CLOSE VIEWER WITH ESC KEY */
+
+document.addEventListener(
+"keydown",
+function(event){
+
+if(
+event.key===
+"Escape"
+){
+
+closeDateViewer();
+
+}
+
+}
+);
+
+
 /* START APP */
 
 async function startApp(){
 
 createMonthDropdowns();
-
-await checkTeacherLogin();
-
-await loadEvents();
-
-await loadClassProgress();
-
-displayReflections();
 
 const today=
 new Date();
@@ -3736,10 +4279,18 @@ todayKey;
 
 updateClassPreview();
 
+togglePinOption();
+
+displayReflections();
+
+await checkTeacherLogin();
+
+await loadClassProgress();
+
+await loadEvents();
+
 }
 
-
-/* START */
 
 startApp();
 
